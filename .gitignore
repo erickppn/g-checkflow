@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build
+.next/
+dist/
+out/
+
+# Turbo
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+
+# Generated
+prisma/dev.db
+prisma/dev.db-journal
