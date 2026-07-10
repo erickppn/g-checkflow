@@ -6,7 +6,7 @@ possui um objetivo e uma entrega funcional.
 ## Status Geral
 
 -   [x] Fase 1 --- Setup
--   [ ] Fase 2 --- Infraestrutura
+-   [x] Fase 2 --- Infraestrutura
 -   [ ] Fase 3 --- Autenticação
 -   [ ] Fase 4 --- Prestadores
 -   [ ] Fase 5 --- Operações
@@ -42,12 +42,12 @@ desenvolvimento.
 
 ### Atividades
 
--   [ ] Configurar Docker
--   [ ] Criar docker-compose
--   [ ] Subir PostgreSQL
--   [ ] Configurar Prisma
--   [ ] Criar a primeira migration
--   [ ] Criar seed inicial
+-   [x] Configurar Docker
+-   [x] Criar docker-compose
+-   [x] Subir PostgreSQL
+-   [x] Configurar Prisma
+-   [x] Modelar domínio inicial
+-   [x] Criar a primeira migration
 
 **Resultado esperado:** Banco de dados funcionando e conectado à API.
 
@@ -59,11 +59,12 @@ desenvolvimento.
 
 ### Atividades
 
--   [ ] Login
--   [ ] JWT
+-   [ ] Model User
 -   [ ] Hash de senhas
+-   [ ] JWT
+-   [ ] Login
 -   [ ] Controle de permissões
--   [ ] Usuário administrador
+-   [ ] Seed do administrador
 
 **Resultado esperado:** Sistema protegido por autenticação.
 

@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Provider {
+  id Int @id @default(autoincrement())
+
+  name  String
+  phone String
+  notes String?
+
+  operations Operation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("providers")
+}
+
+model Operation {
+  id Int @id @default(autoincrement())
+
+  closedAt DateTime?
+
+  providerId Int
+  provider   Provider @relation(fields: [providerId], references: [id])
+
+  checks Check[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("operations")
+}
+
+model Check {
+  id Int @id @default(autoincrement())
+
+  issuer String
+
+  bankCode String
+
+  checkNumber String
+
+  amount       Decimal @db.Decimal(10, 2)
+  interestRate Decimal @db.Decimal(5, 2)
+
+  issueDate DateTime
+  dueDate   DateTime
+
+  status       CheckStatus
+  returnReason String?
+
+  operationId Int
+  operation   Operation @relation(fields: [operationId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("checks")
+}
+
+enum CheckStatus {
+  PENDING
+  COMPENSATED
+  RETURNED
+}
