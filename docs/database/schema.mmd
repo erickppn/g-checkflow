@@ -1,0 +1,44 @@
+erDiagram
+
+        CheckStatus {
+            PENDING PENDING
+COMPENSATED COMPENSATED
+RETURNED RETURNED
+        }
+    
+  "providers" {
+    Int id "🗝️"
+    String name 
+    String phone 
+    String notes "❓"
+    DateTime createdAt 
+    DateTime updatedAt 
+    }
+  
+
+  "operations" {
+    Int id "🗝️"
+    DateTime closedAt "❓"
+    DateTime createdAt 
+    DateTime updatedAt 
+    }
+  
+
+  "checks" {
+    Int id "🗝️"
+    String issuer 
+    String bankCode 
+    String checkNumber 
+    Decimal amount 
+    Decimal interestRate 
+    DateTime issueDate 
+    DateTime dueDate 
+    CheckStatus status 
+    String returnReason "❓"
+    DateTime createdAt 
+    DateTime updatedAt 
+    }
+  
+    "operations" }o--|| providers : "provider"
+    "checks" |o--|| "CheckStatus" : "enum:status"
+    "checks" }o--|| operations : "operation"

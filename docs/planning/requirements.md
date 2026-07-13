@@ -20,7 +20,6 @@ incluindo análise do processo atual, entrevistas e validação das regras de ne
 ### Operações
 - Criar uma nova operação.
 - Selecionar o prestador responsável.
-- Definir a taxa aplicada à operação.
 - Inserir um ou mais cheques.
 - Calcular automaticamente juros e valor líquido.
 - Gerar relatório em PDF.
@@ -32,6 +31,7 @@ incluindo análise do processo atual, entrevistas e validação das regras de ne
 - Controle de status (A compensar, Compensado e Devolvido).
 - Registro do motivo da devolução.
 - Visualização dos dias até a compensação.
+- Definição da taxa individual.
 
 ### Consultas
 > O que poderá ser pesquisado
@@ -50,13 +50,15 @@ incluindo análise do processo atual, entrevistas e validação das regras de ne
 ## Regras de negócio
 
 - Uma operação pertence a um único prestador.
-- Um prestador pode possuir diversas operações (ao passar dos meses).
-- Uma operação pode conter diversos cheques.
+- Um prestador pode possuir diversas operações.
+- Uma operação deve conter pelo menos um cheque.
+- Não é permitido criar operações sem cheques.
 - Cada cheque pertence a apenas uma operação.
-- A taxa é definida pelo usuário no momento da operação.
-- O cálculo dos valores seguirá as regras atualmente utilizadas pela empresa e validadas durante o desenvolvimento.
-- Os cálculos apresentados pelo sistema serão baseados nas informações cadastradas no momento da operação (ou edição)
-- O relatório é gerado com os valores bruto, juros e líquido.
-- Após criada, a operação permanece disponível para consulta.
+- Cada cheque possui sua própria taxa.
+- O cálculo dos valores seguirá as regras atualmente utilizadas pela empresa.
+- Os cálculos serão baseados nos dados cadastrados no momento da consulta.
+- O relatório é gerado sob demanda e não é armazenado.
+- Uma operação permanece aberta enquanto existir ao menos um cheque pendente.
+- Uma operação é considerada fechada quando todos os cheques estiverem compensados ou devolvidos.
 - Cheques podem ser baixados como compensados ou devolvidos.
-- Cheques devolvidos devem possuir o motivo da devolução.
+- Cheques devolvidos devem possuir um motivo da devolução.

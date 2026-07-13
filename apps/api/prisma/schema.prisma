@@ -12,6 +12,12 @@ datasource db {
   provider = "postgresql"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  theme    = "forest"
+  output   = "../../../docs/diagrams/schema.md"
+}
+
 model Provider {
   id Int @id @default(autoincrement())
 
