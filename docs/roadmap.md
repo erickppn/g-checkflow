@@ -7,10 +7,10 @@ possui um objetivo e uma entrega funcional.
 
 -   [x] Fase 1 --- Setup
 -   [x] Fase 2 --- Infraestrutura
--   [ ] Fase 3 --- Autenticação
--   [ ] Fase 4 --- Prestadores
--   [ ] Fase 5 --- Operações
--   [ ] Fase 6 --- Cheques
+-   [x] Fase 3 --- Prestadores
+-   [ ] Fase 4 --- Operações
+-   [ ] Fase 5 --- Cheques
+-   [ ] Fase 6 --- Autenticação
 -   [ ] Fase 7 --- Dashboard
 -   [ ] Fase 8 --- Consultas
 -   [ ] Fase 9 --- Relatórios
@@ -59,32 +59,17 @@ desenvolvimento.
 
 ### Atividades
 
--   [ ] CRUD de prestadores
--   [ ] Busca
--   [ ] Paginação
+-   [x] CRUD de prestadores
+-   [x] Validação dos DTOs
+-   [x] Tratamento de exceções
+-   [x] Documentação Swagger
+-   [x] Testes unitários
 
 **Resultado esperado:** Prestadores cadastrados e pesquisáveis.
 
 ------------------------------------------------------------------------
 
-# Fase 4 --- Autenticação
-
-**Objetivo:** Implementar o acesso seguro ao sistema.
-
-### Atividades
-
--   [ ] Model User
--   [ ] Hash de senhas
--   [ ] JWT
--   [ ] Login
--   [ ] Controle de permissões
--   [ ] Seed do administrador
-
-**Resultado esperado:** Sistema protegido por autenticação.
-
-------------------------------------------------------------------------
-
-# Fase 5 --- Operações
+# Fase 4 --- Operações
 
 **Objetivo:** Permitir o gerenciamento completo das operações.
 
@@ -100,7 +85,7 @@ desenvolvimento.
 
 ------------------------------------------------------------------------
 
-# Fase 6 --- Cheques
+# Fase 5 --- Cheques
 
 **Objetivo:** Gerenciar os cheques pertencentes às operações.
 
@@ -113,6 +98,23 @@ desenvolvimento.
 -   [ ] Motivo da devolução
 
 **Resultado esperado:** Fluxo completo dos cheques implementado.
+
+------------------------------------------------------------------------
+
+# Fase 6 --- Autenticação
+
+**Objetivo:** Implementar o acesso seguro ao sistema.
+
+### Atividades
+
+-   [ ] Model User
+-   [ ] Hash de senhas
+-   [ ] JWT
+-   [ ] Login
+-   [ ] Controle de permissões
+-   [ ] Seed do administrador
+
+**Resultado esperado:** Sistema protegido por autenticação.
 
 ------------------------------------------------------------------------
 
@@ -142,6 +144,7 @@ desenvolvimento.
 -   [ ] Consulta por prestador
 -   [ ] Consulta por cheque
 -   [ ] Consulta por status
+-   [ ] Paginação, filtros, etc
 
 **Resultado esperado:** Sistema com filtros e consultas completas.
 
