@@ -53,7 +53,21 @@ desenvolvimento.
 
 ------------------------------------------------------------------------
 
-# Fase 3 --- Autenticação
+# Fase 3 --- Prestadores
+
+**Objetivo:** Gerenciar os prestadores responsáveis pelas operações.
+
+### Atividades
+
+-   [ ] CRUD de prestadores
+-   [ ] Busca
+-   [ ] Paginação
+
+**Resultado esperado:** Prestadores cadastrados e pesquisáveis.
+
+------------------------------------------------------------------------
+
+# Fase 4 --- Autenticação
 
 **Objetivo:** Implementar o acesso seguro ao sistema.
 
@@ -67,20 +81,6 @@ desenvolvimento.
 -   [ ] Seed do administrador
 
 **Resultado esperado:** Sistema protegido por autenticação.
-
-------------------------------------------------------------------------
-
-# Fase 4 --- Prestadores
-
-**Objetivo:** Gerenciar os prestadores responsáveis pelas operações.
-
-### Atividades
-
--   [ ] CRUD de prestadores
--   [ ] Busca
--   [ ] Paginação
-
-**Resultado esperado:** Prestadores cadastrados e pesquisáveis.
 
 ------------------------------------------------------------------------
 
