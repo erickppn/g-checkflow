@@ -9,8 +9,10 @@ RETURNED RETURNED
   "providers" {
     Int id "🗝️"
     String name 
-    String phone 
+    String phone "❓"
     String notes "❓"
+    Decimal defaultInterestRate 
+    Int defaultCompensationDays 
     DateTime createdAt 
     DateTime updatedAt 
     }
@@ -26,13 +28,18 @@ RETURNED RETURNED
 
   "checks" {
     Int id "🗝️"
-    String issuer 
+    String issuerName 
     String bankCode 
     String checkNumber 
     Decimal amount 
     Decimal interestRate 
     DateTime issueDate 
     DateTime dueDate 
+    Int additionalDays 
+    Int days 
+    Int totalDays 
+    Decimal interest 
+    Decimal netAmount 
     CheckStatus status 
     String returnReason "❓"
     DateTime createdAt 

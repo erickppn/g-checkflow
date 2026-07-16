@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsString, IsNotEmpty, MaxLength, IsOptional } from "class-validator";
+import { IsString, IsNotEmpty, MaxLength, IsOptional, IsInt, IsNumber, Max, Min } from "class-validator";
 
 export class CreateProviderDto {
   @ApiProperty({
@@ -28,4 +28,21 @@ export class CreateProviderDto {
   @IsString()
   @MaxLength(255)
   notes?: string;
+
+  @ApiProperty({
+    example: 4.5,
+    description: "Taxa de juros padrão do prestador (%)",
+  })
+  @IsNumber()
+  @Min(0)
+  @Max(100)
+  defaultInterestRate!: number;
+
+  @ApiProperty({
+    example: 1,
+    description: "Dias de compensação padrão",
+  })
+  @IsInt()
+  @Min(0)
+  defaultCompensationDays!: number;
 }

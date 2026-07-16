@@ -11,6 +11,7 @@ Cada comportamento deverá possuir um ou mais testes automatizados.
 
 - Deve cadastrar um novo prestador.
 - Não deve permitir dados inválidos.
+- Deve possuir valores para taxa padrão e dias de compensação (mesmo que os valores sejam 0)
 
 ## Consulta
 
@@ -35,8 +36,8 @@ Cada comportamento deverá possuir um ou mais testes automatizados.
 ## Criação
 
 - Deve criar uma operação contendo pelo menos um cheque.
-- Não deve permitir criar uma operação sem cheques.
 - Deve associar a operação a um prestador.
+- Deve carregar os valores padrão vindos do prestador
 
 ## Cálculos
 

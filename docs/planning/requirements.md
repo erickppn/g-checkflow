@@ -16,15 +16,22 @@ incluindo análise do processo atual, entrevistas e validação das regras de ne
 - Cadastro.
 - Consulta.
 - Alteração.
+- Cadastro de taxa padrão.
+- Dias padrão de compensação.
 
 ### Operações
 - Criar uma nova operação.
 - Selecionar o prestador responsável.
+- Carregar automaticamente
+  - taxa padrão
+  - dias de compensação padrão
 - Inserir um ou mais cheques.
 - Calcular automaticamente juros e valor líquido.
 - Gerar relatório em PDF.
 - Registrar a data de fechamento da operação.
 - Visualização do resumo da operação.
+
+Permitir alterar a data da operação.
 
 ### Cheques
 - Cadastro dos dados do cheque.
@@ -51,8 +58,12 @@ incluindo análise do processo atual, entrevistas e validação das regras de ne
 
 - Uma operação pertence a um único prestador.
 - Um prestador pode possuir diversas operações.
+- Cada prestador possui uma taxa padrão.
+- Cada prestador possui uma quantidade padrão de dias de compensação.
 - Uma operação deve conter pelo menos um cheque.
 - Não é permitido criar operações sem cheques.
+- Ao iniciar uma operação, essas informações são carregadas automaticamente.
+- A data da operação é preenchida com o dia atual, podendo ser alterada pelo usuário.
 - Cada cheque pertence a apenas uma operação.
 - Cada cheque possui sua própria taxa.
 - O cálculo dos valores seguirá as regras atualmente utilizadas pela empresa.

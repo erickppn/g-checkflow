@@ -15,15 +15,18 @@ datasource db {
 generator erd {
   provider = "prisma-erd-generator"
   theme    = "forest"
-  output   = "../../../docs/diagrams/schema.md"
+  output   = "../../../docs/database/schema.md"
 }
 
 model Provider {
   id Int @id @default(autoincrement())
 
   name  String
-  phone String
+  phone String?
   notes String?
+
+  defaultInterestRate     Decimal @default(0) @db.Decimal(5, 2)
+  defaultCompensationDays Int     @default(0)
 
   operations Operation[]
 
@@ -36,12 +39,13 @@ model Provider {
 model Operation {
   id Int @id @default(autoincrement())
 
-  closedAt DateTime?
-
+  /// Prestador responsável pela operação
   providerId Int
   provider   Provider @relation(fields: [providerId], references: [id])
 
   checks Check[]
+
+  closedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -52,20 +56,28 @@ model Operation {
 model Check {
   id Int @id @default(autoincrement())
 
-  issuer String
+  // Dados informados pelo usuário
 
-  bankCode String
+  issuerName     String
+  bankCode       String /// Código do banco (001, 341, 237...)
+  checkNumber    String
+  amount         Decimal  @db.Decimal(10, 2) /// Valor bruto do cheque
+  interestRate   Decimal  @db.Decimal(5, 2) /// Taxa (% ao mês)
+  issueDate      DateTime // Data de emissão do cheque
+  dueDate        DateTime /// Data de vencimento
+  additionalDays Int /// Dias adicionados manualmente para compensação
 
-  checkNumber String
+  // Dados calculados
 
-  amount       Decimal @db.Decimal(10, 2)
-  interestRate Decimal @db.Decimal(5, 2)
+  days      Int /// Dias entre a data do cálculo e o vencimento
+  totalDays Int /// days + compensationDays
+  interest  Decimal @db.Decimal(10, 2) /// Juros calculado para a negociação
+  netAmount Decimal @db.Decimal(10, 2) /// Valor líquido recebido
 
-  issueDate DateTime
-  dueDate   DateTime
+  // Controle
 
-  status       CheckStatus
-  returnReason String?
+  status       CheckStatus @default(PENDING)
+  returnReason String? /// Obrigatório apenas quando status = RETURNED
 
   operationId Int
   operation   Operation @relation(fields: [operationId], references: [id])

@@ -4,6 +4,7 @@ import { ProvidersService } from './providers.service';
 import { PrismaService } from '../../infra/database/prisma.service';
 import { NotFoundException } from '@nestjs/common';
 import { CreateProviderDto } from './dto/create-provider.dto';
+import { Prisma } from '../../generated/prisma/client';
 
 describe('ProvidersService', () => {
   let providersService: ProvidersService;
@@ -16,7 +17,9 @@ describe('ProvidersService', () => {
       phone: '(11) 99999-9999',
       notes: null,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      defaultInterestRate: new Prisma.Decimal(4.5),
+      defaultCompensationDays: 2,
     },
     {
       id: 2,
@@ -24,7 +27,9 @@ describe('ProvidersService', () => {
       phone: '(11) 99999-9999',
       notes: "Test",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      defaultInterestRate: new Prisma.Decimal(2),
+      defaultCompensationDays: 1,
     },
   ];
 
@@ -85,6 +90,8 @@ describe('ProvidersService', () => {
         name: 'Gustavo',
         phone: '(11) 99999-9999',
         notes: 'Teste',
+        defaultInterestRate: 4.5,
+        defaultCompensationDays: 1,
       };
 
       const provider = {
@@ -94,6 +101,8 @@ describe('ProvidersService', () => {
         notes: dto.notes ?? null,
         createdAt: new Date(),
         updatedAt: new Date(),
+        defaultInterestRate: new Prisma.Decimal(dto.defaultInterestRate),
+        defaultCompensationDays: dto.defaultCompensationDays,
       };
 
       prismaMock.provider.create.mockResolvedValue(provider);
