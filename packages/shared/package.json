@@ -1,0 +1,28 @@
+{
+  "name": "@g-checkflow/shared",
+  "type": "module",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsc --watch --preserveWatchOutput",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "exports": {
+    "./calculate-check": {
+      "types": "./src/calculators/check-calculator.ts",
+      "default": "./dist/calculators/check-calculator.js"
+    }
+  },
+  "devDependencies": {
+    "@swc/core": "^1.15.43",
+    "@swc/jest": "^0.2.39",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "date-fns": "^4.4.0"
+  }
+}
