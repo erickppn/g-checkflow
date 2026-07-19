@@ -1,12 +1,12 @@
-import { differenceInCalendarDays } from "date-fns";
+import { differenceInCalendarDays, startOfDay } from "date-fns";
 import { roundMoney } from "../utils/round-money.js";
 
 export interface CalculateCheckInput {
   amount: number;
   interestRate: number;
-  operationDate: Date;
+  issueDate: Date;
   dueDate: Date;
-  compensationDays: number;
+  additionalDays: number;
 }
 
 export interface CalculateCheckResult {
@@ -21,21 +21,22 @@ export function calculateCheck(input: CalculateCheckInput,
   const {
     amount,
     interestRate,
-    operationDate,
-    dueDate,
-    compensationDays,
+    additionalDays,
   } = input;
+
+  const issueDate = startOfDay(new Date(input.issueDate));
+  const dueDate = startOfDay(new Date(input.dueDate));
 
   // Calcula a diferença entre a data de vencimento e a data atual.
   // Math.max: Cheques vencidos não possuem dias negativos.
   const days = Math.max(
     differenceInCalendarDays(
       dueDate,
-      operationDate,
+      issueDate,
     ), 0
   );
 
-  const totalDays = days > 0 ? days + compensationDays : 0;
+  const totalDays = days > 0 ? days + additionalDays : 0;
 
   // A taxa informada é mensal.
   // O cálculo utiliza juros simples proporcionais por dia.

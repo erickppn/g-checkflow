@@ -6,9 +6,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1100,
       interestRate: 4.5,
-      operationDate: new Date(2026, 5, 19),
+      issueDate: new Date(2026, 5, 19),
       dueDate: new Date(2026, 6, 20),
-      compensationDays: 1,
+      additionalDays: 1,
     };
 
     const result = calculateCheck(input);
@@ -25,9 +25,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1000,
       interestRate: 4.5,
-      operationDate: new Date(2026, 5, 19),
+      issueDate: new Date(2026, 5, 19),
       dueDate: new Date(2026, 5, 29),
-      compensationDays: 1,
+      additionalDays: 1,
     };
 
     const result = calculateCheck(input);
@@ -40,9 +40,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1000,
       interestRate: 6,
-      operationDate: new Date(2026, 5, 19),
+      issueDate: new Date(2026, 5, 19),
       dueDate: new Date(2026, 6, 19),
-      compensationDays: 0,
+      additionalDays: 0,
     };
 
     const result = calculateCheck(input);
@@ -55,9 +55,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1000,
       interestRate: 4.5,
-      operationDate: new Date(2026, 5, 19),
+      issueDate: new Date(2026, 5, 19),
       dueDate: new Date(2026, 6, 19),
-      compensationDays: 5,
+      additionalDays: 5,
     };
 
     const result = calculateCheck(input);
@@ -70,9 +70,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1000,
       interestRate: 4.5,
-      operationDate: new Date(2026, 6, 20),
+      issueDate: new Date(2026, 6, 20),
       dueDate: new Date(2026, 6, 19),
-      compensationDays: 0,
+      additionalDays: 0,
     };
 
     const result = calculateCheck(input);
@@ -85,9 +85,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1000,
       interestRate: 4.5,
-      operationDate: new Date(2026, 6, 20),
+      issueDate: new Date(2026, 6, 20),
       dueDate: new Date(2026, 6, 19),
-      compensationDays: 2, 
+      additionalDays: 2,
     };
 
     const result = calculateCheck(input);
@@ -104,9 +104,9 @@ describe("calculateCheck", () => {
     const input: CalculateCheckInput = {
       amount: 1234.56,
       interestRate: 4.73,
-      operationDate: new Date(2026, 5, 19),
+      issueDate: new Date(2026, 5, 19),
       dueDate: new Date(2026, 6, 20),
-      compensationDays: 3,
+      additionalDays: 3,
     };
 
     const result = calculateCheck(input);
@@ -116,6 +116,25 @@ describe("calculateCheck", () => {
       totalDays: 34,
       interest: 66.18,
       netAmount: 1168.38,
+    });
+  });
+
+  it("deve isentar juros e zerar dias se o cheque vencer no mesmo dia da operação", () => {
+    const input: CalculateCheckInput = {
+      amount: 1100,
+      interestRate: 4.5,
+      issueDate: new Date(2026, 5, 19),
+      dueDate: new Date(2026, 5, 19), // Mesmo dia!
+      additionalDays: 1,
+    };
+
+    const result = calculateCheck(input);
+
+    expect(result).toEqual({
+      days: 0,
+      totalDays: 0,
+      interest: 0,
+      netAmount: 1100,
     });
   });
 });
