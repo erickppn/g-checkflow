@@ -3,34 +3,23 @@ import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 import { ProvidersService } from './providers.service';
 import { PrismaService } from '../../infra/database/prisma.service';
 import { NotFoundException } from '@nestjs/common';
-import { CreateProviderDto } from './dto/create-provider.dto';
-import { Prisma } from '../../generated/prisma/client';
+import { Prisma, Provider } from '../../generated/prisma/client';
+import { makeCreateProviderDto, makeProvider, makeUpdateProviderDto } from '../../../test/factories/provider.factory';
 
 describe('ProvidersService', () => {
   let providersService: ProvidersService;
   let prismaMock: DeepMockProxy<PrismaService>;
 
-  const providers = [
-    {
-      id: 1,
-      name: 'Gustavo',
-      phone: '(11) 99999-9999',
-      notes: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      defaultInterestRate: new Prisma.Decimal(4.5),
+  const providers: Provider[] = [
+    makeProvider({
+      name: "Gustavo",
       defaultCompensationDays: 2,
-    },
-    {
-      id: 2,
-      name: 'Leticia',
-      phone: '(11) 99999-9999',
+    }),
+    makeProvider({
+      name: "Leticia",
       notes: "Test",
-      createdAt: new Date(),
-      updatedAt: new Date(),
       defaultInterestRate: new Prisma.Decimal(2),
-      defaultCompensationDays: 1,
-    },
+    }),
   ];
 
   beforeEach(async () => {
@@ -86,24 +75,15 @@ describe('ProvidersService', () => {
 
   describe("create", () => {
     it('deve criar um novo provider com sucesso', async () => {
-      const dto: CreateProviderDto = {
-        name: 'Gustavo',
-        phone: '(11) 99999-9999',
-        notes: 'Teste',
-        defaultInterestRate: 4.5,
-        defaultCompensationDays: 1,
-      };
+      const dto = makeCreateProviderDto({
+        name: "Gustavo",
+        notes: "Teste",
+      });
 
-      const provider = {
-        id: 1,
+      const provider = makeProvider({
         name: dto.name,
-        phone: dto.phone,
-        notes: dto.notes ?? null,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        defaultInterestRate: new Prisma.Decimal(dto.defaultInterestRate),
-        defaultCompensationDays: dto.defaultCompensationDays,
-      };
+        notes: "Teste",
+      });
 
       prismaMock.provider.create.mockResolvedValue(provider);
 
@@ -118,14 +98,22 @@ describe('ProvidersService', () => {
 
   describe('update', () => {
     it('deve atualizar o provider com sucesso se ele existir', async () => {
-      const dto = {
-        name: 'Gustavo Alterado',
-        phone: '(11) 99999-9999',
+      const originalProvider = makeProvider({
+        name: "Gustavo",
+      });
+
+      const dto = makeUpdateProviderDto({
+        name: "Gustavo Alterado",
+        defaultInterestRate: 6
+      });
+
+      const updatedProvider = { 
+        ...originalProvider, 
+        ...dto,
+        defaultInterestRate: dto.defaultInterestRate ? new Prisma.Decimal(dto.defaultInterestRate) : originalProvider.defaultInterestRate,
       };
 
-      const updatedProvider = { ...providers[0], name: 'Gustavo Alterado' };
-
-      prismaMock.provider.findUnique.mockResolvedValue(providers[0]);
+      prismaMock.provider.findUnique.mockResolvedValue(originalProvider);
       prismaMock.provider.update.mockResolvedValue(updatedProvider);
 
       const result = await providersService.update(1, dto);
@@ -138,9 +126,13 @@ describe('ProvidersService', () => {
     });
 
     it('deve lançar NotFoundException ao tentar atualizar um provider inexistente', async () => {
+      const dto = makeUpdateProviderDto({
+        name: "Teste",
+      });
+
       prismaMock.provider.findUnique.mockResolvedValue(null);
 
-      await expect(providersService.update(99, { name: 'Teste' })).rejects.toThrow(NotFoundException);
+      await expect(providersService.update(99, dto)).rejects.toThrow(NotFoundException);
       expect(prismaMock.provider.update).not.toHaveBeenCalled();
     });
   });
