@@ -12,6 +12,10 @@
     "./calculate-check": {
       "types": "./src/calculators/check-calculator.ts",
       "default": "./dist/calculators/check-calculator.js"
+    },
+    "./calculate-operation-summary": {
+      "types": "./src/calculators/operation-summary-calculator.ts",
+      "default": "./dist/calculators/operation-summary-calculator.js"
     }
   },
   "devDependencies": {

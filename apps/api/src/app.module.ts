@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProvidersModule } from './modules/providers/providers.module';
 import { ConfigModule } from '@nestjs/config';
+import { OperationsModule } from './modules/operations/operation.module';
 
 @Module({
   imports: [
@@ -11,8 +12,10 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '../../.env',
     }),
 
-    ProvidersModule],
+    ProvidersModule,
+    OperationsModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -80,7 +80,7 @@ model Check {
   returnReason String? /// Obrigatório apenas quando status = RETURNED
 
   operationId Int
-  operation   Operation @relation(fields: [operationId], references: [id])
+  operation   Operation @relation(fields: [operationId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
