@@ -86,13 +86,43 @@ docs/
 
 ## Como executar
 
-Instalar dependências
+Instalar as dependências
 
 ```bash
 npm install
 ```
 
-Executar ambiente de desenvolvimento
+Iniciar o banco
+
+```bash
+docker compose up -d
+```
+
+Gerar o Prisma Client
+
+```bash
+npx prisma generate
+```
+
+Compilar o pacote compartilhado
+
+```bash
+npm run build --workspace=@g-checkflow/shared
+```
+
+Executar as migrations
+
+```bash
+npx prisma migrate dev
+```
+
+Popular o banco (opcional)
+
+```bash
+npx prisma db seed
+```
+
+Iniciar a aplicação
 
 ```bash
 npm run dev
