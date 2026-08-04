@@ -1,0 +1,113 @@
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState } from "@tanstack/react-table"
+import { DataTablePagination } from "./data-table-pagination";
+import { SearchX } from "lucide-react";
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[],
+
+  sorting: SortingState,
+  globalFilter: string,
+}
+export function DataTable<TData, TValue>({
+  sorting,
+  globalFilter,
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+
+    state: {
+      sorting,
+      globalFilter
+    },
+  });
+
+  return (
+    <div className="flex flex-1 min-h-0 flex-col">
+      <div className="flex-1 min-h-0 overflow-auto">
+        <Table className="min-w-200">
+          <TableHeader
+            className="bg-slate-100 border-t"
+          >
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow className="" key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      key={header.id}
+                      className="
+                        sticky top-0 z-10 bg-slate-100 text-slate-700 first:pl-6 last:pr-6 
+                        max-sm:first:pl-3 max-sm:last:pl-3
+                    ">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-slate-50/80 border-b transition-colors"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className="
+                        first:pl-6 last:pr-6 py-2.5 text-sm
+                        max-sm:first:pl-3 max-sm:last:pl-3
+                    ">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-full text-center">
+                  <div className="flex flex-col items-center justify-center gap-2 py-8">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-400 text-slate-100">
+                      <SearchX className="h-6 w-6" />
+                    </div>
+
+                    <div className="space-y-1">
+                      <h3 className="font-semibold text-slate-900 text-base">
+                        Nenhum prestador encontrado
+                      </h3>
+                      <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                        {globalFilter
+                          ? <span>{`Não encontramos nenhum resultado para "${globalFilter}".`}</span>
+                          : "Nenhum prestador foi cadastrado ainda no sistema."}
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      <DataTablePagination table={table} />
+    </div>
+  )
+}

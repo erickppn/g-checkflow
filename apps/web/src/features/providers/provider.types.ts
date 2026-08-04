@@ -11,3 +11,7 @@ export interface Provider {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ProviderWithOperationsCount extends Provider {
+  operationsCount: number;
+}

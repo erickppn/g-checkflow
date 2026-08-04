@@ -10,33 +10,117 @@
 
 import { Route as rootRouteImport } from './app/__root'
 import { Route as PageRouteImport } from './app/page'
+import { Route as AuthLayoutRouteImport } from './app/_auth/layout'
+import { Route as AuthChequesPageRouteImport } from './app/_auth/cheques/page'
+import { Route as AuthOperacoesNovaRouteImport } from './app/_auth/operacoes/nova'
+import { Route as AuthPrestadoresPageRouteImport } from './app/_auth/prestadores/page'
+import { Route as AuthPrestadoresNovoRouteImport } from './app/_auth/prestadores/novo'
+import { Route as AuthOperacoesIdPageRouteImport } from './app/_auth/operacoes/$id/page'
+import { Route as AuthPrestadoresIdEditarRouteImport } from './app/_auth/prestadores/$id/editar'
 
 const PageRoute = PageRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLayoutRoute = AuthLayoutRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthChequesPageRoute = AuthChequesPageRouteImport.update({
+  id: '/cheques/',
+  path: '/cheques/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthOperacoesNovaRoute = AuthOperacoesNovaRouteImport.update({
+  id: '/operacoes/nova',
+  path: '/operacoes/nova',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthPrestadoresPageRoute = AuthPrestadoresPageRouteImport.update({
+  id: '/prestadores/',
+  path: '/prestadores/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthPrestadoresNovoRoute = AuthPrestadoresNovoRouteImport.update({
+  id: '/prestadores/novo',
+  path: '/prestadores/novo',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthOperacoesIdPageRoute = AuthOperacoesIdPageRouteImport.update({
+  id: '/operacoes/$id/',
+  path: '/operacoes/$id/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthPrestadoresIdEditarRoute = AuthPrestadoresIdEditarRouteImport.update({
+  id: '/prestadores/$id/editar',
+  path: '/prestadores/$id/editar',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PageRoute
+  '/operacoes/nova': typeof AuthOperacoesNovaRoute
+  '/prestadores/novo': typeof AuthPrestadoresNovoRoute
+  '/cheques/': typeof AuthChequesPageRoute
+  '/prestadores/': typeof AuthPrestadoresPageRoute
+  '/prestadores/$id/editar': typeof AuthPrestadoresIdEditarRoute
+  '/operacoes/$id/': typeof AuthOperacoesIdPageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PageRoute
+  '/operacoes/nova': typeof AuthOperacoesNovaRoute
+  '/prestadores/novo': typeof AuthPrestadoresNovoRoute
+  '/cheques': typeof AuthChequesPageRoute
+  '/prestadores': typeof AuthPrestadoresPageRoute
+  '/prestadores/$id/editar': typeof AuthPrestadoresIdEditarRoute
+  '/operacoes/$id': typeof AuthOperacoesIdPageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof PageRoute
+  '/_auth': typeof AuthLayoutRouteWithChildren
+  '/_auth/operacoes/nova': typeof AuthOperacoesNovaRoute
+  '/_auth/prestadores/novo': typeof AuthPrestadoresNovoRoute
+  '/_auth/cheques/': typeof AuthChequesPageRoute
+  '/_auth/prestadores/': typeof AuthPrestadoresPageRoute
+  '/_auth/prestadores/$id/editar': typeof AuthPrestadoresIdEditarRoute
+  '/_auth/operacoes/$id/': typeof AuthOperacoesIdPageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/operacoes/nova'
+    | '/prestadores/novo'
+    | '/cheques/'
+    | '/prestadores/'
+    | '/prestadores/$id/editar'
+    | '/operacoes/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/operacoes/nova'
+    | '/prestadores/novo'
+    | '/cheques'
+    | '/prestadores'
+    | '/prestadores/$id/editar'
+    | '/operacoes/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/_auth/operacoes/nova'
+    | '/_auth/prestadores/novo'
+    | '/_auth/cheques/'
+    | '/_auth/prestadores/'
+    | '/_auth/prestadores/$id/editar'
+    | '/_auth/operacoes/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   PageRoute: typeof PageRoute
+  AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +132,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/cheques/': {
+      id: '/_auth/cheques/'
+      path: '/cheques'
+      fullPath: '/cheques/'
+      preLoaderRoute: typeof AuthChequesPageRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/operacoes/nova': {
+      id: '/_auth/operacoes/nova'
+      path: '/operacoes/nova'
+      fullPath: '/operacoes/nova'
+      preLoaderRoute: typeof AuthOperacoesNovaRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/prestadores/': {
+      id: '/_auth/prestadores/'
+      path: '/prestadores'
+      fullPath: '/prestadores/'
+      preLoaderRoute: typeof AuthPrestadoresPageRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/prestadores/novo': {
+      id: '/_auth/prestadores/novo'
+      path: '/prestadores/novo'
+      fullPath: '/prestadores/novo'
+      preLoaderRoute: typeof AuthPrestadoresNovoRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/operacoes/$id/': {
+      id: '/_auth/operacoes/$id/'
+      path: '/operacoes/$id'
+      fullPath: '/operacoes/$id/'
+      preLoaderRoute: typeof AuthOperacoesIdPageRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/prestadores/$id/editar': {
+      id: '/_auth/prestadores/$id/editar'
+      path: '/prestadores/$id/editar'
+      fullPath: '/prestadores/$id/editar'
+      preLoaderRoute: typeof AuthPrestadoresIdEditarRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
   }
 }
 
+interface AuthLayoutRouteChildren {
+  AuthOperacoesNovaRoute: typeof AuthOperacoesNovaRoute
+  AuthPrestadoresNovoRoute: typeof AuthPrestadoresNovoRoute
+  AuthChequesPageRoute: typeof AuthChequesPageRoute
+  AuthPrestadoresPageRoute: typeof AuthPrestadoresPageRoute
+  AuthPrestadoresIdEditarRoute: typeof AuthPrestadoresIdEditarRoute
+  AuthOperacoesIdPageRoute: typeof AuthOperacoesIdPageRoute
+}
+
+const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
+  AuthOperacoesNovaRoute: AuthOperacoesNovaRoute,
+  AuthPrestadoresNovoRoute: AuthPrestadoresNovoRoute,
+  AuthChequesPageRoute: AuthChequesPageRoute,
+  AuthPrestadoresPageRoute: AuthPrestadoresPageRoute,
+  AuthPrestadoresIdEditarRoute: AuthPrestadoresIdEditarRoute,
+  AuthOperacoesIdPageRoute: AuthOperacoesIdPageRoute,
+}
+
+const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
+  AuthLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   PageRoute: PageRoute,
+  AuthLayoutRoute: AuthLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

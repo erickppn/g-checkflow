@@ -3,6 +3,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import type { QueryClient } from '@tanstack/react-query';
 
+import "@fontsource/manrope";
 import '../index.css';
 
 interface AppRouterContext  {
