@@ -18,6 +18,11 @@
       "persistent": true,
       "interruptible": true
     },
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
     "test": {
       "cache": true
     }
