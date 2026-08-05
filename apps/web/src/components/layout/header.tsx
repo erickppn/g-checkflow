@@ -1,4 +1,4 @@
-import { ChevronDown, Plus, Receipt, UserRound } from "lucide-react";
+import { ChevronDown, Plus, ReceiptText, UserRound } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
 import { Button } from "../ui/button";
@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 export function Header() {
   return (
     <header className="
-      flex justify-between w-full px-8 border-b border-slate-200 shadow-xs 
+      flex justify-between w-full px-8 bg-white border-b border-slate-200 shadow-xs 
       max-md:px-4 
       max-sm:hidden
     ">
@@ -15,19 +15,23 @@ export function Header() {
         max-lg:gap-10
         max-md:gap-5
       ">
-        <div className="flex gap-2 items-center">
-          <Receipt size={30} strokeWidth={1.5} className="text-blue-500" />
+        <div className="flex items-center gap-2.5">
+          <div className="flex size-8 items-center justify-center rounded-lg bg-blue-600/10 text-primary">
+            <ReceiptText className="size-4.5" />
+          </div>
 
-          <h1 className="font-bold uppercase max-md:hidden">
-            Sistema de Cheques
-          </h1>
+          <div className="flex items-baseline gap-1.5">
+            <h1 className="text-sm text-slate-800 font-semibold tracking-wide max-md:hidden">
+              Sistema de Cheques
+            </h1>
 
-          <span className="
-            text-xs text-slate-400 font-semibold 
-            max-lg:hidden
-          ">
-            - Potencial Jeans
-          </span>
+            <span className="
+              text-[13px] text-slate-500 sm:inline
+              max-lg:hidden
+            ">
+              · Potencial Jeans
+            </span>
+          </div>
         </div>
 
         <nav className="flex gap-4 items-center text-sm text-gray-500 font-semibold">
@@ -84,17 +88,19 @@ export function Header() {
           <DropdownMenuTrigger>
             <div className="flex gap-2.5 items-center px-2 py-1 rounded-lg hover:bg-slate-100 transition cursor-pointer">
               <div className="bg-slate-200 rounded-full w-fit p-1">
-                <UserRound className="text-slate-400" />
+                <UserRound className="text-slate-400 size-5" />
               </div>
 
-              <span className="
-                font-semibold text-sm text-slate-600 
-                max-lg:hidden
-              ">
-                Gustavo
-              </span>
+              <div className="flex gap-1 items-center">
+                <span className="
+                  font-sembold text-sm text-slate-600 
+                  max-lg:hidden
+                ">
+                  Gustavo
+                </span>
 
-              <ChevronDown className="text-slate-400" />
+                <ChevronDown className="text-slate-400 size-5" />
+              </div>
             </div>
           </DropdownMenuTrigger>
 
