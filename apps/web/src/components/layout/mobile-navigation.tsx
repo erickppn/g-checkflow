@@ -8,7 +8,7 @@ export function MobileNavigation() {
       aria-label="Navegação principal"
       className="
         flex items-center justify-around
-        border-t bg-background py-2
+        border-t bg-background py-1.5
         sm:hidden
     ">
       <Link
@@ -25,7 +25,7 @@ export function MobileNavigation() {
           className="transition-transform group-data-[status=active]:scale-110"
         />
 
-        <span>Cheques</span>
+        <span className="max-[400px]:hidden">Cheques</span>
       </Link>
 
       <Link
@@ -41,7 +41,7 @@ export function MobileNavigation() {
           className="transition-transform group-data-[status=active]:scale-110"
         />
 
-        <span>Prestadores</span>
+        <span className="max-[400px]:hidden">Prestadores</span>
       </Link>
       
       <Link
@@ -56,7 +56,7 @@ export function MobileNavigation() {
           className="transition-transform group-data-[status=active]:scale-110"
         />
 
-        <span className="max-[448px]:hidden">Nova Operação</span>
+        <span className="max-[400px]:hidden">Nova Operação</span>
       </Link>
 
       <DropdownMenu>
