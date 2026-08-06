@@ -18,9 +18,6 @@ export interface CheckBase {
   dueDate: string;
 
   additionalDays: number;
-
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface Check extends CheckBase {
@@ -32,4 +29,7 @@ export interface Check extends CheckBase {
 
   status: CheckStatus;
   returnReason: string | null;
+
+  createdAt: string;
+  updatedAt: string;
 }
