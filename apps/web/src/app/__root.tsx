@@ -1,5 +1,6 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { useEffect } from 'react';
 
 import type { QueryClient } from '@tanstack/react-query';
 
@@ -11,6 +12,12 @@ interface AppRouterContext  {
 }
 
 const RootLayout = () => (
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+    }
+  }, [])
+
   <>
     <Outlet />
     <TanStackRouterDevtools />
