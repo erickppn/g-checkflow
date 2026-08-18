@@ -9,6 +9,12 @@ import { PageLoading } from './components/common/page-loading'
 // Import the generated route tree
 import { routeTree } from './route-tree.gen'
 
+// Date-fns config
+import { setDefaultOptions } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+
+setDefaultOptions({ locale: ptBR });
+
 // Create a new router instance
 const router = createRouter({
   routeTree,
