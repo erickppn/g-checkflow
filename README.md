@@ -2,13 +2,13 @@
 
 Sistema web para gestão de operações com cheques.
 
-O projeto nasceu a partir de um levantamento de requisitos realizado para um cliente real, sendo posteriormente transformado em um projeto de estudo e portfólio com foco em arquitetura de software, backend, frontend e infraestrutura.
+O projeto nasceu a partir de um levantamento de requisitos realizado para um cliente real. O software evoluiu de um caso de estudo para uma plataforma web com foco em arquitetura de software, backend, frontend e infraestrutura.
 
 ---
 
 ## Objetivo
 
-O G-CheckFlow tem como objetivo substituir processos realizados em planilhas por uma aplicação web centralizada, permitindo o cadastro e gerenciamento de operações envolvendo cheques, cálculo automático de valores negociados e emissão de relatórios.
+O G-CheckFlow tem como objetivo substituir processos realizados em planilhas por uma aplicação web centralizada, permitindo o cadastro e gerenciamento de operações envolvendo cheques, cálculo automático de valores negociados (juros, dias de compensação, valor líquido) e emissão de relatórios.
 
 📚 A documentação completa do projeto está disponível na pasta [./docs](./docs).
 
@@ -58,12 +58,12 @@ O G-CheckFlow tem como objetivo substituir processos realizados em planilhas por
 
 #### Frontend
 
-![TS](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white) ![Next JS](https://img.shields.io/badge/Next.js-000000.svg?style=for-the-badge&logo=nextdotjs&logoColor=white) ![- Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4.svg?style=for-the-badge&logo=Tailwind-CSS&logoColor=white) ![- shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000.svg?style=for-the-badge&logo=shadcn/ui&logoColor=white)
+![TS](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white) ![React](https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=black) ![Vite](https://img.shields.io/badge/Vite-9135FF.svg?style=for-the-badge&logo=Vite&logoColor=white) ![- Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4.svg?style=for-the-badge&logo=Tailwind-CSS&logoColor=white) ![- shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000.svg?style=for-the-badge&logo=shadcn/ui&logoColor=white) ![Tanstack](https://img.shields.io/badge/TanStack-000000.svg?style=for-the-badge&logo=TanStack&logoColor=white) 
 
 
 #### Backend
 
-![TS](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white) ![- NestJS](https://img.shields.io/badge/NestJS-E0234E.svg?style=for-the-badge&logo=NestJS&logoColor=white) ![- Prisma ORM](https://img.shields.io/badge/Prisma-2D3748.svg?style=for-the-badge&logo=Prisma&logoColor=white) ![- PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=PostgreSQL&logoColor=white) ![- Swagger](https://img.shields.io/badge/Swagger-85EA2D.svg?style=for-the-badge&logo=Swagger&logoColor=black)
+![TS](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white) ![- NestJS](https://img.shields.io/badge/NestJS-E0234E.svg?style=for-the-badge&logo=NestJS&logoColor=white) ![- Prisma ORM](https://img.shields.io/badge/Prisma-2D3748.svg?style=for-the-badge&logo=Prisma&logoColor=white) ![- PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=PostgreSQL&logoColor=white) ![- Swagger](https://img.shields.io/badge/Swagger-85EA2D.svg?style=for-the-badge&logo=Swagger&logoColor=black) ![Jest](https://img.shields.io/badge/Jest-C21325.svg?style=for-the-badge&logo=Jest&logoColor=white)
 
 #### Infraestrutura
 
@@ -75,54 +75,53 @@ O G-CheckFlow tem como objetivo substituir processos realizados em planilhas por
 
 ```text
 apps/
-├── web/
-└── api/
+├── web/     # Frontend SPA robusto com React + Vite + TanStack
+└── api/     # Backend RESTful com NestJS + Prisma ORM
 
 packages/
-└── shared/
+└── shared/  # Regras de negócio e motores de cálculo compartilhados
 
-docs/
+docs/        # Documentações de requisitos originais do cliente
 ```
 
 ## Como executar
 
-Instalar as dependências
+1. Instalar as dependências
 
 ```bash
 npm install
 ```
 
-Iniciar o banco
+2. Iniciar o banco
 
 ```bash
 docker compose up -d
 ```
 
-Gerar o Prisma Client
+3. Rodar as migrações do banco de dados
+```bash
+npx prisma migrate dev
+```
+
+4. Gerar o Prisma Client
 
 ```bash
 npx prisma generate
 ```
 
-Compilar o pacote compartilhado
+6. Compilar o pacote compartilhado
 
 ```bash
 npm run build --workspace=@g-checkflow/shared
 ```
 
-Executar as migrations
-
-```bash
-npx prisma migrate dev
-```
-
-Popular o banco (opcional)
+7. Popular o banco (opcional)
 
 ```bash
 npx prisma db seed
 ```
 
-Iniciar a aplicação
+8. Iniciar a aplicação
 
 ```bash
 npm run dev
@@ -130,9 +129,9 @@ npm run dev
 
 ---
 
-## Motivação
+## 🎯 Origem e Evolução
 
-Este projeto surgiu após um levantamento completo de requisitos para um sistema de gestão de cheques. Embora a proposta comercial não tenha sido aprovada, o material produzido serviu como base para a construção de um software completo, permitindo praticar todas as etapas do desenvolvimento de um sistema real.
+O G-CheckFlow nasceu da necessidade real de otimizar e centralizar operações financeiras complexas que antes dependiam de controles manuais e planilhas. O projeto evoluiu de um mapeamento estratégico de requisitos para um sistema focado em entregar automação matemática confiável, auditoria de dados e uma experiência de uso fluida para o gerenciamento de recebíveis.
 
 ---
 

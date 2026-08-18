@@ -26,7 +26,21 @@ export class ProvidersService {
   }
 
   async findAll() {
-    return this.prisma.provider.findMany();
+    const providers = await this.prisma.provider.findMany({
+      include: {
+        _count: {
+          select: {
+            operations: true
+          }
+        }
+      }
+    });
+
+    return providers.map(({ _count, ...provider }) => ({
+      ...provider,
+
+      operationsCount: _count.operations,
+    }));
   }
 
   async findById(id: number) {
@@ -35,7 +49,7 @@ export class ProvidersService {
 
   async update(id: number, data: UpdateProviderDto) {
     await this.findProviderOrFail(id);
-    
+
     return this.prisma.provider.update({
       where: { id },
       data
