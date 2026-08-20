@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { BarChart3, DollarSign, Percent, Save } from "lucide-react";
+import { BarChart3, DollarSign, Loader2, Percent, Save } from "lucide-react";
 
 import { calculateOperationSummary } from "@g-checkflow/shared/calculate-operation-summary";
 
@@ -9,10 +9,12 @@ import type { CalculatedCheck } from "@/features/operations/types/check.types";
 import { currencyFormatter } from "@/utils";
 
 interface SummaryCardProps {
-  checks: CalculatedCheck[]
+  checks: CalculatedCheck[],
+  onSubmitOperation: () => void;
+  isSaving: boolean
 }
 
-export function SummaryCard({ checks }: SummaryCardProps) {
+export function SummaryCard({ checks, onSubmitOperation, isSaving }: SummaryCardProps) {
   const summary = useMemo(() => {
     return calculateOperationSummary(checks);
   }, [checks]);
@@ -88,9 +90,20 @@ export function SummaryCard({ checks }: SummaryCardProps) {
         </div>
 
         <div className="mt-4 mx-4">
-          <Button className="w-full py-4">
-            <Save />
-            Salvar operação
+          <Button 
+            className="w-full py-4" 
+            onClick={onSubmitOperation}
+            disabled={isSaving}
+          >
+            { !isSaving ? (
+              <>
+                <Save />
+                Salvar operação
+              </>
+            ) : (
+              <Loader2 className="animate-spin"/>
+            )}
+            
           </Button>
         </div>
       </CardContent>
