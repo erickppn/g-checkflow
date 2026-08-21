@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { ChevronLeft, Clock3, Percent } from "lucide-react"
+import { Clock3, Percent } from "lucide-react"
 
 import { PageTitle } from "@/components/common/page-title"
 import { PageContainer } from "@/components/layout/page-container"
 import { SummaryCard } from "@/components/common/summary-card"
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
+import { Field, FieldLabel } from "@/components/ui/field"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 import { ProviderAvatar } from "@/features/providers/components/provider-avatar"
