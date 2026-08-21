@@ -26,7 +26,7 @@ export function Header() {
             </h1>
 
             <span className="
-              text-[13px] text-slate-500 sm:inline
+              text-[13px] text-slate-500
               max-lg:hidden
             ">
               · Potencial Jeans

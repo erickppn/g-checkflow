@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { Clock3, Percent } from "lucide-react"
+import { ChevronLeft, Clock3, Percent } from "lucide-react"
 
 import { PageTitle } from "@/components/common/page-title"
 import { PageContainer } from "@/components/layout/page-container"
@@ -146,7 +146,7 @@ function RouteComponent() {
       })),
     }
 
-     createOperation.mutate(payload, {
+    createOperation.mutate(payload, {
       onSuccess: (operation) => {
         navigate({
           to: "/operacoes/$id",
@@ -167,11 +167,14 @@ function RouteComponent() {
   return (
     <div className="flex flex-1 overflow-hidden flex-col min-w-0">
       <section className="
-        border-b border-border bg-card/80 px-8 
-        max-md:px-4 max-lg:gap-3
+        flex flex-col border-b border-border bg-card/80 px-8 
+        max-md:px-4
       ">
-        <div className="grid grid-cols-[minmax(0,1fr)_180px_180px] gap-4 items-start max-w-440 mx-auto py-3">
-          <Field className="flex flex-col gap-1.5">
+        <div className="
+          w-full grid grid-cols-[minmax(0,1fr)_100px_100px] gap-4 items-start max-w-440 mx-auto py-3 
+          max-lg:grid-ols-2
+        ">
+          <Field className="flex flex-col gap-1.5 max-lg:co-span-2">
             <FieldLabel className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
               Prestador
             </FieldLabel>
@@ -203,11 +206,6 @@ function RouteComponent() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-
-            <FieldDescription className="mt-2.5 text-xs text-muted-foreground">
-              Taxa e dias de compensação são sugeridos pelo prestador e podem ser ajustados em cada cheque.
-            </FieldDescription>
-
           </Field>
 
           <div className="flex flex-col gap-1.5 w-full">
@@ -236,24 +234,34 @@ function RouteComponent() {
             </div>
           </div>
         </div>
+
+        <span className="
+          text-xs text-left w-full text-muted-foreground max-w-440 mx-auto mb-2 
+          max-md:hidden
+        ">
+          Taxa e dias de compensação são sugeridos pelo prestador e podem ser ajustados em cada cheque.
+        </span>
       </section>
 
       <PageContainer>
-        <div className="flex min-h-0 flex-col gap-6 max-w-440 flex-1 mx-auto w-full">
+        <div className="flex min-h-0 flex-col gap-6 max-w-440 flex-1 mx-auto w-full relative">
           <PageTitle title="Nova Operação" subtitle="Preencha os dados da operação e adicione os cheques recebidos." />
 
-          <div className="flex gap-5 min-h-0 flex-1">
-            <ChecksTable 
-              checks={checks} 
-              onAddCheck={handleAddCheck} 
-              currentProvider={selectedProvider} 
+          <div className="
+            flex gap-5 min-h-0 flex-1 
+            max-xl:flex-col
+          "> 
+            <ChecksTable
+              checks={checks}
+              onAddCheck={handleAddCheck}
+              currentProvider={selectedProvider}
               onRemoveCheck={handleRemoveCheck}
               onUpdateCheck={handleUpdateCheck}
             />
 
-            <SummaryCard 
-              checks={checks} 
-              onSubmitOperation={handleCreateOperation} 
+            <SummaryCard
+              checks={checks}
+              onSubmitOperation={handleCreateOperation}
               isSaving={createOperation.isPending}
             />
           </div>

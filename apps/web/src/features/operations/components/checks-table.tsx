@@ -41,7 +41,10 @@ export function ChecksTable({
   }
 
   return (
-    <section className="flex flex-1 flex-col overflow-hidden rounded-md border border-borde bg-card shadow-sm">
+    <section className="
+      flex flex-1 flex-col overflow-hidden rounded-md border border-borde bg-card shadow-sm
+      max-md:hidden
+    ">
       <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
         <div>
           <h2 className="text-sm font-semibold text-foreground">Cheques da operação</h2>
@@ -75,9 +78,9 @@ export function ChecksTable({
             <TableRow className="bg-muted hover:bg-muted/90 uppercase text-[11px] font-bold tracking-wider">
               <TableHead className="w-2 text-center">#</TableHead>
               <TableHead className="min-w-32.5">Emitente</TableHead>
-              <TableHead className="">Banco</TableHead>
+              <TableHead className="min-w-32.5">Banco</TableHead>
               <TableHead className="w-24">Nº Cheque</TableHead>
-              <TableHead className="w-28">Valor</TableHead>
+              <TableHead className="min-w-28">Valor</TableHead>
               <TableHead className="w-28">Data de registro</TableHead>
               <TableHead className="w-28">Vencimento</TableHead>
               <TableHead className="w-20 text-center">Taxa</TableHead>
