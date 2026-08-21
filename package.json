@@ -3,7 +3,11 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "build:api": "turbo run build --filter=api",
+    "build:web": "turbo run build --filter=web",
     "start": "turbo run start",
+    "start:api": "turbo run start --filter=api",
+    "start:web": "turbo run start --filter=web",
     "dev": "turbo watch dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo test"
