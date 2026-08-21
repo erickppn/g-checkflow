@@ -10,7 +10,7 @@ async function bootstrap() {
     origin: process.env.FRONTEND_URL,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
-
+  
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

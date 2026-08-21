@@ -7,10 +7,7 @@ import { OperationsModule } from './modules/operations/operation.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '../../.env',
-    }),
+    ConfigModule.forRoot(),
 
     ProvidersModule,
     OperationsModule
