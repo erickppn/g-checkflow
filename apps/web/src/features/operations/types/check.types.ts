@@ -61,3 +61,14 @@ export interface CalculatedCheck {
   interest: number
   netAmount: number
 }
+
+export interface CreateCheckInput {
+  issuerName: string
+  bankCode: string
+  checkNumber: string
+  amount: number
+  interestRate: number
+  issueDate: string
+  dueDate: string
+  additionalDays: number
+}

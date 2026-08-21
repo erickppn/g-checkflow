@@ -1,16 +1,12 @@
-// import { api } from "@/lib/api"
-// import type { ProviderWithOperationsCount } from "./provider.types"
-import { providersMock } from "./providers.mocks"
+import { api } from "@/lib/api";
+import type { ProviderWithOperationsCount } from "./provider.types";
 
 export const providersService = {
   getAll: async () => {
-    await new Promise((r) => setTimeout(r, 400));
-    return providersMock
+    const response = await api.get<ProviderWithOperationsCount[]>(
+      "/providers"
+    )
 
-    // const response = await api.get<ProviderWithOperationsCount[]>(
-    //   "/providers"
-    // )
-
-    // return response.data;
+    return response.data;
   }
 }

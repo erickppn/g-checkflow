@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
-import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 import type { QueryClient } from '@tanstack/react-query';
 
@@ -22,6 +23,7 @@ const RootLayout = () => {
     <>
       <Outlet />
       <TanStackRouterDevtools />
+      <ToastContainer />
     </>
   )
 }
