@@ -15,3 +15,14 @@ export interface Provider {
 export interface ProviderWithOperationsCount extends Provider {
   operationsCount: number;
 }
+
+export interface CreateProviderInput {
+  name: string;
+  phone: string;
+  notes: string;
+
+  defaultInterestRate: number;
+  defaultCompensationDays: number;
+}
+
+export interface UpdateProviderInput extends CreateProviderInput {}

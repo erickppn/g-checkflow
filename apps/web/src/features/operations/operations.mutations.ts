@@ -9,5 +9,5 @@ export const operationsMutations = {
 }
 
 export function useCreateOperation() {
-  return useMutation(operationsMutations.create())
+  return useMutation(operationsMutations.create());
 }

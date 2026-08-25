@@ -4,6 +4,7 @@ import { Pen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import type { Provider } from "../provider.types";
+import { Link } from "@tanstack/react-router";
 
 const getAvatarConfig = (name: string) => {
   const initials = name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
@@ -99,12 +100,16 @@ export const providerColumns: ColumnDef<Provider>[] = [
     accessorKey: "actions",
     header: () => <div className="text-center">Ações</div>,
 
-    cell: () => {
-      // const provider = row.original;
+    cell: ({ row }) => {
+      const provider = row.original;
 
       return (
         <div className="flex items-center justify-center gap-2">
-          <Button variant="outline" size="icon" className="h-8 w-8 text-slate-500 hover:text-slate-900">
+          <Button 
+            variant="outline" size="icon" 
+            className="h-8 w-8 text-slate-500 hover:text-slate-900"
+            render={<Link to={`/prestadores/$id/editar`} params={{ id: String(provider.id) }} />}
+          >
             <Pen className="h-4 w-4" />
             <span className="sr-only">Editar</span>
           </Button>

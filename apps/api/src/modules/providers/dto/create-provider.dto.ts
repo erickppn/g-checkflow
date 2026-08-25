@@ -16,7 +16,6 @@ export class CreateProviderDto {
     description: 'Provider phone number',
   })
   @IsString()
-  @IsNotEmpty()
   @MaxLength(20)
   phone!: string;
 

@@ -63,7 +63,7 @@ function RouteComponent() {
         </div>
       </header>
 
-      <section className="border flex flex-1 min-h-0 bg flex-col rounded-md shadow-md">
+      <section className="border flex flex-1 min-h-0 bg flex-col rounded-md shadow-md bg-card">
         <div className="flex items-center justify-between px-6 py-2.5 max-sm:px-3">
           <span className="text-sm font-semibold">
             <span className="max-sm:hidden">Prestadores</span> • {data.length} registros
