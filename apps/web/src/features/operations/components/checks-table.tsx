@@ -9,7 +9,7 @@ import { currencyFormatter } from "@/utils";
 import { CheckForm } from "./check-form";
 
 import { banks } from "@/app/_auth/operacoes/nova";
-import type { ProviderWithOperationsCount } from "@/features/providers/provider.types";
+import type { ProviderWithOperationsCount } from "@/features/providers/types/provider.types";
 import type { CalculatedCheck } from "../types/check.types";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";

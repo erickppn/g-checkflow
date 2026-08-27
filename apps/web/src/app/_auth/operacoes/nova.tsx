@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 import { ProviderAvatar } from "@/features/providers/components/provider-avatar"
 import { providersQueries, useProviders } from "@/features/providers/providers.queries"
-import type { ProviderWithOperationsCount } from "@/features/providers/provider.types"
+import type { ProviderWithOperationsCount } from "@/features/providers/types/provider.types"
 
 import { useCreateOperation } from "@/features/operations/operations.mutations"
 
@@ -133,7 +133,7 @@ function RouteComponent() {
     }
 
     const payload = {
-      providerId: Number(selectedProvider.id),
+      providerId: selectedProvider.id,
       checks: checks.map((check) => ({
         issuerName: check.issuerName,
         bankCode: check.bankCode,

@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { type Provider, type CreateProviderInput, type ProviderWithOperationsCount, type UpdateProviderInput } from "./provider.types";
+import { type Provider, type CreateProviderInput, type ProviderWithOperationsCount, type UpdateProviderInput } from "./types/provider.types";
 
 export const providersService = {
   getAll: async () => {
@@ -16,13 +16,13 @@ export const providersService = {
     return response.data;
   },
 
-  findById: async (id: number) => {
+  findById: async (id: string) => {
     const response = await api.get<Provider>(`/providers/${id}`);
 
     return response.data;
   },
 
-  update: async (id: number, data: UpdateProviderInput) => {
+  update: async (id: string, data: UpdateProviderInput) => {
     const response = await api.patch(`/providers/${id}`, data);
 
     return response.data;

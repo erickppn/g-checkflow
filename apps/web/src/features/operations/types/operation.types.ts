@@ -1,8 +1,8 @@
-import type { Provider } from "../../providers/provider.types";
+import type { Provider } from "../../providers/types/provider.types";
 import type { Check, CreateCheckInput } from "./check.types";
 
 export interface OperationBase {
-  id: number;
+  id: string;
 
   closedAt: string | null;
 
@@ -26,6 +26,6 @@ export interface OperationWithSummary {
 }
 
 export interface CreateOperationInput {
-  providerId: number
+  providerId: string
   checks: CreateCheckInput[]
 }

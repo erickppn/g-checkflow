@@ -1,8 +1,8 @@
-import type { ProviderWithOperationsCount } from "./provider.types"
+import type { ProviderWithOperationsCount } from "./types/provider.types"
 
 export const providersMock: ProviderWithOperationsCount[] = [
   {
-    id: 1,
+    id: "8f9b1c2d-4e5f-4a1b-8c3d-9e0f1a2b3c4d",
     name: "Bryan Martins",
     phone: "(11) 99874-1123",
     notes: "Negociações frequentes.",
@@ -13,7 +13,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 23,
   },
   {
-    id: 2,
+    id: "3a2b1c0d-9e8f-4a7b-6c5d-4e3f2a1b0c9d",
     name: "Valentina Macedo",
     phone: "(11) 99123-4455",
     notes: null,
@@ -24,7 +24,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 8,
   },
   {
-    id: 3,
+    id: "b1a2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
     name: "Lara Oliveira",
     phone: "(19) 99888-2200",
     notes: "Pagamento sempre antecipado.",
@@ -35,7 +35,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 15,
   },
   {
-    id: 4,
+    id: "d4c3b2a1-0f9e-4d8c-7b6a-5e4f3a2b1c0d",
     name: "Gabriel Costa",
     phone: "(31) 99777-1212",
     notes: null,
@@ -46,7 +46,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 2,
   },
   {
-    id: 5,
+    id: "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
     name: "Isabela Ferreira",
     phone: "(41) 99654-3344",
     notes: "Prefere contato por WhatsApp.",
@@ -57,7 +57,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 31,
   },
   {
-    id: 6,
+    id: "7c8d9e0f-1a2b-4c3d-4e5f-6a7b8c9d0e1f",
     name: "Lucas Almeida",
     phone: "(21) 98888-1000",
     notes: null,
@@ -68,7 +68,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 12,
   },
   {
-    id: 7,
+    id: "f1e2d3c4-b5a6-4f7e-8d9c-0b1a2f3e4d5c",
     name: "Amanda Ribeiro",
     phone: "(62) 99999-8877",
     notes: "Taxa negociada recentemente.",
@@ -79,7 +79,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 5,
   },
   {
-    id: 8,
+    id: "4b5c6d7e-8f9a-4b0c-1d2e-3f4a5b6c7d8e",
     name: "Pedro Henrique",
     phone: "(85) 99712-4411",
     notes: null,
@@ -90,7 +90,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 19,
   },
   {
-    id: 9,
+    id: "9a8b7c6d-5e4f-4a3b-2c1d-0e9f8a7b6c5d",
     name: "Juliana Souza",
     phone: "(71) 99555-7878",
     notes: "Cliente antigo.",
@@ -101,7 +101,7 @@ export const providersMock: ProviderWithOperationsCount[] = [
     operationsCount: 41,
   },
   {
-    id: 10,
+    id: "2c3d4e5f-6a7b-4c8d-9e0f-1a2b3c4d5e6f",
     name: "Rafael Gomes",
     phone: "(48) 99111-9090",
     notes: null,

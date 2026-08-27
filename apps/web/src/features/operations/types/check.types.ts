@@ -4,7 +4,7 @@ export type CheckStatus =
   | "RETURNED";
 
 export interface CheckBase {
-  id: number;
+  id: string;
 
   issuerName: string;
 

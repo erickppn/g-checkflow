@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 
 export const Route = createFileRoute('/_auth/prestadores/$id/editar')({
   loader: ({ context: { queryClient }, params }) => {
-    return queryClient.ensureQueryData(providersQueries.findById(Number(params.id)))
+    return queryClient.ensureQueryData(providersQueries.findById(params.id))
   },
 
   component: RouteComponent,
@@ -25,7 +25,7 @@ export const Route = createFileRoute('/_auth/prestadores/$id/editar')({
 function RouteComponent() {
   const { id } = Route.useParams();
 
-  const { data: provider } = useProvider(Number(id));
+  const { data: provider } = useProvider(id);
 
   const [form, setForm] = useState({
     name: provider.name,
@@ -58,7 +58,7 @@ function RouteComponent() {
       notes: form.notes.trim(),
     };
 
-    updateProvider.mutate({ id: Number(id), data: payload }, {
+    updateProvider.mutate({ id, data: payload }, {
       onSuccess: () => {
         toast.success("Prestador atualizado com sucesso");
       },

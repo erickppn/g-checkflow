@@ -1,10 +1,10 @@
 import { mutationOptions, QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 import { providersService } from "./providers.service";
 import { providersQueries } from "./providers.queries";
-import type { UpdateProviderInput } from "./provider.types";
+import type { UpdateProviderInput } from "./types/provider.types";
 
 type UpdateProviderPayload = {
-  id: number;
+  id: string;
   data: UpdateProviderInput;
 };
 

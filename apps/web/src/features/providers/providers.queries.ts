@@ -7,7 +7,7 @@ export const providersQueries = {
     queryFn: providersService.getAll
   }),
 
-  findById: (id: number) => queryOptions({
+  findById: (id: string) => queryOptions({
     queryKey: ["providers", id],
     queryFn: () => providersService.findById(id)
   })
@@ -17,6 +17,6 @@ export function useProviders() {
   return useSuspenseQuery(providersQueries.all())
 }
 
-export function useProvider(id: number) {
+export function useProvider(id: string) {
   return useSuspenseQuery(providersQueries.findById(id));
 }

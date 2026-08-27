@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { format, parse } from "date-fns"
 
 import type { CalculatedCheck, DraftCheck } from "../types/check.types"
-import type { ProviderWithOperationsCount } from "@/features/providers/provider.types"
+import type { ProviderWithOperationsCount } from "@/features/providers/types/provider.types"
 
 import { calculateCheck } from "@g-checkflow/shared/calculate-check"
 import { parseDecimal } from "@/utils"

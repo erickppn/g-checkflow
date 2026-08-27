@@ -3,7 +3,7 @@ import { Pen, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import type { Provider } from "../provider.types";
+import type { Provider } from "../types/provider.types";
 import { Link } from "@tanstack/react-router";
 
 const getAvatarConfig = (name: string) => {
