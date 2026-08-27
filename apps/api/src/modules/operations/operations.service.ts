@@ -11,7 +11,7 @@ export class OperationsService {
     private readonly prisma: PrismaService
   ) { }
 
-  private async findOperationOrFail(id: number) {
+  private async findOperationOrFail(id: string) {
     const operation = await this.prisma.operation.findUnique({
       where: { id }
     });
@@ -21,7 +21,7 @@ export class OperationsService {
     return operation;
   }
 
-  private async findProviderOrFail(id: number) {
+  private async findProviderOrFail(id: string) {
     const provider = await this.prisma.provider.findUnique({
       where: { id },
     });
@@ -33,6 +33,33 @@ export class OperationsService {
 
   async create(data: CreateOperationDto) {
     const provider = await this.findProviderOrFail(data.providerId);
+
+    const issuerIds = [
+      ...new Set(data.checks.map((check) => check.issuerId)),
+    ];
+
+    const issuers = await this.prisma.issuer.findMany({
+      where: {
+        id: {
+          in: issuerIds,
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const foundIssuerIds = new Set(
+      issuers.map((issuer) => issuer.id),
+    );
+
+    const missingIssuerId = issuerIds.find(
+      (id) => !foundIssuerIds.has(id),
+    );
+
+    if (missingIssuerId) {
+      throw new NotFoundException("Issuer not found");
+    }
 
     const calculatedChecks = data.checks.map((check) => {
       const calculatedFinancials = calculateCheck(check);
@@ -54,7 +81,11 @@ export class OperationsService {
 
       include: {
         provider: true,
-        checks: true,
+        checks: {
+          include: {
+            issuer: true
+          }
+        },
       },
     });
 
@@ -66,7 +97,7 @@ export class OperationsService {
     }
   }
 
-  async update(id: number, data: UpdateOperationDto) {
+  async update(id: string, data: UpdateOperationDto) {
     await this.findOperationOrFail(id);
 
     const provider = await this.findProviderOrFail(data.providerId);
@@ -99,7 +130,11 @@ export class OperationsService {
 
       include: {
         provider: true,
-        checks: true,
+        checks: {
+          include: {
+            issuer: true
+          }
+        },
       },
     });
 
@@ -121,13 +156,17 @@ export class OperationsService {
     });
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     const operation = await this.prisma.operation.findUnique({
       where: { id },
 
       include: {
         provider: true,
-        checks: true
+        checks: {
+          include: {
+            issuer: true
+          }
+        }
       }
     });
 
@@ -136,7 +175,7 @@ export class OperationsService {
     return operation;
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     await this.findOperationOrFail(id);
 
     await this.prisma.operation.delete({

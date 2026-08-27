@@ -9,7 +9,7 @@ export class ProvidersService {
     private readonly prisma: PrismaService
   ) { }
 
-  private async findProviderOrFail(id: number) {
+  private async findProviderOrFail(id: string) {
     const provider = await this.prisma.provider.findUnique({
       where: { id }
     });
@@ -43,11 +43,11 @@ export class ProvidersService {
     }));
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     return this.findProviderOrFail(id);
   }
 
-  async update(id: number, data: UpdateProviderDto) {
+  async update(id: string, data: UpdateProviderDto) {
     await this.findProviderOrFail(id);
 
     return this.prisma.provider.update({
@@ -56,7 +56,7 @@ export class ProvidersService {
     });
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     await this.findProviderOrFail(id);
 
     return this.prisma.provider.delete({

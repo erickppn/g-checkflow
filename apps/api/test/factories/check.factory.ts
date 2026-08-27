@@ -1,18 +1,18 @@
 import { Check, CheckStatus, Prisma } from "../../src/generated/prisma/client";
 import { CreateCheckDto } from "../../src/modules/operations/dtos/create-check.dto";
 
-let id = 0;
+let checkNumber = 0;
 
 export function makeCheck(overrides?: Partial<Check>): Check {
-  id += 1;
+  checkNumber += 1;
 
   return {
-    id,
-    operationId: 1,
+    id: crypto.randomUUID(),
+    operationId: crypto.randomUUID(),
 
-    issuerName: "João da Silva",
+    issuerId: crypto.randomUUID(),
     bankCode: "341",
-    checkNumber: id.toString().padStart(8, "0"),
+    checkNumber: checkNumber.toString().padStart(8, "0"),
     amount: new Prisma.Decimal(1000.00),
     interestRate: new Prisma.Decimal(4.5),
     issueDate: new Date("2026-06-19"),
@@ -38,7 +38,7 @@ export function makeCreateCheckDto(
   overrides?: Partial<CreateCheckDto>,
 ): CreateCheckDto {
   return {
-    issuerName: "João da Silva",
+    issuerId: crypto.randomUUID(),
     bankCode: "341",
     checkNumber: "00000001",
     amount: 1000,

@@ -41,11 +41,24 @@ describe('ProvidersService', () => {
 
   describe('findAll', () => {
     it('deve retornar todos os prestadores', async () => {
-      prismaMock.provider.findMany.mockResolvedValue(providers);
+      const providersWithCount = providers.map((provider) => ({
+        ...provider,
+        _count: {
+          operations: 0,
+        },
+      }));
+
+      prismaMock.provider.findMany.mockResolvedValue(providersWithCount);
 
       const result = await providersService.findAll();
 
-      expect(result).toEqual(providers);
+      expect(result).toEqual(
+        providers.map((provider) => ({
+          ...provider,
+          operationsCount: 0,
+        }))
+      );
+      
       expect(prismaMock.provider.findMany).toHaveBeenCalledTimes(1);
     });
   });
@@ -54,21 +67,21 @@ describe('ProvidersService', () => {
     it('deve retornar o prestador se ele existir', async () => {
       prismaMock.provider.findUnique.mockResolvedValue(providers[0]);
 
-      const result = await providersService.findById(1);
+      const result = await providersService.findById(providers[0].id);
 
       expect(result).toEqual(providers[0]);
       expect(prismaMock.provider.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 }
+        where: { id: providers[0].id }
       });
     });
 
     it('deve lançar NotFoundException se o provider não existir', async () => {
       prismaMock.provider.findUnique.mockResolvedValue(null);
 
-      await expect(providersService.findById(88)).rejects.toThrow(NotFoundException);
+      await expect(providersService.findById("7b9a8c1234ef456789abcdef01234567")).rejects.toThrow(NotFoundException);
 
       expect(prismaMock.provider.findUnique).toHaveBeenCalledWith({
-        where: { id: 88 }
+        where: { id: "7b9a8c1234ef456789abcdef01234567" }
       });
     });
   });
@@ -116,11 +129,11 @@ describe('ProvidersService', () => {
       prismaMock.provider.findUnique.mockResolvedValue(originalProvider);
       prismaMock.provider.update.mockResolvedValue(updatedProvider);
 
-      const result = await providersService.update(1, dto);
+      const result = await providersService.update(providers[0].id, dto);
 
       expect(result).toEqual(updatedProvider);
       expect(prismaMock.provider.update).toHaveBeenCalledWith({
-        where: { id: 1 },
+        where: { id: providers[0].id },
         data: dto,
       });
     });
@@ -132,7 +145,7 @@ describe('ProvidersService', () => {
 
       prismaMock.provider.findUnique.mockResolvedValue(null);
 
-      await expect(providersService.update(99, dto)).rejects.toThrow(NotFoundException);
+      await expect(providersService.update("7b9a8c1234ef456789abcdef01234567", dto)).rejects.toThrow(NotFoundException);
       expect(prismaMock.provider.update).not.toHaveBeenCalled();
     });
   });
@@ -142,16 +155,16 @@ describe('ProvidersService', () => {
       prismaMock.provider.findUnique.mockResolvedValue(providers[0]);
       prismaMock.provider.delete.mockResolvedValue(providers[0]);
 
-      const result = await providersService.delete(1);
+      const result = await providersService.delete(providers[0].id);
 
       expect(result).toEqual(providers[0]);
-      expect(prismaMock.provider.delete).toHaveBeenCalledWith({ where: { id: 1 } });
+      expect(prismaMock.provider.delete).toHaveBeenCalledWith({ where: { id: providers[0].id } });
     });
 
     it('deve lançar NotFoundException ao tentar deletar um provider inexistente', async () => {
       prismaMock.provider.findUnique.mockResolvedValue(null);
 
-      await expect(providersService.delete(99)).rejects.toThrow(NotFoundException);
+      await expect(providersService.delete("7b9a8c1234ef456789abcdef01234567")).rejects.toThrow(NotFoundException);
       expect(prismaMock.provider.delete).not.toHaveBeenCalled();
     });
   });

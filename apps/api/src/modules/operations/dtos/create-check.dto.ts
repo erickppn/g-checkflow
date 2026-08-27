@@ -1,16 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsDate, IsInt, IsNotEmpty, IsNumber, IsString, Length, Max, MaxLength, Min } from "class-validator";
+import { IsDate, IsInt, IsNotEmpty, IsNumber, IsString, IsUUID, Length, Max, Min } from "class-validator";
 
 export class CreateCheckDto {
   @ApiProperty({
     example: "João da Silva",
-    description: "Nome do emitente do cheque",
+    description: "Id do emitente do cheque",
   })
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(100)
-  issuerName!: string;
+  @IsUUID()
+  issuerId!: string;
 
   @ApiProperty({
     example: "341",

@@ -1,8 +1,10 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { CheckStatus, Operation, Prisma, PrismaClient, Provider } from "../src/generated/prisma/client";
+import { CheckStatus, Issuer, Operation, Prisma, PrismaClient, Provider } from "../src/generated/prisma/client";
 
 import { fakerPT_BR as faker } from '@faker-js/faker';
 import { calculateCheck } from "@g-checkflow/shared/calculate-check";
+
+import "dotenv/config";
 
 // PROVIDERS CONFIGS
 const PROVIDERS_COUNT = 3;
@@ -36,6 +38,15 @@ const issuers = [
   'Ana Lima',
 ];
 
+function normalizeName(name: string) {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+}
+
 const banks = [
   '001',
   '033',
@@ -52,7 +63,7 @@ const returnReasons = [
 ];
 
 const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL! })
 });
 
 async function main() {
@@ -62,7 +73,23 @@ async function main() {
 
   await prisma.check.deleteMany();
   await prisma.operation.deleteMany();
+  await prisma.issuer.deleteMany();
   await prisma.provider.deleteMany();
+
+  console.log('👤 Creating issuers...');
+
+  const createdIssuers: Issuer[] = [];
+
+  for (const name of issuers) {
+    const issuer = await prisma.issuer.create({
+      data: {
+        name,
+        normalizedName: normalizeName(name),
+      },
+    });
+
+    createdIssuers.push(issuer);
+  }
 
   console.log('👤 Creating providers...');
 
@@ -163,9 +190,11 @@ async function main() {
 
       console.log(`💰 Cheque ${i + 1}/${checksCount} criado para a operação ${operation.id}`);
 
+      const issuer = faker.helpers.arrayElement(createdIssuers);
+
       await prisma.check.create({
         data: {
-          issuerName: faker.helpers.arrayElement(issuers),
+          issuerId: issuer.id,
 
           bankCode: faker.helpers.arrayElement(banks),
 

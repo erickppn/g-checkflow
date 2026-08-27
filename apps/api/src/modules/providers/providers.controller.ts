@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
@@ -23,19 +23,19 @@ export class ProvidersController {
 
   @ApiOperation({ summary: 'Get provider by ID', })
   @Get(":id")
-  async findById(@Param('id', ParseIntPipe) id: number) {
+  async findById(@Param('id') id: string) {
     return this.providersService.findById(id);
   }
 
   @ApiOperation({ summary: 'Update provider' })
   @Patch(":id")
-  async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateProviderDto) {
+  async update(@Param('id') id: string, @Body() data: UpdateProviderDto) {
     return this.providersService.update(id, data);
   }
 
   @ApiOperation({ summary: 'Delete provider' })
   @Delete(":id")
-  async delete(@Param('id', ParseIntPipe) id: number) {
+  async delete(@Param('id') id: string) {
     return this.providersService.delete(id);
   }
 }

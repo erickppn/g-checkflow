@@ -3,16 +3,12 @@ import { CreateOperationDto } from "../../src/modules/operations/dtos/create-ope
 import { UpdateOperationDto } from "../../src/modules/operations/dtos/update-operation.dto";
 import { makeCreateCheckDto } from "./check.factory";
 
-let id = 0;
-
 export function makeOperation(
   overrides?: Partial<Operation>,
 ): Operation {
-  id += 1;
-
   return {
-    id,
-    providerId: 1,
+    id: crypto.randomUUID(),
+    providerId: crypto.randomUUID(),
     closedAt: null,
 
     createdAt: new Date(),
@@ -26,7 +22,7 @@ export function makeCreateOperationDto(
   overrides?: Partial<CreateOperationDto>,
 ): CreateOperationDto {
   return {
-    providerId: 1,
+    providerId: crypto.randomUUID(),
 
     checks: [
       makeCreateCheckDto(),
@@ -41,7 +37,7 @@ export function makeUpdateOperationDto(
   overrides?: Partial<UpdateOperationDto>,
 ): UpdateOperationDto {
   return {
-    providerId: 1,
+    providerId: crypto.randomUUID(),
 
     checks: [
       makeCreateCheckDto(),

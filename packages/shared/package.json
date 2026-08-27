@@ -16,6 +16,10 @@
     "./calculate-operation-summary": {
       "types": "./src/calculators/operation-summary-calculator.ts",
       "default": "./dist/calculators/operation-summary-calculator.js"
+    },
+    "./normalize-ussuer-name": {
+      "types": "./src/utils/normalize-issuer-name.ts",
+      "default": "./dist/utils/normalize-issuer-name.js"
     }
   },
   "devDependencies": {

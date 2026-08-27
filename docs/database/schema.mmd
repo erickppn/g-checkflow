@@ -7,7 +7,7 @@ RETURNED RETURNED
         }
     
   "providers" {
-    Int id "🗝️"
+    String id "🗝️"
     String name 
     String phone "❓"
     String notes "❓"
@@ -18,8 +18,17 @@ RETURNED RETURNED
     }
   
 
+  "issuers" {
+    String id "🗝️"
+    String name 
+    String normalizedName 
+    DateTime createdAt 
+    DateTime updatedAt 
+    }
+  
+
   "operations" {
-    Int id "🗝️"
+    String id "🗝️"
     DateTime closedAt "❓"
     DateTime createdAt 
     DateTime updatedAt 
@@ -27,8 +36,7 @@ RETURNED RETURNED
   
 
   "checks" {
-    Int id "🗝️"
-    String issuerName 
+    String id "🗝️"
     String bankCode 
     String checkNumber 
     Decimal amount 
@@ -47,5 +55,6 @@ RETURNED RETURNED
     }
   
     "operations" }o--|| providers : "provider"
+    "checks" }o--|| issuers : "issuer"
     "checks" |o--|| "CheckStatus" : "enum:status"
     "checks" }o--|| operations : "operation"

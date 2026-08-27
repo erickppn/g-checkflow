@@ -19,7 +19,7 @@ generator erd {
 }
 
 model Provider {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   name  String
   phone String?
@@ -36,11 +36,24 @@ model Provider {
   @@map("providers")
 }
 
+model Issuer {
+  id             String @id @default(uuid())
+  name           String
+  normalizedName String @unique
+
+  checks Check[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("issuers")
+}
+
 model Operation {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   /// Prestador responsável pela operação
-  providerId Int
+  providerId String
   provider   Provider @relation(fields: [providerId], references: [id])
 
   checks Check[]
@@ -54,11 +67,13 @@ model Operation {
 }
 
 model Check {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   // Dados informados pelo usuário
 
-  issuerName     String
+  issuerId String
+  issuer   Issuer @relation(fields: [issuerId], references: [id])
+
   bankCode       String /// Código do banco (001, 341, 237...)
   checkNumber    String
   amount         Decimal  @db.Decimal(10, 2) /// Valor bruto do cheque
@@ -79,7 +94,7 @@ model Check {
   status       CheckStatus @default(PENDING)
   returnReason String? /// Obrigatório apenas quando status = RETURNED
 
-  operationId Int
+  operationId String
   operation   Operation @relation(fields: [operationId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())

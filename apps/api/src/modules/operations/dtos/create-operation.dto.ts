@@ -1,16 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { ArrayMinSize, IsArray, IsInt, Min, ValidateNested } from "class-validator";
+import { ArrayMinSize, IsArray, IsUUID, ValidateNested } from "class-validator";
 import { CreateCheckDto } from "./create-check.dto";
 
 export class CreateOperationDto {
   @ApiProperty({
-    example: 52,
+    example: "123e4567-e89b-12d3-a456-426614174000",
     description: "Id do prestador responsável por trazer os cheques",
   })
-  @IsInt()
-  @Min(1)
-  providerId!: number;
+  @IsUUID()
+  providerId!: string;
 
   @ApiProperty({
     type: [CreateCheckDto],

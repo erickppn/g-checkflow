@@ -1,6 +1,6 @@
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { OperationsService } from "./operations.service";
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CreateOperationDto } from "./dtos/create-operation.dto";
 import { UpdateOperationDto } from "./dtos/update-operation.dto";
 
@@ -18,7 +18,7 @@ export class ProvidersController {
   @ApiOperation({ summary: 'Update a operation' })
   @Put(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() data: UpdateOperationDto
   ) {
     return this.operationsService.update(id, data);
@@ -31,14 +31,14 @@ export class ProvidersController {
 
   @Get(':id')
   findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
   ) {
     return this.operationsService.findById(id);
   }
 
   @Delete(':id')
   remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
   ) {
     return this.operationsService.delete(id);
   }

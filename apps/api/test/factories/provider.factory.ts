@@ -2,11 +2,10 @@ import { Prisma, Provider } from "../../src/generated/prisma/client";
 import { CreateProviderDto } from "../../src/modules/providers/dto/create-provider.dto";
 import { UpdateProviderDto } from "../../src/modules/providers/dto/update-provider.dto";
 
-let id = 0;
 
 export function makeProvider(overrides?: Partial<Provider>): Provider {
-  id += 1;
-
+  let id = crypto.randomUUID();
+  
   return {
     id,
     name: `Provider Teste ${id}`,
