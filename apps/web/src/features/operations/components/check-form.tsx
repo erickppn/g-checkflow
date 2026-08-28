@@ -14,25 +14,9 @@ import { ItemGroup } from "@/components/ui/item"
 import { banks } from "@/app/_auth/operacoes/nova"
 import { TableCell, TableRow } from "@/components/ui/table"
 import { Plus, SaveCheck, X } from "lucide-react"
-
-const emitentes = [
-  {
-    id: 1,
-    name: "João da Silva",
-  },
-  {
-    id: 2,
-    name: "Maria Souza",
-  },
-  {
-    id: 3,
-    name: "Carlos Oliveira",
-  },
-  {
-    id: 4,
-    name: "Amanda Ribeiro",
-  },
-]
+import { useIssuers } from "@/features/issuers/issuers.queries"
+import { useCreateIssuer } from "@/features/issuers/issuers.mutations"
+import { toast } from "react-toastify"
 
 interface CheckFormProps {
   checks: CalculatedCheck[];
@@ -44,15 +28,38 @@ interface CheckFormProps {
 }
 
 export function CheckForm({
-  checks, 
-  onAddCheck, 
-  currentProvider, 
-  editingCheck, 
-  onCancelEdit, 
-  onUpdateCheck 
+  checks,
+  onAddCheck,
+  currentProvider,
+  editingCheck,
+  onCancelEdit,
+  onUpdateCheck
 }: CheckFormProps) {
   const [draft, setDraft] = useState<DraftCheck>(createEmptyDraft());
   const [errors, setErrors] = useState<Partial<Record<keyof DraftCheck, boolean>>>({});
+
+  const [issuerComboboxOpen, setIssuerComboboxOpen] = useState(false);
+  const [issuerSearch, setIssuerSearch] = useState("");
+  const { data: issuers = [] } = useIssuers(issuerSearch);
+
+  const createIssuer = useCreateIssuer();
+
+  async function handleCreateIssuer() {
+    if (!issuerSearch.trim()) return;
+
+    try {
+      const issuer = await createIssuer.mutateAsync({
+        name: issuerSearch.trim(),
+      })
+
+      updateDraft("issuer", issuer)
+      setIssuerComboboxOpen(false)
+
+      toast.success("Emitente criado com sucesso")
+    } catch {
+      toast.error("Não foi possível criar o emitente")
+    }
+  }
 
   const issuerInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,8 +81,8 @@ export function CheckForm({
   function handleAddCheck() {
     const newErrors: Partial<Record<keyof DraftCheck, boolean>> = {}
 
-    if (!draft.issuerName) {
-      newErrors.issuerName = true
+    if (!draft.issuer) {
+      newErrors.issuer = true
     }
 
     if (!draft.bankCode) {
@@ -104,7 +111,7 @@ export function CheckForm({
     const check: CalculatedCheck = {
       id: editingCheck?.id ?? crypto.randomUUID(),
 
-      issuerName: draft.issuerName,
+      issuer: draft.issuer!,
       bankCode: draft.bankCode,
       checkNumber: draft.checkNumber,
 
@@ -136,7 +143,7 @@ export function CheckForm({
 
   function createEmptyDraft(): DraftCheck {
     return {
-      issuerName: "",
+      issuer: null,
       bankCode: "",
       checkNumber: "",
       amount: "",
@@ -158,7 +165,7 @@ export function CheckForm({
 
   function createDraftFromCheck(check: CalculatedCheck): DraftCheck {
     return {
-      issuerName: check.issuerName,
+      issuer: check.issuer,
       bankCode: check.bankCode,
       checkNumber: check.checkNumber,
       amount: String(check.amount),
@@ -221,26 +228,55 @@ export function CheckForm({
       {/* Emitente */}
       <TableCell>
         <Combobox
-          items={emitentes}
-          value={draft.issuerName}
-          onInputValueChange={(e) => updateDraft("issuerName", e)}
+          items={issuers}
+          value={draft.issuer}
+          onValueChange={(issuer) => {
+            updateDraft("issuer", issuer)
+          }}
+          onInputValueChange={(value) => {
+            setIssuerSearch(value)
+          }}
+
+          itemToStringLabel={(issuer) => issuer.name}
+
+          open={issuerComboboxOpen}
+          onOpenChange={setIssuerComboboxOpen}
+
           required
         >
           <ComboboxInput
             placeholder="Emitente"
             showTrigger={false}
-            aria-invalid={errors.issuerName}
+            aria-invalid={errors.issuer}
             ref={issuerInputRef}
           />
 
-          <ComboboxContent>
-            <ComboboxEmpty className="text-xs w-50">Nenhum emitente encontrado.</ComboboxEmpty>
+          <ComboboxContent className="w-max max-w-80">
+            <ComboboxEmpty>
+              <div className="flex flex-col">
+                <span className="block text-xs text-muted-foreground">
+                  Nenhum emitente encontrado.
+                </span>
+
+                {issuerSearch && (
+                  <Button
+                    type="button"
+                    size="sm"
+                    className=" mt-2 w-full text-center"
+                    onClick={handleCreateIssuer}
+                  >
+                    + Criar "{issuerSearch}"
+                  </Button>
+                )}
+              </div>
+            </ComboboxEmpty>
 
             <ComboboxList>
               {(issuer) => (
                 <ComboboxItem
                   key={issuer.id}
-                  value={issuer.name}
+                  value={issuer}
+                  className="cursor-pointer"
                 >
                   <span className="text-muted-foreground">
                     {issuer.name}

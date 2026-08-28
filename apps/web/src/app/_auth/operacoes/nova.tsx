@@ -17,6 +17,7 @@ import { useCreateOperation } from "@/features/operations/operations.mutations"
 import { ChecksTable } from "@/features/operations/components/checks-table"
 import type { CalculatedCheck } from "@/features/operations/types/check.types"
 import { toast } from "react-toastify"
+import type { CreateOperationInput } from "@/features/operations/types/operation.types"
 
 export const banks = [
   {
@@ -132,10 +133,11 @@ function RouteComponent() {
       return toast.error("Não é possível criar operação sem cheques");
     }
 
-    const payload = {
+    const payload: CreateOperationInput = {
       providerId: selectedProvider.id,
+      
       checks: checks.map((check) => ({
-        issuerName: check.issuerName,
+        issuerId: check.issuer.id,
         bankCode: check.bankCode,
         checkNumber: check.checkNumber,
         amount: check.amount,

@@ -223,7 +223,11 @@ describe('OperationsService', () => {
 
         include: {
           provider: true,
-          checks: true,
+          checks: {
+            include: {
+              issuer: true
+            }
+          },
         },
       });
 

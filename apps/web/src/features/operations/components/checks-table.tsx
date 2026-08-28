@@ -111,7 +111,7 @@ export function ChecksTable({
                 </TableCell>
 
                 <TableCell>
-                  {check.issuerName}
+                  {check.issuer.name}
                 </TableCell>
 
                 <TableCell>

@@ -1,3 +1,5 @@
+import type { Issuer } from "@/features/issuers/types/issuers.types";
+
 export type CheckStatus =
   | "PENDING"
   | "COMPENSATED"
@@ -6,7 +8,7 @@ export type CheckStatus =
 export interface CheckBase {
   id: string;
 
-  issuerName: string;
+  issuerId: string;
 
   bankCode: string;
   checkNumber: string;
@@ -32,10 +34,12 @@ export interface Check extends CheckBase {
 
   createdAt: string;
   updatedAt: string;
+
+  issuer: Issuer
 }
 
 export interface DraftCheck {
-  issuerName: string
+  issuer: Issuer | null
   bankCode: string
   checkNumber: string
   amount: string
@@ -47,7 +51,7 @@ export interface DraftCheck {
 
 export interface CalculatedCheck {
   id: string,
-  issuerName: string
+  issuer: Issuer
   bankCode: string
   checkNumber: string
   amount: number
@@ -63,7 +67,7 @@ export interface CalculatedCheck {
 }
 
 export interface CreateCheckInput {
-  issuerName: string
+  issuerId: string
   bankCode: string
   checkNumber: string
   amount: number
