@@ -146,9 +146,13 @@ export function getOperationCheckColumns(
                       <span>
                         Motivo da devolução
                       </span>
-                    ) : (
+                    ) : statusLabels[status] === "Compensado" ? (
                       <span>
                         Cheque compensado
+                      </span>
+                    ) : (
+                      <span>
+                        Cheque pendente
                       </span>
                     )}
                   </p>
