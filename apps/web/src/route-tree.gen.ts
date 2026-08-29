@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './app/__root'
 import { Route as PageRouteImport } from './app/page'
 import { Route as AuthLayoutRouteImport } from './app/_auth/layout'
 import { Route as AuthChequesPageRouteImport } from './app/_auth/cheques/page'
+import { Route as AuthDashboardPageRouteImport } from './app/_auth/dashboard/page'
 import { Route as AuthOperacoesNovaRouteImport } from './app/_auth/operacoes/nova'
 import { Route as AuthPrestadoresPageRouteImport } from './app/_auth/prestadores/page'
 import { Route as AuthPrestadoresNovoRouteImport } from './app/_auth/prestadores/novo'
@@ -30,6 +31,11 @@ const AuthLayoutRoute = AuthLayoutRouteImport.update({
 const AuthChequesPageRoute = AuthChequesPageRouteImport.update({
   id: '/cheques/',
   path: '/cheques/',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthDashboardPageRoute = AuthDashboardPageRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
 const AuthOperacoesNovaRoute = AuthOperacoesNovaRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/operacoes/nova': typeof AuthOperacoesNovaRoute
   '/prestadores/novo': typeof AuthPrestadoresNovoRoute
   '/cheques/': typeof AuthChequesPageRoute
+  '/dashboard/': typeof AuthDashboardPageRoute
   '/prestadores/': typeof AuthPrestadoresPageRoute
   '/prestadores/$id/editar': typeof AuthPrestadoresIdEditarRoute
   '/operacoes/$id/': typeof AuthOperacoesIdPageRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByTo {
   '/operacoes/nova': typeof AuthOperacoesNovaRoute
   '/prestadores/novo': typeof AuthPrestadoresNovoRoute
   '/cheques': typeof AuthChequesPageRoute
+  '/dashboard': typeof AuthDashboardPageRoute
   '/prestadores': typeof AuthPrestadoresPageRoute
   '/prestadores/$id/editar': typeof AuthPrestadoresIdEditarRoute
   '/operacoes/$id': typeof AuthOperacoesIdPageRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   '/_auth/operacoes/nova': typeof AuthOperacoesNovaRoute
   '/_auth/prestadores/novo': typeof AuthPrestadoresNovoRoute
   '/_auth/cheques/': typeof AuthChequesPageRoute
+  '/_auth/dashboard/': typeof AuthDashboardPageRoute
   '/_auth/prestadores/': typeof AuthPrestadoresPageRoute
   '/_auth/prestadores/$id/editar': typeof AuthPrestadoresIdEditarRoute
   '/_auth/operacoes/$id/': typeof AuthOperacoesIdPageRoute
@@ -94,6 +103,7 @@ export interface FileRouteTypes {
     | '/operacoes/nova'
     | '/prestadores/novo'
     | '/cheques/'
+    | '/dashboard/'
     | '/prestadores/'
     | '/prestadores/$id/editar'
     | '/operacoes/$id/'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/operacoes/nova'
     | '/prestadores/novo'
     | '/cheques'
+    | '/dashboard'
     | '/prestadores'
     | '/prestadores/$id/editar'
     | '/operacoes/$id'
@@ -113,6 +124,7 @@ export interface FileRouteTypes {
     | '/_auth/operacoes/nova'
     | '/_auth/prestadores/novo'
     | '/_auth/cheques/'
+    | '/_auth/dashboard/'
     | '/_auth/prestadores/'
     | '/_auth/prestadores/$id/editar'
     | '/_auth/operacoes/$id/'
@@ -144,6 +156,13 @@ declare module '@tanstack/react-router' {
       path: '/cheques'
       fullPath: '/cheques/'
       preLoaderRoute: typeof AuthChequesPageRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/dashboard/': {
+      id: '/_auth/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthDashboardPageRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
     '/_auth/operacoes/nova': {
@@ -188,6 +207,7 @@ interface AuthLayoutRouteChildren {
   AuthOperacoesNovaRoute: typeof AuthOperacoesNovaRoute
   AuthPrestadoresNovoRoute: typeof AuthPrestadoresNovoRoute
   AuthChequesPageRoute: typeof AuthChequesPageRoute
+  AuthDashboardPageRoute: typeof AuthDashboardPageRoute
   AuthPrestadoresPageRoute: typeof AuthPrestadoresPageRoute
   AuthPrestadoresIdEditarRoute: typeof AuthPrestadoresIdEditarRoute
   AuthOperacoesIdPageRoute: typeof AuthOperacoesIdPageRoute
@@ -197,6 +217,7 @@ const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
   AuthOperacoesNovaRoute: AuthOperacoesNovaRoute,
   AuthPrestadoresNovoRoute: AuthPrestadoresNovoRoute,
   AuthChequesPageRoute: AuthChequesPageRoute,
+  AuthDashboardPageRoute: AuthDashboardPageRoute,
   AuthPrestadoresPageRoute: AuthPrestadoresPageRoute,
   AuthPrestadoresIdEditarRoute: AuthPrestadoresIdEditarRoute,
   AuthOperacoesIdPageRoute: AuthOperacoesIdPageRoute,

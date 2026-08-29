@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
-import { ChevronUp, FilePlus, ReceiptText, UserRound, Users } from "lucide-react";
+import { ChevronUp, FilePlus, ReceiptText, UserRound, UsersRound } from "lucide-react";
 
 export function MobileNavigation() {
   return (
@@ -36,7 +36,7 @@ export function MobileNavigation() {
         data-[status=active]:text-blue-500
         hover:bg-slate-100
       ">
-        <Users
+        <UsersRound
           size={20}
           className="transition-transform group-data-[status=active]:scale-110"
         />
