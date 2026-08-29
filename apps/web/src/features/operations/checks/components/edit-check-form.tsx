@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import type { Check, DraftCheck } from "../checks/types/check.types"
+import type { Check, DraftCheck } from "../types/check.types"
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox"
@@ -10,7 +10,7 @@ import { ItemGroup } from "@/components/ui/item"
 import { banks } from "@/app/_auth/operacoes/nova"
 import { Input } from "@/components/ui/input"
 import { calculateCheck } from "@g-checkflow/shared/calculate-check"
-import { useUpdateCheck } from "../checks/checks.mutations"
+import { useUpdateCheck } from "../checks.mutations"
 import { parseDecimal } from "@/utils"
 
 interface EditCheckFormProps {

@@ -1,13 +1,13 @@
 import type { ColumnDef } from "@tanstack/react-table"
 
-import type { Check } from "../checks/types/check.types"
+import type { Check } from "../types/check.types"
 import { banks } from "@/app/_auth/operacoes/nova"
 import { currencyFormatter } from "@/utils"
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { CircleCheck, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import type { CheckAction } from "../checks/components/operation-checks-table"
+import type { CheckAction } from "../components/operation-checks-table"
 
 const statusLabels = {
   PENDING: "Pendente",
