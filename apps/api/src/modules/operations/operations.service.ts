@@ -3,7 +3,6 @@ import { PrismaService } from "../../infra/database/prisma.service";
 import { CreateOperationDto } from "./dtos/create-operation.dto";
 import { calculateCheck } from "@g-checkflow/shared/calculate-check";
 import { calculateOperationSummary } from "@g-checkflow/shared/calculate-operation-summary"
-import { UpdateOperationDto } from "./dtos/update-operation.dto";
 
 @Injectable()
 export class OperationsService {
@@ -97,53 +96,6 @@ export class OperationsService {
     }
   }
 
-  async update(id: string, data: UpdateOperationDto) {
-    await this.findOperationOrFail(id);
-
-    const provider = await this.findProviderOrFail(data.providerId);
-
-    const calculatedChecks = data.checks.map((check) => {
-      const calculatedFinancials = calculateCheck(check);
-
-      return {
-        ...check,
-        ...calculatedFinancials,
-      };
-    });
-
-    const summary = calculateOperationSummary(calculatedChecks);
-
-    const updatedOperation = await this.prisma.operation.update({
-      where: {
-        id,
-      },
-
-      data: {
-        providerId: provider.id,
-
-        checks: {
-          deleteMany: {},
-
-          create: calculatedChecks,
-        },
-      },
-
-      include: {
-        provider: true,
-        checks: {
-          include: {
-            issuer: true
-          }
-        },
-      },
-    });
-
-    return {
-      operation: updatedOperation,
-      summary,
-    }
-  }
-
   async findAll() {
     return this.prisma.operation.findMany({
       include: {
@@ -172,7 +124,15 @@ export class OperationsService {
 
     if (!operation) throw new NotFoundException('Operation not found');
 
-    return operation;
+    return {
+      ...operation,
+      checks: operation.checks.map((check) => ({
+        ...check,
+        amount: Number(check.amount),
+        interest: Number(check.interest),
+        netAmount: Number(check.netAmount),
+      })),
+    };
   }
 
   async delete(id: string) {

@@ -6,11 +6,11 @@ import { Kbd } from "@/components/ui/kbd";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter } from "@/components/ui/table";
 
 import { currencyFormatter } from "@/utils";
-import { CheckForm } from "./check-form";
+import { CheckForm } from "../checks/components/create-check-form";
 
 import { banks } from "@/app/_auth/operacoes/nova";
 import type { ProviderWithOperationsCount } from "@/features/providers/types/provider.types";
-import type { CalculatedCheck } from "../types/check.types";
+import type { CalculatedCheck } from "../checks/types/check.types";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
@@ -22,7 +22,7 @@ interface ChecksTableProps {
   onRemoveCheck: (checkId: string) => void;
 }
 
-export function ChecksTable({
+export function CreateOperationChecks({
   checks,
   onAddCheck,
   currentProvider,

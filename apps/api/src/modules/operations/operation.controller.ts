@@ -2,26 +2,16 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { OperationsService } from "./operations.service";
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { CreateOperationDto } from "./dtos/create-operation.dto";
-import { UpdateOperationDto } from "./dtos/update-operation.dto";
 
 @ApiTags('Operations')
 @Controller('operations')
-export class ProvidersController {
+export class OperationsController {
   constructor(private readonly operationsService: OperationsService) { }
 
   @ApiOperation({ summary: 'Create a operation' })
   @Post()
   async create(@Body() data: CreateOperationDto) {
     return this.operationsService.create(data);
-  }
-
-  @ApiOperation({ summary: 'Update a operation' })
-  @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() data: UpdateOperationDto
-  ) {
-    return this.operationsService.update(id, data);
   }
 
   @Get()

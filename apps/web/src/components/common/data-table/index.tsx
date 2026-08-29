@@ -7,8 +7,8 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[],
 
-  sorting: SortingState,
-  globalFilter: string,
+  sorting?: SortingState,
+  globalFilter?: string,
 }
 export function DataTable<TData, TValue>({
   sorting,
@@ -36,16 +36,19 @@ export function DataTable<TData, TValue>({
       <div className="flex-1 min-h-0 overflow-auto">
         <Table className="min-w-200">
           <TableHeader
-            className="bg-slate-100 border-t"
+            className="border-t"
           >
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="" key={headerGroup.id}>
+              <TableRow 
+                className="bg-muted hover:bg-muted/90 uppercase text-[11px] font-bold tracking-wider" 
+                key={headerGroup.id}
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
                       className="
-                        sticky top-0 z-10 bg-slate-100 text-slate-700 first:pl-6 last:pr-6 
+                        sticky top-0 z-10 first:pl-6 last:pr-6 
                         max-sm:first:pl-3 max-sm:last:pl-3
                     ">
                       {header.isPlaceholder

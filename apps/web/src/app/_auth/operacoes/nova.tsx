@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { createFileRoute } from "@tanstack/react-router"
-import { Clock3, Percent } from "lucide-react"
+import { Clock3, Percent, Save } from "lucide-react"
 
 import { PageTitle } from "@/components/common/page-title"
 import { PageContainer } from "@/components/layout/page-container"
@@ -14,8 +14,8 @@ import type { ProviderWithOperationsCount } from "@/features/providers/types/pro
 
 import { useCreateOperation } from "@/features/operations/operations.mutations"
 
-import { ChecksTable } from "@/features/operations/components/checks-table"
-import type { CalculatedCheck } from "@/features/operations/types/check.types"
+import { CreateOperationChecks } from "@/features/operations/components/create-operation-checks"
+import type { CalculatedCheck } from "@/features/operations/checks/types/check.types"
 import { toast } from "react-toastify"
 import type { CreateOperationInput } from "@/features/operations/types/operation.types"
 
@@ -80,6 +80,10 @@ export const banks = [
     code: "070",
     name: "BRB",
   },
+  {
+    code: "504",
+    name: "Multiplic S.A"
+  }
 ]
 
 export const Route = createFileRoute("/_auth/operacoes/nova")({
@@ -253,7 +257,7 @@ function RouteComponent() {
             flex gap-5 min-h-0 flex-1 
             max-xl:flex-col
           "> 
-            <ChecksTable
+            <CreateOperationChecks
               checks={checks}
               onAddCheck={handleAddCheck}
               currentProvider={selectedProvider}
@@ -263,8 +267,11 @@ function RouteComponent() {
 
             <SummaryCard
               checks={checks}
-              onSubmitOperation={handleCreateOperation}
+              onAction={handleCreateOperation}
               isSaving={createOperation.isPending}
+
+              actionIcon={<Save />}
+              actionLabel="Salvar operação"
             />
           </div>
         </div>

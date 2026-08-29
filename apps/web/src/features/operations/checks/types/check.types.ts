@@ -10,11 +10,13 @@ export interface CheckBase {
 
   issuerId: string;
 
+  operationId: string
+
   bankCode: string;
   checkNumber: string;
 
-  amount: string;
-  interestRate: string;
+  amount: number;
+  interestRate: number;
 
   issueDate: string;
   dueDate: string;
@@ -26,8 +28,8 @@ export interface Check extends CheckBase {
   days: number;
   totalDays: number;
 
-  interest: string;
-  netAmount: string;
+  interest: number;
+  netAmount: number;
 
   status: CheckStatus;
   returnReason: string | null;
@@ -75,4 +77,41 @@ export interface CreateCheckInput {
   issueDate: string
   dueDate: string
   additionalDays: number
+}
+
+export interface UpdateCheckInput {
+  issuerId?: string
+  bankCode?: string
+  checkNumber?: string
+  amount?: number
+  interestRate?: number
+  issueDate?: string
+  dueDate?: string
+  additionalDays?: number
+}
+
+export interface ReturnCheckInput {
+  returnReason: string
+}
+
+export interface UpdateCheckMutationInput {
+  id: string
+  data: UpdateCheckInput
+}
+
+export interface ReturnCheckMutationInput {
+  id: string
+  data: ReturnCheckInput
+}
+
+export interface CheckActionResponse {
+  check: Check;
+  operation: {
+    closedAt: string | null;
+  };
+}
+
+export interface DeleteCheckResponse {
+  operationId: string;
+  closedAt: string | null;
 }

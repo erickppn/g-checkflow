@@ -1,20 +1,22 @@
 import { useMemo } from "react";
-import { BarChart3, DollarSign, Loader2, Percent, Save } from "lucide-react";
+import { BarChart3, DollarSign, Loader2, Percent } from "lucide-react";
 
 import { calculateOperationSummary } from "@g-checkflow/shared/calculate-operation-summary";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import type { CalculatedCheck } from "@/features/operations/types/check.types";
+import type { CalculatedCheck, Check } from "@/features/operations/checks/types/check.types";
 import { currencyFormatter } from "@/utils";
 
 interface SummaryCardProps {
-  checks: CalculatedCheck[],
-  onSubmitOperation: () => void;
-  isSaving: boolean
+  checks: CalculatedCheck[] | Check[];
+  onAction: () => void;
+  actionLabel?: string
+  actionIcon?: React.ReactNode
+  isSaving?: boolean
 }
 
-export function SummaryCard({ checks, onSubmitOperation, isSaving }: SummaryCardProps) {
+export function SummaryCard({ checks, onAction, actionIcon, actionLabel, isSaving }: SummaryCardProps) {
   const summary = useMemo(() => {
     return calculateOperationSummary(checks);
   }, [checks]);
@@ -95,14 +97,15 @@ export function SummaryCard({ checks, onSubmitOperation, isSaving }: SummaryCard
         <div className="mt-4 mx-4 flex items-center max-xl:basis-full max-xl:my-2">
           <Button 
             className="w-full py-4" 
-            onClick={onSubmitOperation}
+            onClick={onAction}
             disabled={isSaving}
           >
             { !isSaving ? (
               <>
-                <Save />
+                {actionIcon}
+
                 <span className="max-md:hidden">
-                  Salvar operação
+                  {actionLabel}
                 </span>
               </>
             ) : (

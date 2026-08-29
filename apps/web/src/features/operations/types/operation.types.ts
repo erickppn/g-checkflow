@@ -1,5 +1,5 @@
 import type { Provider } from "../../providers/types/provider.types";
-import type { Check, CreateCheckInput } from "./check.types";
+import type { Check, CreateCheckInput } from "../checks/types/check.types";
 
 export interface OperationBase {
   id: string;
