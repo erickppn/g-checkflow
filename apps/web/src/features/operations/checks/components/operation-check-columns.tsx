@@ -5,9 +5,10 @@ import { banks } from "@/app/_auth/operacoes/nova"
 import { currencyFormatter } from "@/utils"
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button"
-import { CircleCheck, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-react"
+import { CircleCheck, Info, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import type { CheckAction } from "../components/operation-checks-table"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 const statusLabels = {
   PENDING: "Pendente",
@@ -114,11 +115,53 @@ export function getOperationCheckColumns(
       header: "Status",
       cell: ({ row }) => {
         const status = row.original.status;
+        const check = row.original
 
         return (
-          <span>
-            {statusLabels[status]}
-          </span>
+          <div>
+            <HoverCard>
+              <HoverCardTrigger
+                className="flex items-center gap-1.5 cursor-help"
+                render={
+                  <Button
+                    variant="ghost"
+                    className={
+                      status === "COMPENSATED"
+                        ? "text-emerald-600 hover:text-emerald-700"
+                        : status === "RETURNED"
+                        ? "text-red-600 hover:text-red-700"
+                        : ""
+                  }>
+                    <Info className="size-3.5" />
+
+                    <span>{statusLabels[status]}</span>
+                  </Button>}
+              />
+
+              <HoverCardContent>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium">
+
+                    {statusLabels[status] === "Devolvido" ? (
+                      <span>
+                        Motivo da devolução
+                      </span>
+                    ) : (
+                      <span>
+                        Cheque compensado
+                      </span>
+                    )}
+                  </p>
+
+                  {statusLabels[status] === "Devolvido" && (
+                    <p className="text-sm text-muted-foreground">
+                      {check.returnReason}
+                    </p>
+                  )}
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
         );
       },
     },
@@ -172,7 +215,7 @@ export function getOperationCheckColumns(
                   <>
                     <DropdownMenuSeparator />
 
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       onClick={() => setCheckAction({
                         type: "compensate",
                         check
@@ -182,7 +225,7 @@ export function getOperationCheckColumns(
                       Compensar
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       onClick={() => setCheckAction({
                         type: "return",
                         check
