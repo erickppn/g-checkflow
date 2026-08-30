@@ -1,7 +1,6 @@
-import { ChevronDown, LayoutDashboard, Plus, ReceiptText, UserRound, UsersRound } from "lucide-react";
+import { ChevronDown, LayoutDashboard, ReceiptText, UserRound, UsersRound } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
-import { Button } from "../ui/button";
 
 export function Header() {
   return (
@@ -98,12 +97,6 @@ export function Header() {
       </div>
 
       <div className="flex gap-4 items-center">
-        <Button variant="outline" render={
-          <Link to='/operacoes/nova' />
-        }>
-          <Plus data-icon="inline-start" /> Nova Operação
-        </Button>
-
         <DropdownMenu>
           <DropdownMenuTrigger>
             <div className="flex gap-2.5 items-center px-2 py-1 rounded-lg hover:bg-slate-100 transition cursor-pointer">
