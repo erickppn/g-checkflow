@@ -3,7 +3,7 @@ import { PageContainer } from "@/components/layout/page-container"
 import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { format } from "date-fns";
-import { AlertCircle, ArrowRight, ArrowUpRight, Plus } from "lucide-react";
+import { AlertCircle, ArrowUpRight, Plus } from "lucide-react";
 
 export const Route = createFileRoute("/_auth/dashboard/")({
   component: RouteComponent,
