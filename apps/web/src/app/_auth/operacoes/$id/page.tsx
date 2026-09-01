@@ -23,9 +23,6 @@ function RouteComponent() {
 
   const { data: operation } = useOperation(id);
 
-  console.log(operation);
-
-
   return (
     <div className="flex flex-1 overflow-hidden flex-col min-w-0">
       <section className="

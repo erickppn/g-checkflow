@@ -1,8 +1,22 @@
 import { ChevronDown, LayoutDashboard, ReceiptText, UserRound, UsersRound } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useLogout } from "@/features/auth/auth.mutations";
 
 export function Header() {
+  const { data: user } = useCurrentUser();
+
+  const logout = useLogout();
+
+  function handleLogout() {
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        window.location.href = "/";
+      }
+    });
+  }
+
   return (
     <header className="
       flex justify-between w-full px-8 bg-white border-b border-slate-200 shadow-xs 
@@ -40,7 +54,7 @@ export function Header() {
               group relative h-full flex items-center py-3 
               data-[status=active]:text-blue-500 data-[status=active]:border-blue-400
           ">
-            <div className="flex gap-1 items-center rounded-md px-2.5 py-1.5 transition-colors group-data-[status=active]:bg-slate-100 group-hover:bg-slate-100">
+            <div className="flex gap-1 items-center rounded-md px-2.5 py-1.5 transition-colors group-hover:bg-slate-100">
               <LayoutDashboard size={16} />
 
               <span>
@@ -53,14 +67,14 @@ export function Header() {
               group-data-[status=active]:w-full
             "/>
           </Link>
-          
+
           <Link
             to="/cheques"
             className="
               group relative h-full flex items-center py-3 
               data-[status=active]:text-blue-500 data-[status=active]:border-blue-400
           ">
-            <div className="flex gap-1 items-center rounded-md px-2.5 py-1.5 transition-colors group-data-[status=active]:bg-slate-100 group-hover:bg-slate-100">
+            <div className="flex gap-1 items-center rounded-md px-2.5 py-1.5 transition-colors group-hover:bg-slate-100">
               <ReceiptText size={16} />
 
               <span>
@@ -80,7 +94,7 @@ export function Header() {
               group relative h-full flex items-center py-3 
               data-[status=active]:text-blue-500 data-[status=active]:border-blue-400
           ">
-            <div className="flex gap-1 items-center rounded-md px-2.5 py-1.5 transition-colors group-data-[status=active]:bg-slate-100 group-hover:bg-slate-100">
+            <div className="flex gap-1 items-center rounded-md px-2.5 py-1.5 transition-colors group-hover:bg-slate-100">
               <UsersRound size={18} />
 
               <span>
@@ -109,7 +123,7 @@ export function Header() {
                   font-sembold text-sm text-slate-600 
                   max-lg:hidden
                 ">
-                  Gustavo
+                  {user?.email}
                 </span>
 
                 <ChevronDown className="text-slate-400 size-5" />
@@ -129,8 +143,12 @@ export function Header() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem variant="destructive">
-                Sair
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={handleLogout}
+                disabled={logout.isPending}
+              >
+                {logout.isPending ? "Saindo..." : "Sair"}
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

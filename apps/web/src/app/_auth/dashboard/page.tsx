@@ -11,6 +11,7 @@ export const Route = createFileRoute("/_auth/dashboard/")({
 
 function RouteComponent() {
   const date = format(new Date(), "EEEE, dd 'DE' MMMM 'DE' yyyy").toUpperCase();
+  const { user } = Route.useRouteContext();
 
   return (
     <PageContainer className="max-w-360">
@@ -21,7 +22,7 @@ function RouteComponent() {
           </span>
 
           <PageTitle
-            title="Bom dia, Potencial Jeans."
+            title={`Bom dia, ${user.name}`}
             subtitle="Aqui está o que precisa da sua atenção hoje."
           />
         </div>
