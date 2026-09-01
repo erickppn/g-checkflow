@@ -27,6 +27,7 @@ export class AuthController {
       secure: process.env.NODE_ENV === "production" || sameSiteEnv === "none",
       sameSite: sameSiteEnv,
       maxAge: 60 * 60 * 1000,
+      path: "/",
     });
 
     return {
@@ -36,7 +37,9 @@ export class AuthController {
   }
 
   @Get("me")
-  me(@Req() request: AuthenticatedRequest) {
+  me(@Req() request: AuthenticatedRequest, @Res({ passthrough: true }) response: Response) {
+    response.setHeader("Cache-Control", "no-store");
+
     if (!request.user) {
       throw new UnauthorizedException();
     }
@@ -46,7 +49,14 @@ export class AuthController {
 
   @Post("logout")
   logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie("access_token");
+    const sameSiteEnv = (process.env.COOKIE_SAME_SITE as "lax" | "none") || "lax";
+
+    response.clearCookie("access_token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production" || sameSiteEnv === "none",
+      sameSite: sameSiteEnv,
+      path: "/",
+    });
 
     return {
       message: "Logout realizado com sucesso",
