@@ -4,14 +4,16 @@
   
   "globalEnv": [
     "DATABASE_URL",
-    "FRONTEND_URL"
+    "FRONTEND_URL",
+    "JWT_SECRET",
+    "COOKIE_SAME_SITE"
   ],
 
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**"],
+      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]
