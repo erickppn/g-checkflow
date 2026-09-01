@@ -33,6 +33,8 @@ model Provider {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  user User?
+
   @@map("providers")
 }
 
@@ -107,4 +109,24 @@ enum CheckStatus {
   PENDING
   COMPENSATED
   RETURNED
+}
+
+enum UserRole {
+  MASTER
+  PROVIDER
+}
+
+model User {
+  id String @id @default(uuid())
+
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+
+  providerId String?   @unique
+  provider   Provider? @relation(fields: [providerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

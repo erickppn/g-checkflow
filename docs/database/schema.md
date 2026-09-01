@@ -7,6 +7,13 @@ COMPENSATED COMPENSATED
 RETURNED RETURNED
         }
     
+
+
+        UserRole {
+            MASTER MASTER
+PROVIDER PROVIDER
+        }
+    
   "providers" {
     String id "🗝️"
     String name 
@@ -55,8 +62,21 @@ RETURNED RETURNED
     DateTime updatedAt 
     }
   
+
+  "User" {
+    String id "🗝️"
+    String name 
+    String email 
+    String passwordHash 
+    UserRole role 
+    DateTime createdAt 
+    DateTime updatedAt 
+    }
+  
     "operations" }o--|| providers : "provider"
     "checks" }o--|| issuers : "issuer"
     "checks" |o--|| "CheckStatus" : "enum:status"
     "checks" }o--|| operations : "operation"
+    "User" |o--|| "UserRole" : "enum:role"
+    "User" |o--|o providers : "provider"
 ```

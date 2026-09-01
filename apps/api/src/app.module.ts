@@ -5,14 +5,20 @@ import { ProvidersModule } from './modules/providers/providers.module';
 import { ConfigModule } from '@nestjs/config';
 import { OperationsModule } from './modules/operations/operation.module';
 import { IssuersModule } from './modules/issuers/issuers.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
 
     ProvidersModule,
     OperationsModule,
-    IssuersModule
+    IssuersModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
