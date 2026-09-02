@@ -8,6 +8,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { format } from 'date-fns';
 import { CheckCircle2, CircleDot, Clock3, FileText, Percent } from 'lucide-react';
 
+type checkSearch = {
+  checkId?: string 
+}
+
 export const Route = createFileRoute('/_auth/operacoes/$id/')({
   loader: ({ context: { queryClient }, params: { id } }) => {
     return queryClient.ensureQueryData(
@@ -15,9 +19,11 @@ export const Route = createFileRoute('/_auth/operacoes/$id/')({
     )
   },
 
-  validateSearch: (search: Record<string, unknown>) => ({
-    checkId: search.checkId as string | undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): checkSearch => {
+    return {
+      checkId: typeof search.checkId === 'string' ? search.checkId : undefined,
+    }
+  },
 
   component: RouteComponent,
 })
