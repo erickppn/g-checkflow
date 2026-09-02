@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import type { Check } from "../types/check.types"
 import { banks } from "@/app/_auth/operacoes/nova"
 import { currencyFormatter } from "@/utils"
-import { format } from "date-fns"
+import { addDays, format } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { CircleCheck, Info, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -31,7 +31,7 @@ export function getOperationCheckColumns(
         return (
           <>
             {isSelected && (<span className="absolute inset-y-0 left-0 w-0.75 bg-blue-500" />)}
-            
+
             <span>{row.original.issuer.name}</span>
           </>
         )
@@ -71,7 +71,13 @@ export function getOperationCheckColumns(
       cell: ({ row }) => (
         <span>
           {format(row.original.issueDate, "dd/MM/yyyy")} —{" "}
-          {format(row.original.dueDate, "dd/MM/yyyy")}
+          {format(
+            addDays(
+              new Date(row.original.dueDate),
+              row.original.additionalDays,
+            ),
+            "dd/MM/yyyy",
+          )}
         </span>
       ),
     },

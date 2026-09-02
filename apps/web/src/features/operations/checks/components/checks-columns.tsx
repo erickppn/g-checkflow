@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import type { CheckListItem } from "../types/check.types";
 import { currencyFormatter } from "@/utils";
 import { banks } from "@/app/_auth/operacoes/nova";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 
 export const checksColumns: ColumnDef<CheckListItem>[] = [
   {
@@ -72,10 +72,24 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
     cell: ({ row }) => {
       return (
         <span className="text-muted-foreground">
-          {format(row.original.issueDate, "dd/MM/yyyy")}
+          {format(
+            addDays(
+              new Date(row.original.dueDate),
+              row.original.additionalDays,
+            ),
+            "dd/MM/yyyy",
+          )}
         </span>
       );
     },
+  },
+
+  {
+    accessorKey: "additionalDays",
+    header: "Comp.",
+    cell: ({ row }) => (
+      <span className="ml-3">{row.original.additionalDays}</span>
+    ),
   },
 
   {
