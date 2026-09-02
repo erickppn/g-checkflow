@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 interface OperationChecksTableProps {
   checks: Check[];
+  selectedRowId?: string
 }
 
 export type CheckAction =
@@ -20,11 +21,11 @@ export type CheckAction =
   | { type: "delete"; check: Check }
   | { type: "return"; check: Check };
 
-export function OperationChecksTable({ checks }: OperationChecksTableProps) {
+export function OperationChecksTable({ checks, selectedRowId }: OperationChecksTableProps) {
   const [checkAction, setCheckAction] = useState<CheckAction | null>(null);
   const [returnReason, setReturnReason] = useState("");
 
-  const columns = getOperationCheckColumns(setCheckAction);
+  const columns = getOperationCheckColumns(setCheckAction, selectedRowId);
 
   const compensateCheck = useCompensateCheck();
   const returnCheck = useReturnCheck();
@@ -99,6 +100,7 @@ export function OperationChecksTable({ checks }: OperationChecksTableProps) {
       <DataTable
         columns={columns}
         data={checks}
+        label="cheque(s)"
       />
 
       {/* Editar Cheque */}

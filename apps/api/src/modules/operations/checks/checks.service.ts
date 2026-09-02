@@ -5,6 +5,8 @@ import { calculateCheck } from "@g-checkflow/shared/calculate-check";
 import { CheckStatus } from "../../../generated/prisma/enums";
 import { ReturnCheckDto } from "./dtos/return-check.dto";
 import { Check } from "../../../generated/prisma/client";
+import { GetChecksQueryDto } from "./dtos/get-checks-query.dto";
+import { CheckWhereInput } from "../../../generated/prisma/models";
 
 function serializeCheck(check: Check) {
   return {
@@ -72,6 +74,67 @@ export class ChecksService {
     });
 
     return closedOperation.closedAt;
+  }
+
+  async findAll(query: GetChecksQueryDto) {
+    const {
+      page,
+      limit,
+      search,
+      status,
+      providerId,
+      issuerId,
+      dueDateFrom,
+      dueDateTo,
+      sortBy,
+      sortOrder,
+    } = query;
+
+    const where: CheckWhereInput = {
+      status: status,
+      issuerId: issuerId,
+      operation: providerId ? { providerId } : undefined,
+
+      OR: search ? [
+        { checkNumber: { contains: search, mode: "insensitive" } },
+        { issuer: { name: { contains: search, mode: "insensitive" } } },
+      ] : undefined,
+
+      dueDate: (dueDateFrom || dueDateTo) ? {
+        gte: dueDateFrom ? (() => { const d = new Date(dueDateFrom); d.setUTCHours(0, 0, 0, 0); return d; })() : undefined,
+        lte: dueDateTo ? (() => { const d = new Date(dueDateTo); d.setUTCHours(23, 59, 59, 999); return d; })() : undefined,
+      } : undefined,
+    };
+
+    const [checks, total] = await Promise.all([
+      this.prisma.check.findMany({
+        where,
+        include: {
+          issuer: true,
+          operation: {
+            include: {
+              provider: true,
+            },
+          },
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          [sortBy]: sortOrder,
+        },
+      }),
+      this.prisma.check.count({ where }),
+    ]);
+
+    return {
+      data: checks.map(serializeCheck),
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async update(id: string, data: UpdateCheckDto) {

@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Param, Patch } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Query } from "@nestjs/common";
 import { ChecksService } from "./checks.service";
 import { UpdateCheckDto } from "./dtos/update-check.dto";
 import { ReturnCheckDto } from "./dtos/return-check.dto";
+import { GetChecksQueryDto } from "./dtos/get-checks-query.dto";
 
 @Controller("checks")
 export class ChecksController {
@@ -33,5 +34,10 @@ export class ChecksController {
   @Delete(":id")
   delete(@Param("id") id: string) {
     return this.checksService.delete(id);
+  }
+
+  @Get()
+  findAll(@Query() query: GetChecksQueryDto) {
+    return this.checksService.findAll(query);
   }
 }

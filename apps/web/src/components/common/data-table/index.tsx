@@ -2,32 +2,57 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, type ColumnDef, type SortingState } from "@tanstack/react-table"
 import { DataTablePagination } from "./data-table-pagination";
 import { SearchX } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface ServerPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  onLimitChange: (limit: number) => void;
+}
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[],
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 
-  sorting?: SortingState,
-  globalFilter?: string,
+  sorting?: SortingState;
+  globalFilter?: string;
+  label: string;
+
+  serverPagination?: ServerPagination;
+
+  onRowClick?: (row: TData) => void;
 }
+
 export function DataTable<TData, TValue>({
   sorting,
   globalFilter,
   columns,
   data,
+  label,
+  serverPagination,
+  onRowClick
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
 
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    getPaginationRowModel: serverPagination
+      ? undefined
+      : getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
 
+    manualPagination: !!serverPagination,
+
+    pageCount: serverPagination?.totalPages,
+
     state: {
       sorting,
-      globalFilter
+      globalFilter,
     },
   });
 
@@ -39,8 +64,8 @@ export function DataTable<TData, TValue>({
             className="border-t"
           >
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow 
-                className="bg-muted hover:bg-muted/90 uppercase text-[11px] font-bold tracking-wider" 
+              <TableRow
+                className="bg-muted hover:bg-muted/90 uppercase text-[11px] font-bold tracking-wider"
                 key={headerGroup.id}
               >
                 {headerGroup.headers.map((header) => {
@@ -48,7 +73,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className="
-                        sticky top-0 z-10 first:pl-6 last:pr-6 
+                        sticky -top-px z-10 first:pl-6 last:pr-6 bg-muted
                         max-sm:first:pl-3 max-sm:last:pl-3
                     ">
                       {header.isPlaceholder
@@ -63,7 +88,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-
+          
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -75,10 +100,12 @@ export function DataTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="
-                        first:pl-6 last:pr-6 py-2.5 text-sm
-                        max-sm:first:pl-3 max-sm:last:pl-3
-                    ">
+                      className={cn(
+                        "first:pl-6 last:pr-6 py-2.5 text-sm max-sm:first:pl-3 max-sm:last:pl-3 relative",
+                        onRowClick && "cursor-pointer hover:bg-muted/50",
+                      )}
+                      onClick={() => onRowClick?.(row.original)}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -110,7 +137,11 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      <DataTablePagination table={table} />
+      <DataTablePagination
+        table={table}
+        label={label}
+        serverPagination={serverPagination}
+      />
     </div>
   )
 }

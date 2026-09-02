@@ -9,6 +9,7 @@ import { CircleCheck, Info, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-re
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import type { CheckAction } from "../components/operation-checks-table"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { Badge } from "@/components/ui/badge"
 
 const statusLabels = {
   PENDING: "Pendente",
@@ -18,14 +19,23 @@ const statusLabels = {
 
 export function getOperationCheckColumns(
   setCheckAction: ({ type, check }: CheckAction) => void,
+  selectedRowId?: string
 ): ColumnDef<Check>[] {
   return [
     {
       id: "issuer",
       header: "Emitente",
-      cell: ({ row }) => (
-        <span>{row.original.issuer.name}</span>
-      ),
+      cell: ({ row }) => {
+        const isSelected = row.original.id === selectedRowId;
+
+        return (
+          <>
+            {isSelected && (<span className="absolute inset-y-0 left-0 w-0.75 bg-blue-500" />)}
+            
+            <span>{row.original.issuer.name}</span>
+          </>
+        )
+      },
     },
 
     {
@@ -117,25 +127,35 @@ export function getOperationCheckColumns(
         const status = row.original.status;
         const check = row.original
 
+        const statusConfig = {
+          PENDING: {
+            label: "Pendente",
+            variant: "secondary" as const,
+          },
+          COMPENSATED: {
+            label: "Compensado",
+            variant: "default" as const,
+          },
+          RETURNED: {
+            label: "Devolvido",
+            variant: "destructive" as const,
+          },
+        };
+
+        const config = statusConfig[status];
+
         return (
           <div>
             <HoverCard>
               <HoverCardTrigger
                 className="flex items-center gap-1.5 cursor-help"
                 render={
-                  <Button
-                    variant="ghost"
-                    className={
-                      status === "COMPENSATED"
-                        ? "text-emerald-600 hover:text-emerald-700"
-                        : status === "RETURNED"
-                        ? "text-red-600 hover:text-red-700"
-                        : ""
-                  }>
+                  <Badge variant={config.variant}>
                     <Info className="size-3.5" />
 
                     <span>{statusLabels[status]}</span>
-                  </Button>}
+                  </Badge>
+                }
               />
 
               <HoverCardContent>

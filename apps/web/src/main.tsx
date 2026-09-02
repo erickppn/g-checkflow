@@ -12,6 +12,7 @@ import { routeTree } from './route-tree.gen'
 // Date-fns config
 import { setDefaultOptions } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { injectUnauthorizedHandler } from './lib/api'
 
 setDefaultOptions({ locale: ptBR });
 
@@ -22,7 +23,17 @@ const router = createRouter({
   context: {
     queryClient
   }
-})
+});
+
+injectUnauthorizedHandler(() => {
+  queryClient.setQueryData(['auth-user'], null)
+
+  queryClient.clear()
+
+  router.navigate({ 
+    to: '/',
+  });
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {

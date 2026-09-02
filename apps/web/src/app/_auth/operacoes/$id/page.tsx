@@ -15,11 +15,16 @@ export const Route = createFileRoute('/_auth/operacoes/$id/')({
     )
   },
 
+  validateSearch: (search: Record<string, unknown>) => ({
+    checkId: search.checkId as string | undefined,
+  }),
+
   component: RouteComponent,
 })
 
 function RouteComponent() {
   const { id } = Route.useParams();
+  const { checkId } = Route.useSearch();
 
   const { data: operation } = useOperation(id);
 
@@ -120,6 +125,7 @@ function RouteComponent() {
           ">
             <OperationChecksTable
               checks={operation.checks}
+              selectedRowId={checkId}
             />
 
             <SummaryCard

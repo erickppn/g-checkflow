@@ -115,3 +115,36 @@ export interface DeleteCheckResponse {
   operationId: string;
   closedAt: string | null;
 }
+
+export interface GetChecksParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: CheckStatus;
+  providerId?: string;
+  issuerId?: string;
+  dueDateFrom?: string;
+  dueDateTo?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}
+
+export interface CheckListItem extends Check {
+  operation: {
+    id: string;
+    provider: {
+      id: string;
+      name: string;
+    };
+  };
+}
+
+export interface ChecksListResponse {
+  data: CheckListItem[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}

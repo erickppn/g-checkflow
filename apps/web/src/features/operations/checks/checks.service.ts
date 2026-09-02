@@ -1,6 +1,8 @@
 import { api } from "@/lib/api"
 import type {
   Check,
+  ChecksListResponse,
+  GetChecksParams,
   ReturnCheckInput,
   UpdateCheckInput,
 } from "./types/check.types"
@@ -44,5 +46,16 @@ export const checksService = {
     );
 
     return response.data;
+  },
+
+  getAll: async (params: GetChecksParams) => {
+    const response = await api.get<ChecksListResponse>(
+      "/checks",
+      {
+        params,
+      },
+    )
+
+    return response.data
   },
 }

@@ -15,7 +15,7 @@ export function Search({ placeholder, value, onValueChange }: SearchProps) {
         placeholder={placeholder} 
         value={value}
         onChange={event => onValueChange(event.target.value)}
-        className="py-1.5 max-md:text-sm"
+        className="max-md:text-sm m"
       />
       <InputGroupAddon>
         <SearchIcon className="ml-1 text-muted-foreground" />

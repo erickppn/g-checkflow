@@ -15,13 +15,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface ServerPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  onLimitChange: (limit: number) => void;
+}
+
 interface DataTablePaginationProps<TData> {
-  table: Table<TData>,
+  table: Table<TData>;
+  label: string;
+  serverPagination?: ServerPagination;
 }
 
 export function DataTablePagination<TData>({
   table,
+  label,
+  serverPagination,
 }: DataTablePaginationProps<TData>) {
+  if (serverPagination) {
+    return (
+      <ServerDataTablePagination
+        {...serverPagination}
+        label={label}
+      />
+    );
+  }
+
   return (
     <div className="flex h-fit justify-between items-center px-6 py-5 border-t">
       <div className="
@@ -29,7 +51,7 @@ export function DataTablePagination<TData>({
         max-sm:hidden
       ">
         Mostrando {table.getPaginationRowModel().rows.length} de{" "}
-        {table.getFilteredRowModel().rows.length} prestador(es)
+        {table.getFilteredRowModel().rows.length} {label}
       </div>
 
       <div className="flex">
@@ -103,4 +125,108 @@ export function DataTablePagination<TData>({
       </div>
     </div>
   )
+}
+
+function ServerDataTablePagination({
+  page,
+  limit,
+  total,
+  totalPages,
+  onPageChange,
+  onLimitChange,
+  label,
+}: ServerPagination & { label: string }) {
+  const from = total === 0 ? 0 : (page - 1) * limit + 1;
+  const to = Math.min(page * limit, total);
+
+  return (
+    <div className="flex h-fit justify-between items-center px-6 py-5 border-t">
+      <div className="text-sm text-muted-foreground max-sm:hidden">
+        Mostrando {from}-{to} de {total} {label}
+      </div>
+
+      <div className="flex">
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden size-8 lg:flex"
+            onClick={() => onPageChange(1)}
+            disabled={page === 1}
+          >
+            <span className="sr-only">
+              Ir para primeira página
+            </span>
+            <ChevronsLeft />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-8"
+            onClick={() => onPageChange(page - 1)}
+            disabled={page === 1}
+          >
+            <span className="sr-only">
+              Ir para página anterior
+            </span>
+            <ChevronLeft />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-8"
+            onClick={() => onPageChange(page + 1)}
+            disabled={page === totalPages || totalPages === 0}
+          >
+            <span className="sr-only">
+              Ir para próxima página
+            </span>
+            <ChevronRight />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden size-8 lg:flex"
+            onClick={() => onPageChange(totalPages)}
+            disabled={page === totalPages || totalPages === 0}
+          >
+            <span className="sr-only">
+              Ir para última página
+            </span>
+            <ChevronsRight />
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Select
+          value={`${limit}`}
+          onValueChange={(value) => {
+            onLimitChange(Number(value));
+          }}
+        >
+          <SelectTrigger className="h-8">
+            <SelectValue />
+            <p className="text-sm font-medium">
+              Registros por página
+            </p>
+          </SelectTrigger>
+
+          <SelectContent side="top">
+            {[10, 20, 30].map((pageSize) => (
+              <SelectItem
+                key={pageSize}
+                value={`${pageSize}`}
+              >
+                {pageSize}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
 }

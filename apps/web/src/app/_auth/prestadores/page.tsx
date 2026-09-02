@@ -81,6 +81,7 @@ function RouteComponent() {
           data={data}
           sorting={sorting}
           globalFilter={globalFilter}
+          label="prestador(es)"
         />
       </section>
     </PageContainer>
