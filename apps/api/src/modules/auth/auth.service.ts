@@ -7,7 +7,7 @@ import { JwtService } from "@nestjs/jwt";
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name)
-  
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
@@ -23,6 +23,8 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException("Invalid credentials or email");
     }
+
+    this.logger.log(`Password length: ${data.password} - ${data.password.length}`);
 
     const isPasswordValid = await argon2.verify(
       user.passwordHash,
