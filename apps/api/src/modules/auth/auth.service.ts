@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import * as argon2 from "argon2";
 import { LoginDto } from "./dto/login.dto";
 import { UsersService } from "../users/users.service";
@@ -9,10 +9,15 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly logger = new Logger(AuthService.name);
   ) { }
 
   async login(data: LoginDto) {
+    this.logger.log(`Login attempt: ${data.email}`);
+
     const user = await this.usersService.findByEmail(data.email);
+
+    this.logger.log(`User found: ${!!user}`);
 
     if (!user) {
       throw new UnauthorizedException("Invalid credentials or email");
@@ -22,6 +27,8 @@ export class AuthService {
       user.passwordHash,
       data.password,
     );
+
+    this.logger.log(`Password matches: ${isPasswordValid}`);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException("Invalid credentials or email");
