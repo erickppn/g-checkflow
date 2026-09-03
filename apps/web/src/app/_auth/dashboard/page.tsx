@@ -49,8 +49,8 @@ function RouteComponent() {
     : null;
 
   return (
-    <PageContainer 
-      className="overflow-y-scroll block"
+    <PageContainer
+      className="overflow-y-scroll block relative"
     >
       <div className="flex flex-col gap-6 max-w-340 mx-auto">
         <header className="flex flex-col gap-8 mt-3 mb-3 sm:flex-row sm:items-end sm:justify-between">
@@ -70,14 +70,15 @@ function RouteComponent() {
               <Link to='/operacoes/nova' />
             }
 
-            className="py-5 shrink-0"
+            className="py-5 shrink-0 max-sm:hidden"
           >
             <Plus data-icon="inline-start" /> Nova Operação
           </Button>
         </header>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 max-[640px]:grid-cols-1 max-[860px]:grid-cols-2 min-[861px]:grid-cols-3">
           <SummaryCard
+            className="max-[860px]:col-span-2 max-[640px]:col-span-1"
             title="Operações abertas"
             value={data.summary.openOperations}
             icon={FolderOpen}
@@ -107,12 +108,14 @@ function RouteComponent() {
           daysUntilDue={daysUntilDue}
         />
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <PortfolioChart data={data.portfolio} />
 
           <PeriodChart data={data.dueByPeriod} />
 
-          <TopIssuersChart data={data.topIssuers} />
+          <div className="md:col-span-2 xl:col-span-1">
+            <TopIssuersChart data={data.topIssuers} />
+          </div>
         </div>
 
         <RecentOperations

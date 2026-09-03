@@ -32,14 +32,27 @@ export function RecentOperations({
           <TableHeader>
             <TableRow className="bg-muted hover:bg-muted/90 uppercase text-[11px] font-bold tracking-wider">
               <TableHead>Operação</TableHead>
-              <TableHead>Prestador</TableHead>
-              <TableHead className="text-center">
+
+              <TableHead className="max-[560px]:hidden">
+                Prestador
+              </TableHead>
+
+              <TableHead className="text-center max-md:hidden">
                 Cheques
               </TableHead>
+
               <TableHead>Valor líquido</TableHead>
-              <TableHead>Juros previstos</TableHead>
+
+              <TableHead className="max-lg:hidden">
+                Juros previstos
+              </TableHead>
+
               <TableHead>Status</TableHead>
-              <TableHead>Atualizado em</TableHead>
+
+              <TableHead className="max-sm:hidden">
+                Atualizado em
+              </TableHead>
+
               <TableHead />
             </TableRow>
           </TableHeader>
@@ -56,11 +69,11 @@ export function RecentOperations({
                     </span>
                   </TableCell>
 
-                  <TableCell>
+                  <TableCell className="max-[560px]:hidden">
                     <span>{operation.provider.name}</span>
                   </TableCell>
 
-                  <TableCell className="text-center">
+                  <TableCell className="text-center max-md:hidden">
                     <span>{operation.summary.checksCount}</span>
                   </TableCell>
 
@@ -72,7 +85,7 @@ export function RecentOperations({
                     </span>
                   </TableCell>
 
-                  <TableCell>
+                  <TableCell className="max-lg:hidden">
                     <span className="text-red-600">
                       {currencyFormatter.format(
                         operation.summary.interest,
@@ -80,7 +93,7 @@ export function RecentOperations({
                     </span>
                   </TableCell>
 
-                  <TableCell>
+                  <TableCell className="max-sm:hidden">
                     <Badge variant={isClosed ? "default" : "secondary"}>
                       <span>
                         {isClosed ? "Fechada" : "Aberta"}
@@ -89,10 +102,17 @@ export function RecentOperations({
                   </TableCell>
 
                   <TableCell>
-                    <span>
+                    <span className="max-[420px]:hidden">
                       {format(
                         new Date(operation.updatedAt),
                         "dd/MM/yyyy HH:mm",
+                      )}
+                    </span>
+
+                    <span className="min-[420px]:hidden">
+                      {format(
+                        new Date(operation.updatedAt),
+                        "dd/MM/yyyy",
                       )}
                     </span>
                   </TableCell>

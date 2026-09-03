@@ -10,10 +10,12 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
 import type { CheckStatus } from "@/features/operations/checks/types/check.types";
+import { cn } from "@/lib/utils";
 
 interface StatusFilterProps {
   value?: CheckStatus;
   onChange: (value: CheckStatus | undefined) => void;
+  className?: string
 }
 
 const checkStatusOptions = [
@@ -37,9 +39,10 @@ const checkStatusOptions = [
 export function StatusFilter({
   value,
   onChange,
+  className
 }: StatusFilterProps) {
   return (
-    <Field className="w-fit">
+    <Field className={cn("w-fit", className)}>
       <FieldLabel htmlFor="status-filter">
         Status
       </FieldLabel>

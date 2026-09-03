@@ -5,7 +5,7 @@ import { PageContainer } from "@/components/layout/page-container"
 import { useChecks } from "@/features/operations/checks/checks.queries"
 import { checksColumns } from "@/features/operations/checks/components/checks-columns"
 import type { CheckStatus } from "@/features/operations/checks/types/check.types"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
 import { FunnelX, Loader2 } from "lucide-react"
 import { useState } from "react"
 import type { DateRange } from "react-day-picker"
@@ -14,6 +14,7 @@ import { StatusFilter } from "@/components/common/filters/status-filter"
 import { Button } from "@/components/ui/button"
 import { SortDropdown } from "@/components/common/data-table/sort-dropdown"
 import { checkSortOptions } from "@/features/operations/checks/constants/check-sort-options"
+import { CheckListItem } from "@/features/operations/checks/components/check-list-item"
 
 type ChecksSearch = {
   status?: CheckStatus;
@@ -107,11 +108,15 @@ function RouteComponent() {
     <PageContainer className="max-w-400">
       <header className="
         flex gap-6 justify-between items-center 
-        max-lg:flex-col max-lg:gap-5 max-lg:items-start
+        max-lg:flex-col max-lg:gap-2 max-lg:items-start
       ">
         <PageTitle title="Cheques" subtitle="Consulte e gerencie todos os cheques registrados" />
 
-        <div className="flex flex-1 items-end justify-end gap-4">
+        <div className="
+          flex flex-1 items-end justify-end gap-4
+          max-lg:w-full
+          max-md:flex-col max-md:gap-3 mt-4
+        ">
           <div className="
             flex items-center max-w-2xl justify-end flex-1 
             max-lg:max-w-full max-lg:w-full
@@ -126,23 +131,32 @@ function RouteComponent() {
             />
           </div>
 
-          <div className="flex gap-2 items-end">
-            <StatusFilter
-              value={filters.status}
-              onChange={(value) => updateFilters("status", value)}
-            />
+          <div className="
+            flex gap-3 items-end
+            max-md:w-full
+          ">
+            <div className="flex-1">
+              <StatusFilter
+                className="max-md:w-full"
+                value={filters.status}
+                onChange={(value) => updateFilters("status", value)}
+              />
+            </div>
 
-            <DatePickerWithRange
-              from={filters.dueDateFrom}
-              to={filters.dueDateTo}
-              onChange={updateDateRange}
-              label="Vencimento"
-            />
+            <div className="flex-1">
+              <DatePickerWithRange
+                className="max-md:w-full"
+                from={filters.dueDateFrom}
+                to={filters.dueDateTo}
+                onChange={updateDateRange}
+                label="Vencimento"
+              />
+            </div>
 
             <Button
               variant="link"
               size="sm"
-              className="hover:cursor-pointer mb-1 p-0"
+              className="mb-1 shrink-0 p-0 hover:cursor-pointer"
               onClick={() => {
                 setFilters((prev) => ({
                   ...prev,
@@ -168,12 +182,16 @@ function RouteComponent() {
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between px-6 py-4 max-sm:px-3">
-              <span className="text-sm font-semibold">
+            <div className="
+              flex items-center justify-between px-6 py-4 max-sm:px-3
+              max-md:flex-col max-md:items-start max-md:gap-2
+            ">
+              <span className="text-start text-sm font-semibold">
                 Cheques • {data?.meta.total ?? 0} registros
               </span>
 
               <SortDropdown
+                className="max-md:w-full"
                 options={checkSortOptions}
                 selected={`${filters.sortBy}-${filters.sortOrder}`}
                 onValueChange={(id) => {
@@ -194,6 +212,7 @@ function RouteComponent() {
             </div>
 
             <DataTable
+              classname="max-lg:hidden"
               columns={checksColumns}
               data={data?.data ?? []}
               label="chequ(es)"
@@ -211,6 +230,25 @@ function RouteComponent() {
                 });
               }}
             />
+
+            <div className="divide-y overflow-auto lg:hidden">
+              {data?.data.map((check) => (
+                <Link
+                  key={check.id}
+                  to="/operacoes/$id"
+                  params={{
+                    id: check.operationId
+                  }}
+                  search={{
+                    checkId: check.id
+                  }}
+                >
+                  <CheckListItem
+                    check={check}
+                  />
+                </Link>
+              ))}
+            </div>
           </>
         )}
       </section>

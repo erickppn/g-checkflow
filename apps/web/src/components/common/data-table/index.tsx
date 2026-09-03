@@ -24,6 +24,7 @@ interface DataTableProps<TData, TValue> {
   serverPagination?: ServerPagination;
 
   onRowClick?: (row: TData) => void;
+  classname?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -33,7 +34,8 @@ export function DataTable<TData, TValue>({
   data,
   label,
   serverPagination,
-  onRowClick
+  onRowClick,
+  classname
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -57,9 +59,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="flex flex-1 min-h-0 flex-col">
+    <div className={cn("flex flex-1 min-h-0 flex-col", classname)}>
       <div className="flex-1 min-h-0 overflow-auto">
-        <Table className="min-w-200">
+        <Table>
           <TableHeader
             className="border-t"
           >

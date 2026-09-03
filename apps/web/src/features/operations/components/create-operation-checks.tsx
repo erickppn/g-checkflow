@@ -42,19 +42,24 @@ export function CreateOperationChecks({
 
   return (
     <section className="
-      flex flex-1 flex-col overflow-hidden rounded-md border border-borde bg-card shadow-sm
-      max-md:hidden
+      flex flex-1 flex-col overflow-hidden rounded-md border border-border bg-card shadow-sm
     ">
       <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
         <div>
           <h2 className="text-sm font-semibold text-foreground">Cheques da operação</h2>
 
-          <p className="mt-0.5 text-xs text-muted-foreground">
+          <p className="
+            mt-0.5 text-xs text-muted-foreground
+            max-lg:hidden
+          ">
             Digite na última linha e pressione Enter para adicionar o próximo.
           </p>
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="
+          flex items-center gap-1
+          max-lg:hidden
+        ">
           <div className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs text-slate-600 dark:bg-slate-800/60 dark:text-slate-400">
             <Kbd className="inline-flex items-center gap-1 font-sans text-xs font-medium">
               <CornerDownLeft className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
@@ -73,7 +78,7 @@ export function CreateOperationChecks({
       </div>
 
       <div className="flex-1 overflow-auto">
-        <Table>
+        <Table className="max-lg:hiden">
           <TableHeader className="sticky top-0 z-10">
             <TableRow className="bg-muted hover:bg-muted/90 uppercase text-[11px] font-bold tracking-wider">
               <TableHead className="w-2 text-center">#</TableHead>
@@ -203,3 +208,4 @@ export function CreateOperationChecks({
     </section>
   )
 }
+

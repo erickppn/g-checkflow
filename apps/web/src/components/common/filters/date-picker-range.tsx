@@ -13,19 +13,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
 
 interface DatePickerWithRangeProps {
   from?: string;
   to?: string;
   onChange: (range: DateRange | undefined) => void;
   label: string,
+  className?: string
 }
 
 export function DatePickerWithRange({
   from,
   to,
   onChange,
-  label
+  label,
+  className
 }: DatePickerWithRangeProps) {
   const date: DateRange | undefined = {
     from: from ? new Date(from) : undefined,
@@ -33,7 +36,7 @@ export function DatePickerWithRange({
   };
 
   return (
-    <Field className="w-fit">
+    <Field className={cn("w-fit", className)}>
       <FieldLabel htmlFor="date-picker-range">
         {label}
       </FieldLabel>

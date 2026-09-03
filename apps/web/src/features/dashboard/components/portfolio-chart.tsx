@@ -55,7 +55,10 @@ export function PortfolioChart({ data }: PortfolioChartProps) {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex flex-1 items-center gap-4">
+      <CardContent className="
+        flex flex-1 items-center gap-4
+        max-xl:flex-col
+      ">
         <ChartContainer
           config={chartConfig}
           className="aspect-square w-full max-w-56 shrink-0"
@@ -82,7 +85,10 @@ export function PortfolioChart({ data }: PortfolioChartProps) {
           </PieChart>
         </ChartContainer>
 
-        <div className="flex min-w-0 flex-1 flex-col gap-5">
+        <div className="
+          flex min-w-0 flex-1 flex-col gap-5
+          max-xl:flex-row
+        ">
           {data.map((item) => {
             const config = chartConfig[item.status];
 

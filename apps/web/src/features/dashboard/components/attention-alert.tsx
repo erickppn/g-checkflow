@@ -38,10 +38,16 @@ export function AttentionAlert({
   }
 
   return (
-    <div className="relative flex items-center justify-between overflow-hidden rounded-lg border bg-warning/10 px-5 py-4 animate-alert">
+    <div className="
+      relative flex items-center justify-between overflow-hidden rounded-lg border bg-warning/10 px-5 py-4 animate-alert
+      max-sm:flex-col
+    ">
       <div className="absolute inset-y-0 left-0 w-1 bg-warning" />
 
-      <div className="flex items-center gap-4">
+      <div className="
+        flex items-center gap-4
+        max-sm:mb-3
+      ">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-warning/15">
           <AlertCircle className="size-5 text-warning animateping" />
         </div>

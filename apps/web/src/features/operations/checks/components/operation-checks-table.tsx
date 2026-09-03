@@ -9,6 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCompensateCheck, useDeleteCheck, useReturnCheck } from "../checks.mutations";
 import { toast } from "react-toastify";
+import { CheckListItem } from "./check-list-item";
+import { Button } from "@/components/ui/button";
+import { CircleCheck, Pen, Trash2, Undo2 } from "lucide-react";
 
 interface OperationChecksTableProps {
   checks: Check[];
@@ -85,8 +88,8 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
 
   return (
     <section className="
-      flex flex-1 flex-col overflow-hidden rounded-md border border-border
-      bg-card shadow-sm
+      flex flex-1 flex-col overflow-hidden rounded-md border border-border bg-card shadow-sm
+
     ">
       <div className="
         flex items-center justify-between gap-3
@@ -101,7 +104,71 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
         columns={columns}
         data={checks}
         label="cheque(s)"
+        classname="max-lg:hidden"
       />
+
+      <div className="divide-y overflow-auto lg:hidden">
+        {checks.map((check) => (
+          <div key={check.id}>
+            <CheckListItem
+              check={check}
+              isSelected={selectedRowId === check.id}
+            />
+
+            <div className="flex gap-2 mx-6 mb-4">
+              <Button
+                className="flex-1"
+                onClick={() =>
+                  setCheckAction({
+                    type: "compensate",
+                    check,
+                  })
+                }
+              >
+                <CircleCheck className="size-4 shrink-0" />
+              </Button>
+
+              <Button
+                className="flex-1 bg-warning"
+                onClick={() =>
+                  setCheckAction({
+                    type: "return",
+                    check,
+                  })
+                }
+              >
+                <Undo2 className="size-4 shrink-0 text-warning-foreground" />
+              </Button>
+
+              <Button
+                className="flex-1"
+                variant="outline"
+                onClick={() =>
+                  setCheckAction({
+                    type: "edit",
+                    check,
+                  })
+                }
+              >
+                <Pen className="size-4 shrink-0 text-muted-foreground" />
+              </Button>
+
+              <Button
+                className="flex-1"
+                variant="destructive"
+                onClick={() =>
+                  setCheckAction({
+                    type: "delete",
+                    check,
+                  })
+                }
+              >
+                <Trash2 className="size-4" />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Editar Cheque */}
       <Dialog
@@ -112,7 +179,9 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
           }
         }}
       >
-        <DialogContent>
+        <DialogContent
+          className="max-xl:w-2xl max-md:w-[calc(100%-2rem)]"
+        >
           <DialogHeader>
             <DialogTitle>Editar cheque</DialogTitle>
             <DialogDescription>

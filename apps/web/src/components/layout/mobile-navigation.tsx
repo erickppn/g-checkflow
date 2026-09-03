@@ -1,8 +1,22 @@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import { useLogout } from "@/features/auth/auth.mutations";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { Link } from "@tanstack/react-router";
-import { ChevronUp, FilePlus, ReceiptText, UserRound, UsersRound } from "lucide-react";
+import { ArrowUpRight, ChevronUp, FilePlus, LayoutDashboard, ReceiptText, UserRound } from "lucide-react";
 
 export function MobileNavigation() {
+  const { data: user } = useCurrentUser();
+
+  const logout = useLogout();
+
+  function handleLogout() {
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        window.location.href = "/";
+      }
+    });
+  }
+
   return (
     <nav
       aria-label="Navegação principal"
@@ -11,6 +25,23 @@ export function MobileNavigation() {
         border-t bg-background py-1.5
         sm:hidden
     ">
+      <Link
+        to="/dashboard"
+        className="
+          group flex flex-col gap-0.5 items-center justify-center
+          rounded-md px-4 py-2
+          text-xs text-gray-500 font-semibold transition-colors
+          data-[status=active]:text-blue-500
+          hover:bg-slate-100
+      ">
+        <LayoutDashboard
+          size={20}
+          className="transition-transform group-data-[status=active]:scale-110"
+        />
+
+        <span className="max-[400px]:hidden">Dashboard</span>
+      </Link>
+
       <Link
         to="/cheques"
         className="
@@ -28,22 +59,6 @@ export function MobileNavigation() {
         <span className="max-[400px]:hidden">Cheques</span>
       </Link>
 
-      <Link
-        to="/prestadores"
-        className="
-          group flex flex-col gap-0.5 items-center rounded-md px-4 py-2
-          text-xs text-gray-500 font-semibold transition-colors
-        data-[status=active]:text-blue-500
-        hover:bg-slate-100
-      ">
-        <UsersRound
-          size={20}
-          className="transition-transform group-data-[status=active]:scale-110"
-        />
-
-        <span className="max-[400px]:hidden">Prestadores</span>
-      </Link>
-      
       <Link
         to="/operacoes/nova"
         className="
@@ -70,11 +85,23 @@ export function MobileNavigation() {
           </div>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent>
+        <DropdownMenuContent className="w-fit">
           <DropdownMenuGroup>
             <DropdownMenuLabel>
-              Gustavo
+              {user?.email}
             </DropdownMenuLabel>
+
+            <DropdownMenuItem>
+              <Link
+                to="/prestadores"
+                className="flex items-center justify-between w-full"
+              >
+                Prestadores
+                <ArrowUpRight />
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
 
             <DropdownMenuItem disabled>
               Configurações
@@ -84,10 +111,16 @@ export function MobileNavigation() {
               Usuários
             </DropdownMenuItem>
           </DropdownMenuGroup>
+
           <DropdownMenuSeparator />
+
           <DropdownMenuGroup>
-            <DropdownMenuItem variant="destructive">
-              Sair
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={handleLogout}
+              disabled={logout.isPending}
+            >
+              {logout.isPending ? "Saindo..." : "Sair"}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

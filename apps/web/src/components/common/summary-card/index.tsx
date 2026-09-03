@@ -45,7 +45,7 @@ export function SummaryCard({ checks, onAction, actionIcon, actionLabel, isSavin
       </CardHeader>
 
       <CardContent className="px-0 max-xl:flex flex-wrap">
-        <div className="flex items-end gap-2 border-t px-4 py-3 flex-1 max-xl:items-center">
+        <div className="flex items-end gap-2 border-t px-4 py-3 flex-1 max-xl:hidden">
           <div className="flex items-baseline gap-1">
             <span className="text-2xl font-bold text-slate-900">
               {checks.length}

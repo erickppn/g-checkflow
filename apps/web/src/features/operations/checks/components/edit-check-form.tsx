@@ -129,10 +129,10 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
       onSubmit={handleSubmit}
       className="flex flex-col gap-5"
     >
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-4 max-md:grid-cols-3">
 
         {/* Emitente */}
-        <div className="col-span-7 flex flex-col gap-1.5">
+        <div className="col-span-7 flex flex-col gap-1.5 max-md:col-span-3">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Emitente
           </label>
@@ -194,7 +194,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Banco */}
-        <div className="col-span-5 flex flex-col gap-1.5">
+        <div className="col-span-5 flex flex-col gap-1.5 max-md:col-span-2">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Banco
           </label>
@@ -241,7 +241,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Nº do cheque */}
-        <div className="col-span-3 flex flex-col gap-1.5">
+        <div className="col-span-3 flex flex-col gap-1.5 max-md:col-span-1">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Nº do cheque
           </label>
@@ -259,7 +259,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Valor */}
-        <div className="col-span-3 flex flex-col gap-1.5">
+        <div className="col-span-3 flex flex-col gap-1.5 max-md:col-span-3">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Valor
           </label>
@@ -279,7 +279,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Data de registro */}
-        <div className="col-span-3 flex flex-col gap-1.5">
+        <div className="col-span-3 flex flex-col gap-1.5 max-md:col-span-3">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Data de registro
           </label>
@@ -294,7 +294,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Data de vencimento */}
-        <div className="col-span-3 flex flex-col gap-1.5">
+        <div className="col-span-3 flex flex-col gap-1.5 max-md:col-span-3">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Vencimento
           </label>
@@ -309,7 +309,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Taxa */}
-        <div className="col-span-2 flex flex-col gap-1.5">
+        <div className="col-span-2 flex flex-col gap-1.5 max-md:col-span-1">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Taxa
           </label>
@@ -335,7 +335,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Dias de compensação */}
-        <div className="col-span-2 flex flex-col gap-1.5">
+        <div className="col-span-2 flex flex-col gap-1.5 max-md:col-span-1">
           <label className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Compensação
           </label>
@@ -360,7 +360,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Dias totais */}
-        <div className="col-span-2 flex flex-col gap-1.5">
+        <div className="col-span-2 flex flex-col gap-1.5 max-md:col-span-1">
           <span className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Dias
           </span>
@@ -371,7 +371,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Juros */}
-        <div className="col-span-2 flex flex-col gap-1.5">
+        <div className="col-span-2 flex flex-col gap-1.5 max-md:col-span-1">
           <span className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Juros
           </span>
@@ -385,7 +385,7 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
         </div>
 
         {/* Líquido */}
-        <div className="col-span-4 flex flex-col gap-1.5">
+        <div className="col-span-4 flex flex-col gap-1.5 max-md:col-span-2">
           <span className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
             Valor líquido
           </span>

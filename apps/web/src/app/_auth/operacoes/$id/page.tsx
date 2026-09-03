@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { CheckCircle2, CircleDot, Clock3, FileText, Percent } from 'lucide-react';
 
 type checkSearch = {
-  checkId?: string 
+  checkId?: string
 }
 
 export const Route = createFileRoute('/_auth/operacoes/$id/')({
@@ -44,7 +44,7 @@ function RouteComponent() {
           w-full grid grid-cols-[minmax(0,1fr)_100px_100px] gap-4 items-start max-w-440 mx-auto py-3 
           max-lg:grid-ols-2
         ">
-          <div className="flex flex-col gap-1.5 max-lg:col-span-2">
+          <div className="flex flex-col gap-1.5">
             <span className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
               Prestador
             </span>
@@ -65,6 +65,7 @@ function RouteComponent() {
             <span className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
               Taxa padrão
             </span>
+
             <div className="flex h-10 items-center gap-2 rounded-lg border bg-background px-3 text-sm">
               <Percent className="size-4 text-muted-foreground" />
 
@@ -98,16 +99,22 @@ function RouteComponent() {
 
       <PageContainer>
         <div className="flex min-h-0 flex-col gap-6 max-w-440 flex-1 mx-auto w-full relative">
-          <div className="flex justify-between items-center">
-            <PageTitle 
-              title={`Operação #${operation.number}`} 
+          <div className="
+            flex justify-between items-center
+            max-[420px]:flex-col
+          ">
+            <PageTitle
+              title={`Operação #${operation.number}`}
               subtitle="Gerencie os cheques e acompanhe o andamento da operação."
-             />
+            />
 
-            <div className="flex flex-col items-end gap-1 text-right">
+            <div className="
+              flex flex-col items-end gap-1 text-right
+              max-[420px]:mt-3
+            ">
               {operation.closedAt ? (
                 <>
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-emerald-700">
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-emerald-700 whitespace-nowrap">
                     <CheckCircle2 className="size-4" />
                     Operação fechada
                   </div>
@@ -120,7 +127,7 @@ function RouteComponent() {
                   </span>
                 </>
               ) : (
-                <div className="flex items-center gap-1.5 text-sm font-medium text-blue-700">
+                <div className="flex items-center gap-1.5 text-sm font-medium text-blue-700 whitespace-nowrap">
                   <CircleDot className="size-4" />
                   Operação aberta
                 </div>
