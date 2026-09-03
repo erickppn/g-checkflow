@@ -9,7 +9,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly logger = new Logger(AuthService.name);
+    private readonly logger = new Logger(AuthService.name)
   ) { }
 
   async login(data: LoginDto) {
