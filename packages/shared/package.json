@@ -20,6 +20,10 @@
     "./normalize-ussuer-name": {
       "types": "./src/utils/normalize-issuer-name.ts",
       "default": "./dist/utils/normalize-issuer-name.js"
+    },
+    "./round-money": {
+      "types": "./src/utils/round-money.ts",
+      "default": "./dist/utils/round-money.js"
     }
   },
   "devDependencies": {

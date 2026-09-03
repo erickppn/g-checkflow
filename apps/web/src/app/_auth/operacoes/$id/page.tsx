@@ -99,7 +99,10 @@ function RouteComponent() {
       <PageContainer>
         <div className="flex min-h-0 flex-col gap-6 max-w-440 flex-1 mx-auto w-full relative">
           <div className="flex justify-between items-center">
-            <PageTitle title="Operação" subtitle="Gerencie os cheques e acompanhe o andamento da operação." />
+            <PageTitle 
+              title={`Operação #${operation.number}`} 
+              subtitle="Gerencie os cheques e acompanhe o andamento da operação."
+             />
 
             <div className="flex flex-col items-end gap-1 text-right">
               {operation.closedAt ? (

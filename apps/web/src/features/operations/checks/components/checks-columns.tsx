@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import type { CheckListItem } from "../types/check.types";
 import { currencyFormatter } from "@/utils";
 import { banks } from "@/app/_auth/operacoes/nova";
-import { addDays, format } from "date-fns";
+import { addDays, format, isBefore, startOfDay } from "date-fns";
 
 export const checksColumns: ColumnDef<CheckListItem>[] = [
   {
@@ -117,24 +117,37 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
     header: "Status",
 
     cell: ({ row }) => {
-      const status = row.original.status;
+      const check = row.original;
+
+      const today = startOfDay(new Date());
+
+      const dueDate = startOfDay(
+        addDays(
+          new Date(check.dueDate),
+          check.additionalDays,
+        ),
+      );
+
+      const isOverdue =
+        check.status === "PENDING" &&
+        isBefore(dueDate, today);
 
       const statusConfig = {
         PENDING: {
-          label: "Pendente",
-          variant: "secondary" as const,
+          label: isOverdue ? "Vencido" : "Pendente",
+          variant: isOverdue ? "destructive" : "secondary",
         },
         COMPENSATED: {
           label: "Compensado",
-          variant: "default" as const,
+          variant: "default",
         },
         RETURNED: {
           label: "Devolvido",
-          variant: "destructive" as const,
+          variant: "destructive",
         },
-      };
+      } as const;
 
-      const config = statusConfig[status];
+      const config = statusConfig[check.status];
 
       return (
         <Badge variant={config.variant}>

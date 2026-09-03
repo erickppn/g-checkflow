@@ -27,7 +27,7 @@ const MAX_OPERATIONS = 5;
 
 // CHECKS CONFIGS
 const MIN_CHECKS = 2;
-const MAX_CHECKS = 8;
+const MAX_CHECKS = 4;
 
 const issuers = [
   'João da Silva',
@@ -155,8 +155,8 @@ async function main() {
       });
 
       const amount = faker.number.float({
-        min: 200,
-        max: 5000,
+        min: 800,
+        max: 2000,
         fractionDigits: 2,
       });
 

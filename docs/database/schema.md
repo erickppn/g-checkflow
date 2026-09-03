@@ -37,6 +37,7 @@ PROVIDER PROVIDER
 
   "operations" {
     String id "🗝️"
+    Int number 
     DateTime closedAt "❓"
     DateTime createdAt 
     DateTime updatedAt 

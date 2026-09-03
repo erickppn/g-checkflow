@@ -52,7 +52,8 @@ model Issuer {
 }
 
 model Operation {
-  id String @id @default(uuid())
+  id     String @id @default(uuid())
+  number Int    @unique @default(autoincrement())
 
   /// Prestador responsável pela operação
   providerId String

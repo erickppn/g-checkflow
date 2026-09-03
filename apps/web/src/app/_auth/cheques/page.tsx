@@ -13,7 +13,22 @@ import { DatePickerWithRange } from "@/components/common/filters/date-picker-ran
 import { StatusFilter } from "@/components/common/filters/status-filter"
 import { Button } from "@/components/ui/button"
 
+type ChecksSearch = {
+  status?: CheckStatus;
+};
+
 export const Route = createFileRoute("/_auth/cheques/")({
+  validateSearch: (search: Record<string, unknown>): ChecksSearch => {
+    return {
+      status:
+        search.status === "PENDING" ||
+          search.status === "COMPENSATED" ||
+          search.status === "RETURNED"
+          ? search.status
+          : undefined,
+    };
+  },
+
   component: RouteComponent,
 });
 
@@ -31,11 +46,13 @@ interface ChecksListState {
 }
 
 function RouteComponent() {
+  const search = Route.useSearch();
+
   const [filters, setFilters] = useState<ChecksListState>({
     page: 1,
     limit: 15,
     search: "",
-    status: undefined,
+    status: search.status,
     providerId: undefined,
     issuerId: undefined,
     dueDateFrom: undefined,

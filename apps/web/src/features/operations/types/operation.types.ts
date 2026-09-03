@@ -3,6 +3,7 @@ import type { Check, CreateCheckInput } from "../checks/types/check.types";
 
 export interface OperationBase {
   id: string;
+  number: number,
 
   closedAt: string | null;
 
