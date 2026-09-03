@@ -12,6 +12,8 @@ import type { DateRange } from "react-day-picker"
 import { DatePickerWithRange } from "@/components/common/filters/date-picker-range"
 import { StatusFilter } from "@/components/common/filters/status-filter"
 import { Button } from "@/components/ui/button"
+import { SortDropdown } from "@/components/common/data-table/sort-dropdown"
+import { checkSortOptions } from "@/features/operations/checks/constants/check-sort-options"
 
 type ChecksSearch = {
   status?: CheckStatus;
@@ -61,7 +63,7 @@ function RouteComponent() {
     sortOrder: "asc",
   });
 
-  const { data, isLoading, isFetching } = useChecks(filters);
+  const { data, isLoading } = useChecks(filters);
 
   function updateFilters<K extends keyof ChecksListState>(
     field: K,
@@ -171,9 +173,24 @@ function RouteComponent() {
                 Cheques • {data?.meta.total ?? 0} registros
               </span>
 
-              {isFetching && (
-                <Loader2 className="size-4 animate-spin text-muted-foreground" />
-              )}
+              <SortDropdown
+                options={checkSortOptions}
+                selected={`${filters.sortBy}-${filters.sortOrder}`}
+                onValueChange={(id) => {
+                  const option = checkSortOptions.find(
+                    (option) => option.id === id,
+                  );
+
+                  if (!option) return;
+
+                  setFilters((prev) => ({
+                    ...prev,
+                    page: 1,
+                    sortBy: option.sortBy,
+                    sortOrder: option.sortOrder,
+                  }));
+                }}
+              />
             </div>
 
             <DataTable
