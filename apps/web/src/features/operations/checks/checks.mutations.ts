@@ -88,6 +88,10 @@ export function useCompensateCheck() {
           };
         },
       );
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
     },
   });
 }
@@ -116,6 +120,10 @@ export function useReturnCheck() {
           };
         },
       );
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
     },
   });
 }
@@ -142,6 +150,10 @@ export function useDeleteCheck() {
           };
         },
       );
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
     },
   });
 }
