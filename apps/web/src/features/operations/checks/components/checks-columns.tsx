@@ -95,6 +95,16 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
       <span>{row.original.interestRate}%</span>
     ),
   },
+  
+  {
+    accessorKey: "interest",
+    header: "Juros",
+    cell: ({ row }) => (
+      <span className="text-red-600">
+        {currencyFormatter.format(row.original.interest)}
+      </span>
+    ),
+  },
 
   {
     accessorKey: "netAmount",

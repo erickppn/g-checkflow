@@ -18,6 +18,10 @@ export function useCreateOperation() {
       queryClient.invalidateQueries({
         queryKey: ["dashboard"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["checks"],
+      });
     },
   });
 }
