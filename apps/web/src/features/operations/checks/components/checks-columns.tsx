@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import type { CheckListItem } from "../types/check.types";
 import { currencyFormatter } from "@/utils";
 import { banks } from "@/app/_auth/operacoes/nova";
-import { addDays, format, isBefore, startOfDay } from "date-fns";
+import { format, isBefore, isSameDay, startOfDay } from "date-fns";
 import { CheckActions } from "./check-actions";
 
 export const checksColumns: ColumnDef<CheckListItem>[] = [
@@ -73,13 +73,7 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
     cell: ({ row }) => {
       return (
         <span className="text-muted-foreground">
-          {format(
-            addDays(
-              new Date(row.original.dueDate),
-              row.original.additionalDays,
-            ),
-            "dd/MM/yyyy",
-          )}
+          {format(row.original.dueDate, "dd/MM/yyyy")}
         </span>
       );
     },
@@ -121,13 +115,11 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
       const check = row.original;
 
       const today = startOfDay(new Date());
+      const dueDate = startOfDay(new Date(check.dueDate));
 
-      const dueDate = startOfDay(
-        addDays(
-          new Date(check.dueDate),
-          check.additionalDays,
-        ),
-      );
+      const isDueToday =
+        check.status === "PENDING" &&
+        isSameDay(dueDate, today);
 
       const isOverdue =
         check.status === "PENDING" &&
@@ -135,13 +127,23 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
 
       const statusConfig = {
         PENDING: {
-          label: isOverdue ? "Vencido" : "Pendente",
-          variant: isOverdue ? "destructive" : "secondary",
+          label: isDueToday
+            ? "Vence hoje"
+            : isOverdue
+              ? "Vencido"
+              : "Pendente",
+          variant: isDueToday
+            ? "outline"
+            : isOverdue
+              ? "destructive"
+              : "secondary",
         },
+
         COMPENSATED: {
           label: "Compensado",
           variant: "default",
         },
+
         RETURNED: {
           label: "Devolvido",
           variant: "destructive",

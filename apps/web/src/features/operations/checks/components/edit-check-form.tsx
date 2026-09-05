@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import type { Check, DraftCheck } from "../types/check.types"
-import { format } from "date-fns"
+import { format, parse } from "date-fns"
 import { Button } from "@/components/ui/button"
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox"
 import { useIssuers } from "@/features/issuers/issuers.queries"
@@ -72,6 +72,10 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
 
   const updateCheck = useUpdateCheck();
 
+  function parseDateInput(value: string) {
+    return parse(value, "yyyy-MM-dd", new Date());
+  }
+
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -87,8 +91,8 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
           checkNumber: draft.checkNumber,
           amount: parseDecimal(draft.amount),
           interestRate: parseDecimal(draft.interestRate),
-          issueDate: new Date(draft.issueDate).toISOString(),
-          dueDate: new Date(draft.dueDate).toISOString(),
+          issueDate: parseDateInput(draft.issueDate).toISOString(),
+          dueDate: parseDateInput(draft.dueDate).toISOString(),
           additionalDays: Number(draft.additionalDays),
         },
       });
@@ -118,8 +122,8 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
     return calculateCheck({
       amount,
       interestRate,
-      issueDate: new Date(draft.issueDate),
-      dueDate: new Date(draft.dueDate),
+      issueDate: parseDateInput(draft.issueDate),
+      dueDate: parseDateInput(draft.dueDate),
       additionalDays,
     })
   }, [draft]);

@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import type { Check } from "../checks/types/check.types"
 import { banks } from "@/app/_auth/operacoes/nova"
 import { currencyFormatter } from "@/utils"
-import { addDays, format } from "date-fns"
+import { format } from "date-fns"
 import { Info } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Badge } from "@/components/ui/badge"
@@ -68,13 +68,7 @@ export function getOperationCheckColumns(
       cell: ({ row }) => (
         <span>
           {format(row.original.issueDate, "dd/MM/yyyy")} —{" "}
-          {format(
-            addDays(
-              new Date(row.original.dueDate),
-              row.original.additionalDays,
-            ),
-            "dd/MM/yyyy",
-          )}
+          {format(row.original.dueDate, "dd/MM/yyyy")}
         </span>
       ),
     },
