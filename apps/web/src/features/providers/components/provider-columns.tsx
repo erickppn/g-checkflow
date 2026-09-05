@@ -25,7 +25,7 @@ const getAvatarConfig = (name: string) => {
 export const providerColumns: ColumnDef<Provider>[] = [
   {
     accessorKey: "name",
-    header: "Prestador",
+    header: "Cliente",
 
     cell: ({ row }) => {
       const { initials, colorClass } = getAvatarConfig(row.original.name);
@@ -108,7 +108,7 @@ export const providerColumns: ColumnDef<Provider>[] = [
           <Button 
             variant="outline" size="icon" 
             className="h-8 w-8 text-slate-500 hover:text-slate-900"
-            render={<Link to={`/prestadores/$id/editar`} params={{ id: String(provider.id) }} />}
+            render={<Link to={`/clientes/$id/editar`} params={{ id: String(provider.id) }} />}
           >
             <Pen className="h-4 w-4" />
             <span className="sr-only">Editar</span>

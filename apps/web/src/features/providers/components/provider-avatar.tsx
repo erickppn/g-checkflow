@@ -18,7 +18,7 @@ const getAvatarConfig = (name: string) => {
 
 interface ProviderAvatarProps {
   name: string
-  className?: string // Propriedade opcional
+  className?: string
 }
 
 export function ProviderAvatar({ name, className }: ProviderAvatarProps) {

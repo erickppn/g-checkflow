@@ -21,7 +21,7 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
 
   {
     id: "provider",
-    header: "Prestador",
+    header: "Cliente",
 
     cell: ({ row }) => (
       <span className="text-muted-foreground">

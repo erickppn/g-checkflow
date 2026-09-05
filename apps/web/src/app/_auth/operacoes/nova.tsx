@@ -182,7 +182,7 @@ function RouteComponent() {
         ">
           <Field className="flex flex-col gap-1.5 max-lg:co-span-2">
             <FieldLabel className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-              Prestador
+              Cliente
             </FieldLabel>
 
             <Select
@@ -199,7 +199,7 @@ function RouteComponent() {
               <SelectTrigger className="py-4.5 text-foreground">
                 {selectedProvider && <ProviderAvatar className="size-6 text-[10px]" name={selectedProvider.name} />}
 
-                <SelectValue placeholder="Selecione um prestador" />
+                <SelectValue placeholder="Selecione um cliente" />
               </SelectTrigger>
 
               <SelectContent>
@@ -245,7 +245,7 @@ function RouteComponent() {
           text-xs text-left w-full text-muted-foreground max-w-440 mx-auto mb-2 
           max-md:hidden
         ">
-          Taxa e dias de compensação são sugeridos pelo prestador e podem ser ajustados em cada cheque.
+          Taxa e dias de compensação são sugeridos pelo cliente e podem ser ajustados em cada cheque.
         </span>
       </section>
 

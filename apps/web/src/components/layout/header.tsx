@@ -89,7 +89,7 @@ export function Header() {
           </Link>
 
           <Link
-            to="/prestadores"
+            to="/clientes"
             className="
               group relative h-full flex items-center py-3 
               data-[status=active]:text-blue-500 data-[status=active]:border-blue-400
@@ -98,7 +98,7 @@ export function Header() {
               <UsersRound size={18} />
 
               <span>
-                Prestadores
+                Clientes
               </span>
             </div>
 

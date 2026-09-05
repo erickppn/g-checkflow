@@ -93,10 +93,10 @@ export function MobileNavigation() {
 
             <DropdownMenuItem>
               <Link
-                to="/prestadores"
+                to="/clientes"
                 className="flex items-center justify-between w-full"
               >
-                Prestadores
+                Clientes
                 <ArrowUpRight />
               </Link>
             </DropdownMenuItem>

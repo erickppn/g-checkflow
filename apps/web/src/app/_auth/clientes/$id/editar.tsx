@@ -14,7 +14,7 @@ import { providersQueries, useProvider } from '@/features/providers/providers.qu
 import { useUpdateProvider } from '@/features/providers/providers.mutations';
 import { toast } from 'react-toastify';
 
-export const Route = createFileRoute('/_auth/prestadores/$id/editar')({
+export const Route = createFileRoute('/_auth/clientes/$id/editar')({
   loader: ({ context: { queryClient }, params }) => {
     return queryClient.ensureQueryData(providersQueries.findById(params.id))
   },
@@ -60,11 +60,11 @@ function RouteComponent() {
 
     updateProvider.mutate({ id, data: payload }, {
       onSuccess: () => {
-        toast.success("Prestador atualizado com sucesso");
+        toast.success("Cliente atualizado com sucesso");
       },
 
       onError: () => {
-        toast.error("Não foi possível atualizar o prestador");
+        toast.error("Não foi possível atualizar o cliente");
       },
     });
   }
@@ -76,13 +76,13 @@ function RouteComponent() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <Link to="/prestadores">Prestadores</Link>
+                <Link to="/clientes">Clientes</Link>
               </BreadcrumbItem>
 
               <BreadcrumbSeparator />
 
               <BreadcrumbItem>
-                <BreadcrumbPage>Editar Prestador</BreadcrumbPage>
+                <BreadcrumbPage>Editar Cliente</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -94,11 +94,11 @@ function RouteComponent() {
           <Button
             variant="outline"
             className="py-5"
-            render={<Link to="/prestadores" />}
+            render={<Link to="/clientes" />}
             nativeButton={false}
           >
             <ArrowLeft />
-            <span className="max-md:hidden">Voltar para Prestadores</span>
+            <span className="max-md:hidden">Voltar para Clientes</span>
           </Button>
         </div>
       </header>
@@ -113,13 +113,13 @@ function RouteComponent() {
           <FieldSet>
             <FieldLegend className="flex items-center gap-2">
               <UserRoundPlus className="text-blue-500 size-5" />
-              <span className="text-sm font-semibold">Dados do Prestador</span>
+              <span className="text-sm font-semibold">Dados do Cliente</span>
             </FieldLegend>
 
             <FieldGroup className="mt-5">
               <Field>
                 <FieldLabel htmlFor="name" className="text-black/70">
-                  Nome do Prestador <span className="text-red-600">*</span>
+                  Nome <span className="text-red-600">*</span>
                 </FieldLabel>
 
                 <Input
@@ -220,7 +220,7 @@ function RouteComponent() {
                     id="notes"
                     value={form.notes}
                     onChange={(e) => updateField("notes", e.target.value)}
-                    placeholder="Informações adicionais sobre o prestador"
+                    placeholder="Informações adicionais sobre o cliente"
                     maxLength={300}
                     className="min-h-24 max-sm:h-full"
                   />
@@ -242,7 +242,7 @@ function RouteComponent() {
               type="button"
               className="py-5 px-4 max-sm:flex-1"
               nativeButton={false}
-              render={<Link to="/prestadores" />}
+              render={<Link to="/clientes" />}
             >
               Cancelar
             </Button>
@@ -254,7 +254,7 @@ function RouteComponent() {
             >
               {updateProvider.isPending
                 ? "Salvando..."
-                : "Salvar Prestador"
+                : "Salvar Cliente"
               }
             </Button>
           </div>

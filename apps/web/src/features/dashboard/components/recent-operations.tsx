@@ -34,7 +34,7 @@ export function RecentOperations({
               <TableHead>Operação</TableHead>
 
               <TableHead className="max-[560px]:hidden">
-                Prestador
+                Cliente
               </TableHead>
 
               <TableHead className="text-center max-md:hidden">

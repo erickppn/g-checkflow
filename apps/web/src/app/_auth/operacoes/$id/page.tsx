@@ -46,7 +46,7 @@ function RouteComponent() {
         ">
           <div className="flex flex-col gap-1.5">
             <span className="text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-              Prestador
+              Cliente
             </span>
 
             <div className="flex h-10 items-center gap-2 rounded-lg border bg-background px-3 text-sm">
@@ -88,13 +88,6 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-
-        <span className="
-          text-xs text-left w-full text-muted-foreground max-w-440 mx-auto mb-2 
-          max-md:hidden
-        ">
-          Taxa e dias de compensação são sugeridos pelo prestador e podem ser ajustados em cada cheque.
-        </span>
       </section>
 
       <PageContainer>

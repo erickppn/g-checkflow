@@ -15,7 +15,7 @@ import { toast } from "react-toastify"
 import { parseDecimal } from "@/utils"
 import { useCreateProvider } from "@/features/providers/providers.mutations"
 
-export const Route = createFileRoute("/_auth/prestadores/novo")({
+export const Route = createFileRoute("/_auth/clientes/novo")({
   component: RouteComponent,
 })
 
@@ -54,15 +54,15 @@ function RouteComponent() {
 
     createProvider.mutate(payload, {
       onSuccess: () => {
-        toast.success("Prestador cadastrado com sucesso");
+        toast.success("Cliente cadastrado com sucesso");
 
         navigate({
-          to: "/prestadores",
+          to: "/clientes",
         });
       },
 
       onError: () => {
-        toast.error("Não foi possível cadastrar o prestador");
+        toast.error("Não foi possível cadastrar o cliente");
       },
     });
   }
@@ -74,29 +74,29 @@ function RouteComponent() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <Link to="/prestadores">Prestadores</Link>
+                <Link to="/clientes">Clientes</Link>
               </BreadcrumbItem>
 
               <BreadcrumbSeparator />
 
               <BreadcrumbItem>
-                <BreadcrumbPage>Novo Prestador</BreadcrumbPage>
+                <BreadcrumbPage>Novo Cliente</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
 
         <div className="flex justify-between items-center">
-          <PageTitle title="Novo Prestador" subtitle="Cadastre um prestador para utiliza-lo nas operações" />
+          <PageTitle title="Novo Cliente" subtitle="Cadastre um cliente para utiliza-lo nas operações" />
 
           <Button
             variant="outline"
             className="py-5"
-            render={<Link to="/prestadores" />}
+            render={<Link to="/clientes" />}
             nativeButton={false}
           >
             <ArrowLeft />
-            <span className="max-md:hidden">Voltar para Prestadores</span>
+            <span className="max-md:hidden">Voltar para Clientes</span>
           </Button>
         </div>
       </header>
@@ -111,13 +111,13 @@ function RouteComponent() {
           <FieldSet>
             <FieldLegend className="flex items-center gap-2">
               <UserRoundPlus className="text-blue-500 size-5" />
-              <span className="text-sm font-semibold">Dados do Prestador</span>
+              <span className="text-sm font-semibold">Dados do Cliente</span>
             </FieldLegend>
 
             <FieldGroup className="mt-5">
               <Field>
                 <FieldLabel htmlFor="name" className="text-black/70">
-                  Nome do Prestador <span className="text-red-600">*</span>
+                  Nome<span className="text-red-600">*</span>
                 </FieldLabel>
 
                 <Input
@@ -218,7 +218,7 @@ function RouteComponent() {
                     id="notes"
                     value={form.notes}
                     onChange={(e) => updateField("notes", e.target.value)}
-                    placeholder="Informações adicionais sobre o prestador"
+                    placeholder="Informações adicionais sobre o cliente"
                     maxLength={300}
                     className="min-h-24 max-sm:h-full"
                   />
@@ -240,7 +240,7 @@ function RouteComponent() {
               type="button"
               className="py-5 px-4 max-sm:flex-1"
               nativeButton={false}
-              render={<Link to="/prestadores" />}
+              render={<Link to="/clientes" />}
             >
               Cancelar
             </Button>
@@ -252,7 +252,7 @@ function RouteComponent() {
             >
               {createProvider.isPending
                 ? "Salvando..."
-                : "Salvar Prestador"
+                : "Salvar Cliente"
               }
             </Button>
           </div>

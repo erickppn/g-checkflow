@@ -14,7 +14,7 @@ import { providerSortOptions, type ProviderSortId } from "@/features/providers/c
 import { providerColumns } from "@/features/providers/components/provider-columns";
 import { providersQueries, useProviders } from "@/features/providers/providers.queries";
 
-export const Route = createFileRoute("/_auth/prestadores/")({
+export const Route = createFileRoute("/_auth/clientes/")({
   loader: ({ context: { queryClient } }) => {
     return queryClient.ensureQueryData(providersQueries.all())
   },
@@ -38,7 +38,7 @@ function RouteComponent() {
         flex gap-6 justify-between items-center 
         max-lg:flex-col max-lg:gap-5 max-lg:items-start
       ">
-        <PageTitle title="Prestadores" subtitle="Gerencie todos os prestadores cadastrados no sistema."/>
+        <PageTitle title="Clientes" subtitle="Gerencie todos os clientes cadastrados no sistema."/>
 
         <div className="
           flex items-center h-full max-w-2xl gap-5 py-1.5 justify-end flex-1 
@@ -53,12 +53,12 @@ function RouteComponent() {
           <Button
             variant="default"
             render={
-              <Link to="/prestadores/novo" />
+              <Link to="/clientes/novo" />
             }
             className="pr-4 h-full" 
             nativeButton={false}
           >
-            <Plus /> Novo Prestador
+            <Plus /> Novo Cliente
           </Button>
         </div>
       </header>
@@ -66,7 +66,7 @@ function RouteComponent() {
       <section className="border flex flex-1 min-h-0 bg flex-col rounded-md shadow-md bg-card">
         <div className="flex items-center justify-between px-6 py-2.5 max-sm:px-3">
           <span className="text-sm font-semibold">
-            <span className="max-sm:hidden">Prestadores</span> • {data.length} registros
+            <span className="max-sm:hidden">Clientes</span> • {data.length} registros
           </span>
 
           <SortDropdown
@@ -81,7 +81,7 @@ function RouteComponent() {
           data={data}
           sorting={sorting}
           globalFilter={globalFilter}
-          label="prestador(es)"
+          label="cliente(s)"
         />
       </section>
     </PageContainer>
