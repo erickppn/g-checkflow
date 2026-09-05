@@ -92,6 +92,10 @@ export function useCompensateCheck() {
       queryClient.invalidateQueries({
         queryKey: ["dashboard"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["checks"],
+      });
     },
   });
 }
@@ -124,6 +128,10 @@ export function useReturnCheck() {
       queryClient.invalidateQueries({
         queryKey: ["dashboard"],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ["checks"],
+      });
     },
   });
 }
@@ -153,6 +161,10 @@ export function useDeleteCheck() {
 
       queryClient.invalidateQueries({
         queryKey: ["dashboard"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["checks"],
       });
     },
   });

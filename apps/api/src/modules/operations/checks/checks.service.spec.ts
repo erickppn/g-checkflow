@@ -183,6 +183,67 @@ describe("ChecksService", () => {
       expect(prismaMock.check.update).toHaveBeenCalledTimes(1);
     });
 
+    it("deve compensar um cheque devolvido com sucesso", async () => {
+      const operation = makeOperation();
+
+      const issuer = makeIssuer();
+
+      const returnReason = "Cheque sem fundos";
+
+      const check = makeCheck({
+        operationId: operation.id,
+        issuerId: issuer.id,
+        status: CheckStatus.RETURNED,
+        returnReason,
+      });
+
+      const compensatedCheck = makeCheck({
+        ...check,
+        status: CheckStatus.COMPENSATED,
+        returnReason,
+      });
+
+      prismaMock.check.findUnique.mockResolvedValue(
+        makePrismaCheck(check),
+      );
+
+      prismaMock.check.update.mockResolvedValue(
+        makePrismaCheck(compensatedCheck),
+      );
+
+      prismaMock.check.count
+        .mockResolvedValueOnce(1)
+        .mockResolvedValueOnce(0);
+
+      const closedAt = new Date();
+
+      prismaMock.operation.update.mockResolvedValue({
+        ...operation,
+        closedAt,
+      });
+
+      const result = await checksService.compensate(check.id);
+
+      expect(result).toEqual({
+        check: compensatedCheck,
+        operation: {
+          closedAt,
+        },
+      });
+
+      expect(prismaMock.check.update).toHaveBeenCalledWith({
+        where: {
+          id: check.id,
+        },
+        data: {
+          status: CheckStatus.COMPENSATED,
+        },
+        include: {
+          issuer: true,
+        },
+      });
+    });
+
     it("deve fechar a operação quando o cheque compensado era o último pendente", async () => {
       const operation = makeOperation();
 
@@ -240,7 +301,7 @@ describe("ChecksService", () => {
       expect(prismaMock.operation.update).toHaveBeenCalledTimes(1);
     });
 
-    it("deve lançar BadRequestException ao tentar compensar um cheque que não está pendente", async () => {
+    it("deve lançar BadRequestException ao tentar compensar um cheque já compensado", async () => {
       const check = makeCheck({
         status: CheckStatus.COMPENSATED,
       });

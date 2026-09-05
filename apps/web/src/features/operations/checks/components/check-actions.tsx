@@ -102,7 +102,7 @@ export function CheckActions({
             <span className="sr-only">Ações do cheque</span>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-fit">
             <DropdownMenuItem
               onClick={() => setCheckAction({
                 type: "edit",
@@ -124,60 +124,68 @@ export function CheckActions({
               Excluir
             </DropdownMenuItem>
 
-            {check.status === "PENDING" && (
+            {(check.status === "PENDING" || check.status === "RETURNED") && (
               <>
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem
-                  onClick={() => setCheckAction({
-                    type: "compensate",
-                    check
-                  })}
+                  onClick={() =>
+                    setCheckAction({
+                      type: "compensate",
+                      check,
+                    })
+                  }
                 >
                   <CircleCheck />
-                  Compensar
+                  {check.status === "PENDING" ? "Compensar" : "Compensar cheque devolvido"}
                 </DropdownMenuItem>
 
-                <DropdownMenuItem
-                  onClick={() => setCheckAction({
-                    type: "return",
-                    check
-                  })}
-                >
-                  <Undo2 />
-                  Devolver
-                </DropdownMenuItem>
+                {check.status === "PENDING" && (
+                  <DropdownMenuItem
+                    onClick={() =>
+                      setCheckAction({
+                        type: "return",
+                        check,
+                      })
+                    }
+                  >
+                    <Undo2 />
+                    Devolver
+                  </DropdownMenuItem>
+                )}
               </>
             )}
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <div className="flex gap-2 mx-6 mb-4">
-          <Button
-            className="flex-1"
-            onClick={
-              () =>
+          {(check.status === "PENDING" || check.status === "RETURNED") && (
+            <Button
+              className="flex-1"
+              onClick={() =>
                 setCheckAction({
                   type: "compensate",
                   check,
                 })
-            }
-          >
-            <CircleCheck
-              className="size-4 shrink-0" />
-          </Button >
+              }
+            >
+              <CircleCheck className="size-4 shrink-0" />
+            </Button>
+          )}
 
-          <Button
-            className="bg-warning flex-1"
-            onClick={() =>
-              setCheckAction({
-                type: "return",
-                check,
-              })
-            }
-          >
-            <Undo2 className="size-4 shrink-0 text-warning-foreground" />
-          </Button>
+          {check.status === "PENDING" && (
+            <Button
+              className="bg-warning flex-1"
+              onClick={() =>
+                setCheckAction({
+                  type: "return",
+                  check,
+                })
+              }
+            >
+              <Undo2 className="size-4 shrink-0 text-warning-foreground" />
+            </Button>
+          )}
 
           <Button
             className="flex-1"
@@ -204,7 +212,7 @@ export function CheckActions({
           >
             <Trash2 className="size-4" />
           </Button>
-        </div >
+        </div>
       )}
 
       <Dialog
@@ -251,13 +259,19 @@ export function CheckActions({
             <>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                  Compensar cheque?
+                  {checkAction.check.status === "RETURNED"
+                    ? "Compensar cheque devolvido?"
+                    : "Compensar cheque?"}
                 </AlertDialogTitle>
 
                 <AlertDialogDescription>
                   O cheque de{" "}
                   <strong>{checkAction.check.issuer.name}</strong>{" "}
                   será marcado como compensado.
+
+                  {checkAction.check.status === "RETURNED" &&
+                    " O motivo da devolução será mantido no histórico do cheque."
+                  }
                 </AlertDialogDescription>
               </AlertDialogHeader>
 

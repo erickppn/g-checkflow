@@ -187,9 +187,12 @@ export class ChecksService {
   async compensate(id: string) {
     const check = await this.findCheckOrFail(id);
 
-    if (check.status !== CheckStatus.PENDING) {
+    if (
+      check.status !== CheckStatus.PENDING &&
+      check.status !== CheckStatus.RETURNED
+    ) {
       throw new BadRequestException(
-        "Only pending checks can be compensated"
+        "Only pending or returned checks can be compensated"
       );
     }
 
