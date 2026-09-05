@@ -7,6 +7,7 @@ import { ReturnCheckDto } from "./dtos/return-check.dto";
 import { Check } from "../../../generated/prisma/client";
 import { GetChecksQueryDto } from "./dtos/get-checks-query.dto";
 import { CheckWhereInput } from "../../../generated/prisma/models";
+import { roundMoney } from "@g-checkflow/shared/round-money";
 
 function serializeCheck(check: Check) {
   return {
@@ -106,7 +107,7 @@ export class ChecksService {
       } : undefined,
     };
 
-    const [checks, total] = await Promise.all([
+    const [checks, summary] = await Promise.all([
       this.prisma.check.findMany({
         where,
         include: {
@@ -123,17 +124,40 @@ export class ChecksService {
           [sortBy]: sortOrder,
         },
       }),
-      this.prisma.check.count({ where }),
+
+      this.prisma.check.aggregate({
+        where,
+        _count: {
+          _all: true,
+        },
+        _sum: {
+          amount: true,
+          interest: true,
+          netAmount: true,
+        },
+      }),
     ]);
+
+    const total = summary._count._all;
+
+    const operationSummary = {
+      checksCount: total,
+      grossAmount: roundMoney(Number(summary._sum.amount ?? 0)),
+      interest: roundMoney(Number(summary._sum.interest ?? 0)),
+      netAmount: roundMoney(Number(summary._sum.netAmount ?? 0)),
+    };
 
     return {
       data: checks.map(serializeCheck),
+
       meta: {
         page,
         limit,
         total,
         totalPages: Math.ceil(total / limit),
       },
+
+      summary: operationSummary
     };
   }
 

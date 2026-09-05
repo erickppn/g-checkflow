@@ -5,8 +5,8 @@ import { PageContainer } from "@/components/layout/page-container"
 import { useChecks } from "@/features/operations/checks/checks.queries"
 import { checksColumns } from "@/features/operations/checks/components/checks-columns"
 import type { CheckStatus } from "@/features/operations/checks/types/check.types"
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
-import { FunnelX, Loader2 } from "lucide-react"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { BanknoteArrowDown, BanknoteArrowUp, FunnelX, HandCoins, Loader2 } from "lucide-react"
 import { useState } from "react"
 import type { DateRange } from "react-day-picker"
 import { DatePickerWithRange } from "@/components/common/filters/date-picker-range"
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button"
 import { SortDropdown } from "@/components/common/data-table/sort-dropdown"
 import { checkSortOptions } from "@/features/operations/checks/constants/check-sort-options"
 import { CheckListItem } from "@/features/operations/checks/components/check-list-item"
+import { CheckActions } from "@/features/operations/checks/components/check-actions"
 
 type ChecksSearch = {
   status?: CheckStatus;
@@ -55,7 +56,7 @@ function RouteComponent() {
     page: 1,
     limit: 15,
     search: "",
-    status: search.status,
+    status: search.status ?? "PENDING",
     providerId: undefined,
     issuerId: undefined,
     dueDateFrom: undefined,
@@ -184,11 +185,51 @@ function RouteComponent() {
           <>
             <div className="
               flex items-center justify-between px-6 py-4 max-sm:px-3
-              max-md:flex-col max-md:items-start max-md:gap-2
+              max-md:flex-col max-md:items-start max-md:gap-3
             ">
-              <span className="text-start text-sm font-semibold">
-                Cheques • {data?.meta.total ?? 0} registros
-              </span>
+              <div className="flex items-center gap-6 max-sm:flex-wrap max-sm:gap-x-4 max-sm:gap-y-2">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <BanknoteArrowDown />
+
+                  <div>
+                    <p className="text-xs text-muted-foreground">
+                      Bruto
+                    </p>
+
+                    <p className="text-sm font-semibold text-foreground">
+                      R$ {data?.summary.grossAmount.toFixed(2) ?? "0,00"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <HandCoins />
+
+                  <div>
+                    <p className="text-xs text-muted-foreground">
+                      Juros
+                    </p>
+
+                    <p className="text-sm font-semibold text-foreground">
+                      R$ {data?.summary.interest.toFixed(2) ?? "0,00"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <BanknoteArrowUp />
+
+                  <div>
+                    <p className="text-xs text-muted-foreground">
+                      Líquido
+                    </p>
+
+                    <p className="text-sm font-semibold text-foreground">
+                      R$ {data?.summary.netAmount.toFixed(2) ?? "0,00"}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <SortDropdown
                 className="max-md:w-full"
@@ -218,6 +259,7 @@ function RouteComponent() {
               label="chequ(es)"
               serverPagination={pagination}
 
+              rowClickDisabledColumns={["actions"]}
               onRowClick={(check) => {
                 navigate({
                   to: `/operacoes/$id`,
@@ -233,20 +275,13 @@ function RouteComponent() {
 
             <div className="divide-y overflow-auto lg:hidden">
               {data?.data.map((check) => (
-                <Link
-                  key={check.id}
-                  to="/operacoes/$id"
-                  params={{
-                    id: check.operationId
-                  }}
-                  search={{
-                    checkId: check.id
-                  }}
-                >
+                <div key={check.id}>
                   <CheckListItem
                     check={check}
                   />
-                </Link>
+
+                  <CheckActions check={check}/>
+                </div>
               ))}
             </div>
           </>

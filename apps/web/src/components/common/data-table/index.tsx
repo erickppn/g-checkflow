@@ -24,7 +24,9 @@ interface DataTableProps<TData, TValue> {
   serverPagination?: ServerPagination;
 
   onRowClick?: (row: TData) => void;
+  rowClickDisabledColumns?: string[];
   classname?: string
+
 }
 
 export function DataTable<TData, TValue>({
@@ -35,6 +37,7 @@ export function DataTable<TData, TValue>({
   label,
   serverPagination,
   onRowClick,
+  rowClickDisabledColumns,
   classname
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
@@ -90,7 +93,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          
+
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -99,18 +102,28 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                   className="hover:bg-slate-50/80 border-b transition-colors"
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        "first:pl-6 last:pr-6 py-2.5 text-sm max-sm:first:pl-3 max-sm:last:pl-3 relative",
-                        onRowClick && "cursor-pointer hover:bg-muted/50",
-                      )}
-                      onClick={() => onRowClick?.(row.original)}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const rowClickDisabled = rowClickDisabledColumns?.includes(cell.column.id);
+
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className={cn(
+                          "first:pl-6 last:pr-6 py-2.5 text-sm max-sm:first:pl-3 max-sm:last:pl-3 relative",
+                          onRowClick &&
+                          !rowClickDisabled &&
+                          "cursor-pointer",
+                        )}
+                        onClick={
+                          rowClickDisabled
+                            ? undefined
+                            : () => onRowClick?.(row.original)
+                        }
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

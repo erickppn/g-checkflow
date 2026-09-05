@@ -1,21 +1,19 @@
-import { DataTable } from "@/components/common/data-table";
-import type { Check } from "../types/check.types";
-import { getOperationCheckColumns } from "../components/operation-check-columns";
 import { useState } from "react";
-import { EditCheckForm } from "../components/edit-check-form";
+import type { Check } from "../types/check.types";
+import { useCompensateCheck, useDeleteCheck, useReturnCheck } from "../checks.mutations";
+import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
+import { CircleCheck, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { EditCheckForm } from "./edit-check-form";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useCompensateCheck, useDeleteCheck, useReturnCheck } from "../checks.mutations";
-import { toast } from "react-toastify";
-import { CheckListItem } from "./check-list-item";
-import { Button } from "@/components/ui/button";
-import { CircleCheck, Pen, Trash2, Undo2 } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
-interface OperationChecksTableProps {
-  checks: Check[];
-  selectedRowId?: string
+interface CheckActionsProps {
+  check: Check;
+  variant?: "default" | "table";
 }
 
 export type CheckAction =
@@ -24,11 +22,12 @@ export type CheckAction =
   | { type: "delete"; check: Check }
   | { type: "return"; check: Check };
 
-export function OperationChecksTable({ checks, selectedRowId }: OperationChecksTableProps) {
+export function CheckActions({
+  check,
+  variant = "default",
+}: CheckActionsProps) {
   const [checkAction, setCheckAction] = useState<CheckAction | null>(null);
   const [returnReason, setReturnReason] = useState("");
-
-  const columns = getOperationCheckColumns(setCheckAction, selectedRowId);
 
   const compensateCheck = useCompensateCheck();
   const returnCheck = useReturnCheck();
@@ -87,103 +86,139 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
   }
 
   return (
-    <section className="
-      flex flex-1 flex-col overflow-hidden rounded-md border border-border bg-card shadow-sm
-
-    ">
-      <div className="
-        flex items-center justify-between gap-3
-        px-5 py-4
-      ">
-        <h2 className="text-sm font-semibold text-foreground">
-          Cheques da operação
-        </h2>
-      </div>
-
-      <DataTable
-        columns={columns}
-        data={checks}
-        label="cheque(s)"
-        classname="max-lg:hidden"
-      />
-
-      <div className="divide-y overflow-auto lg:hidden">
-        {checks.map((check) => (
-          <div key={check.id}>
-            <CheckListItem
-              check={check}
-              isSelected={selectedRowId === check.id}
-            />
-
-            <div className="flex gap-2 mx-6 mb-4">
+    <>
+      {variant === "table" ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
               <Button
-                className="flex-1"
-                onClick={() =>
-                  setCheckAction({
+                variant="ghost"
+                size="icon-sm"
+                className="hover:cursor-pointer"
+              />
+            }
+          >
+            <MoreHorizontal />
+            <span className="sr-only">Ações do cheque</span>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => setCheckAction({
+                type: "edit",
+                check,
+              })}
+            >
+              <Pen />
+              Editar
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => setCheckAction({
+                type: "delete",
+                check,
+              })}
+            >
+              <Trash2 />
+              Excluir
+            </DropdownMenuItem>
+
+            {check.status === "PENDING" && (
+              <>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+                  onClick={() => setCheckAction({
                     type: "compensate",
-                    check,
-                  })
-                }
-              >
-                <CircleCheck className="size-4 shrink-0" />
-              </Button>
+                    check
+                  })}
+                >
+                  <CircleCheck />
+                  Compensar
+                </DropdownMenuItem>
 
-              <Button
-                className="flex-1 bg-warning"
-                onClick={() =>
-                  setCheckAction({
+                <DropdownMenuItem
+                  onClick={() => setCheckAction({
                     type: "return",
-                    check,
-                  })
-                }
-              >
-                <Undo2 className="size-4 shrink-0 text-warning-foreground" />
-              </Button>
+                    check
+                  })}
+                >
+                  <Undo2 />
+                  Devolver
+                </DropdownMenuItem>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <div className="flex gap-2 mx-6 mb-4">
+          <Button
+            className="flex-1"
+            onClick={
+              () =>
+                setCheckAction({
+                  type: "compensate",
+                  check,
+                })
+            }
+          >
+            <CircleCheck
+              className="size-4 shrink-0" />
+          </Button >
 
-              <Button
-                className="flex-1"
-                variant="outline"
-                onClick={() =>
-                  setCheckAction({
-                    type: "edit",
-                    check,
-                  })
-                }
-              >
-                <Pen className="size-4 shrink-0 text-muted-foreground" />
-              </Button>
+          <Button
+            className="bg-warning flex-1"
+            onClick={() =>
+              setCheckAction({
+                type: "return",
+                check,
+              })
+            }
+          >
+            <Undo2 className="size-4 shrink-0 text-warning-foreground" />
+          </Button>
 
-              <Button
-                className="flex-1"
-                variant="destructive"
-                onClick={() =>
-                  setCheckAction({
-                    type: "delete",
-                    check,
-                  })
-                }
-              >
-                <Trash2 className="size-4" />
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
+          <Button
+            className="flex-1"
+            variant="outline"
+            onClick={() =>
+              setCheckAction({
+                type: "edit",
+                check,
+              })
+            }
+          >
+            <Pen className="size-4 shrink-0 text-muted-foreground" />
+          </Button>
 
-      {/* Editar Cheque */}
+          <Button
+            className="flex-1"
+            variant="destructive"
+            onClick={() =>
+              setCheckAction({
+                type: "delete",
+                check,
+              })
+            }
+          >
+            <Trash2 className="size-4" />
+          </Button>
+        </div >
+      )}
+
       <Dialog
         open={checkAction?.type === "edit"}
         onOpenChange={(open) => {
           if (!open) {
-            setCheckAction(null)
+            setCheckAction(null);
           }
         }}
       >
-        <DialogContent
-          className="max-xl:w-2xl max-md:w-[calc(100%-2rem)]"
-        >
+        <DialogContent className="max-xl:w-2xl max-md:w-[calc(100%-2rem)]">
           <DialogHeader>
             <DialogTitle>Editar cheque</DialogTitle>
+
             <DialogDescription>
               Altere as informações do cheque.
             </DialogDescription>
@@ -206,8 +241,8 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
         }
         onOpenChange={(open) => {
           if (!open) {
-            setCheckAction(null)
-            setReturnReason("")
+            setCheckAction(null);
+            setReturnReason("");
           }
         }}
       >
@@ -291,7 +326,7 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
                   placeholder="Ex.: Cheque sem fundos..."
                   value={returnReason}
                   onChange={(event) => {
-                    setReturnReason(event.target.value)
+                    setReturnReason(event.target.value);
                   }}
                 />
               </div>
@@ -313,6 +348,6 @@ export function OperationChecksTable({ checks, selectedRowId }: OperationChecksT
           )}
         </AlertDialogContent>
       </AlertDialog>
-    </section>
-  )
+    </>
+  );
 }

@@ -1,15 +1,13 @@
 import type { ColumnDef } from "@tanstack/react-table"
 
-import type { Check } from "../types/check.types"
+import type { Check } from "../checks/types/check.types"
 import { banks } from "@/app/_auth/operacoes/nova"
 import { currencyFormatter } from "@/utils"
 import { addDays, format } from "date-fns"
-import { Button } from "@/components/ui/button"
-import { CircleCheck, Info, MoreHorizontal, Pen, Trash2, Undo2 } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import type { CheckAction } from "../components/operation-checks-table"
+import { Info } from "lucide-react"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Badge } from "@/components/ui/badge"
+import { CheckActions } from "../checks/components/check-actions"
 
 const statusLabels = {
   PENDING: "Pendente",
@@ -18,7 +16,6 @@ const statusLabels = {
 } as const;
 
 export function getOperationCheckColumns(
-  setCheckAction: ({ type, check }: CheckAction) => void,
   selectedRowId?: string
 ): ColumnDef<Check>[] {
   return [
@@ -205,69 +202,10 @@ export function getOperationCheckColumns(
 
         return (
           <div className="flex items-center justify-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="hover:cursor-pointer"
-                  />
-                }
-              >
-                <MoreHorizontal />
-                <span className="sr-only">Ações do cheque</span>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem
-                  onClick={() => setCheckAction({
-                    type: "edit",
-                    check,
-                  })}
-                >
-                  <Pen />
-                  Editar
-                </DropdownMenuItem>
-
-                <DropdownMenuItem
-                  variant="destructive"
-                  onClick={() => setCheckAction({
-                    type: "delete",
-                    check,
-                  })}
-                >
-                  <Trash2 />
-                  Excluir
-                </DropdownMenuItem>
-
-                {check.status === "PENDING" && (
-                  <>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem
-                      onClick={() => setCheckAction({
-                        type: "compensate",
-                        check
-                      })}
-                    >
-                      <CircleCheck />
-                      Compensar
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem
-                      onClick={() => setCheckAction({
-                        type: "return",
-                        check
-                      })}
-                    >
-                      <Undo2 />
-                      Devolver
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <CheckActions 
+              variant="table"
+              check={check}
+            />
           </div>
         )
       },

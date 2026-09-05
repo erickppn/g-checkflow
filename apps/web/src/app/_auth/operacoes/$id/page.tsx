@@ -1,7 +1,7 @@
 import { PageTitle } from '@/components/common/page-title';
 import { SummaryCard } from '@/components/common/summary-card';
 import { PageContainer } from '@/components/layout/page-container';
-import { OperationChecksTable } from '@/features/operations/checks/components/operation-checks-table';
+import { OperationChecksTable } from '@/features/operations/components/operation-checks-table';
 import { operationsQueries, useOperation } from '@/features/operations/operations.queries'
 import { ProviderAvatar } from '@/features/providers/components/provider-avatar';
 import { createFileRoute } from '@tanstack/react-router'

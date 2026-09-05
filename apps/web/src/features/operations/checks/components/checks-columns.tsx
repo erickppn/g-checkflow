@@ -6,6 +6,7 @@ import type { CheckListItem } from "../types/check.types";
 import { currencyFormatter } from "@/utils";
 import { banks } from "@/app/_auth/operacoes/nova";
 import { addDays, format, isBefore, startOfDay } from "date-fns";
+import { CheckActions } from "./check-actions";
 
 export const checksColumns: ColumnDef<CheckListItem>[] = [
   {
@@ -156,4 +157,22 @@ export const checksColumns: ColumnDef<CheckListItem>[] = [
       );
     },
   },
+
+  {
+    id: "actions",
+    header: () => <div className="text-center">Ações</div>,
+
+    cell: ({ row }) => {
+      const check = row.original
+
+      return (
+        <div className="flex items-center justify-center">
+          <CheckActions
+            variant="table"
+            check={check}
+          />
+        </div>
+      )
+    },
+  }
 ];

@@ -141,10 +141,18 @@ export interface CheckListItem extends Check {
 
 export interface ChecksListResponse {
   data: CheckListItem[];
+
   meta: {
     page: number;
     limit: number;
     total: number;
     totalPages: number;
+  };
+
+  summary: {
+    checksCount: number;
+    grossAmount: number;
+    interest: number;
+    netAmount: number;
   };
 }

@@ -248,7 +248,6 @@ export function EditCheckForm({ check, onCancel }: EditCheckFormProps) {
 
           <Input
             maxLength={6}
-            minLength={6}
             placeholder="Nº"
             value={draft.checkNumber}
             onChange={(e) =>
